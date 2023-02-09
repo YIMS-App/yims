@@ -1,0 +1,68 @@
+def totalscores():
+    return '''SELECT college, score FROM collegeinfo 
+            NATURAL JOIN totalscores WHERE collegeinfo.year=? 
+            ORDER BY score DESC '''
+
+def matches():
+    return '''SELECT
+                C1.college AS college1,
+                C1.college_abbreviation AS college1Abbrev,
+                C2.college AS college2,
+                C2.college_abbreviation AS college2Abbrev,
+                matches.sport,
+                matches.location,
+                matches.startTime,
+                matches.endTime,
+                C3.college AS winner,
+                matches.summary
+            FROM matches
+            INNER JOIN collegeinfo AS C1 ON matches.id1 = C1.id
+            INNER JOIN collegeinfo AS C2 ON matches.id2 = C2.id
+            INNER JOIN collegeinfo AS C3 ON matches.winner = C3.id '''
+
+def past_matches():
+    return matches() + "WHERE datetime(endTime) < datetime(\'now\') AND winner!=-1 ORDER BY datetime(endTime) ASC"
+
+def future_matches():
+    return matches() + "WHERE datetime(startTime) >= datetime(\'now\') ORDER BY datetime(startTime) ASC"
+
+def unscored_matches():
+    return matches() + "WHERE datetime(startTime) < datetime(\'now\') AND winner=-1 ORDER BY datetime(startTime) ASC"
+
+def collegeids():
+    return "SELECT id FROM collegeinfo WHERE college=? AND (year=? OR year=0)"
+
+def score_by_id():
+    return "SELECT score FROM totalscores WHERE id=?"
+
+def update_score():
+    return "UPDATE totalscores SET score=? WHERE id=?"
+
+def points_per_sport():
+    return "SELECT score, icon FROM sportscores WHERE sport=?"
+
+def all_sport():
+    return "SELECT sport, score, icon FROM sportscores"
+
+def match_winner():
+    return '''SELECT matchid, winner FROM matches 
+            WHERE (id1=? OR id1=?) 
+            AND (id2=? OR id2=?) 
+            AND sport=? 
+            AND startTime=?
+            AND endTime=?
+            AND location=? 
+            AND summary=?'''
+
+def update_match_winner():
+    return "UPDATE matches SET winner=? WHERE matchid=?"
+
+def count_matches():
+    return "SELECT COUNT(*) FROM matches"
+
+def add_match():
+    return '''INSERT INTO matches 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'''
+
+def user_role():
+    return "SELECT role FROM users WHERE netid = ?"

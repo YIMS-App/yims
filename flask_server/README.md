@@ -1,0 +1,3 @@
+Our app can also be run using a local backend.
+
+To run locally, run `python databasebuilder.py` to generate a sample `tables.sqlite`. A sample table is also provided. Afterwards, simply execute `run_server.py` with the desired port number to run the local backend server. You will also need to change the IP Address in `app\utils\constants.js` to reflect the local IP Address in order for the app to work.
