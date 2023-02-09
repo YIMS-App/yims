@@ -2,7 +2,7 @@
 
 # YIMS
 ##### An IOS and Android compatible App for Yale Intramural Sports.
-##### Created By: Edward Yang (Project Leader), Alejandro Gonzales, Anna Xu, Bienn Viquiera, and Cierra Ouellette
+##### Created By: Edward Yang (Project Leader), Anna Xu, Bienn Viquiera, Mary Jiang, Kelly Qiang, and Cierra Ouellette
 
 ## Run YIMS on your local computer
 
