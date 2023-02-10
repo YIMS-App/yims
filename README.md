@@ -9,6 +9,8 @@
 1. Clone our repository on Github
 1. Download Expo Go on your IOS or Android Phone
   1. Additionally you can run the app on your laptop via IOS and Android Simulators. To run the IOS simulator, follow these steps: https://docs.expo.dev/workflow/ios-simulator/. To run the Android Simulator, follow these steps: https://docs.expo.dev/workflow/android-studio-emulator/
+  
+1. Follow the steps here to install the Expo CLI npm https://docs.expo.dev/get-started/installation/
 1. cd into the app directory in your terminal
 1. run 'npm install' in your terminal
 1. run 'npm start' in your terminal
