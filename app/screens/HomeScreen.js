@@ -5,6 +5,7 @@ import RecordsScreen from "./RecordsScreen";
 import AboutScreen from "./AboutScreen";
 import UpcomingMatchesScreen from "./UpcomingMatchesScreen";
 import HowToPlay from "./HowToPlay"
+import Calendar from "./Calendar"
 
 export default function HomeScreen(props) {
   const Drawer = createDrawerNavigator();
@@ -22,6 +23,7 @@ export default function HomeScreen(props) {
         <Drawer.Screen name="Upcoming Matches" component={UpcomingMatchesScreen} />
         <Drawer.Screen name="How To Play" component={HowToPlay} /> 
         <Drawer.Screen name="About" component={AboutScreen} /> 
+        <Drawer.Screen name="Calendar" component={Calendar} />
       </Drawer.Navigator>
   );
 }
