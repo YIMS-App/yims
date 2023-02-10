@@ -5,7 +5,7 @@ import {
 } from 'react-native'
 
 import React, { useCallback} from "react";
-
+import EmojiGuide from '../components/main-screen/EmojiGuide';
 import NavBar from "../components/main-screen/NavBar";
 import {Linking} from "react-native";
 
@@ -101,10 +101,6 @@ export default function HowToPlay(props) {
 
     const link = "https://intramurals.yale.edu/tyng-cup-point-system"
 
-    const renderItem = ({ item }) => (
-        <Text style={[styles.sport, {marginTop: 5}]}>{item.sport} {item.emoji} : {item.points} players & points</Text>
-      );
-
     return (
         <View style={styles.container}>
             <NavBar navigation={props.navigation} title={"How To Play"} color={'white'}/>
@@ -133,33 +129,7 @@ export default function HowToPlay(props) {
                     <View style={styles.line} />
                 </View>
 
-                <Text style={styles.title2}>Fall</Text>
-
-                <FlatList
-                    data={fallsports}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.sport}
-                />
-
-                <Text style={styles.title2}>Winter</Text>
-
-                <FlatList
-                    data={wintersports}
-                    showsVerticalScrollIndicator={false}
-                    renderItem={renderItem}
-                    keyExtractor={item => item.sport}
-                />
-
-                <Text style={styles.title2}>Spring</Text>
-
-                <View style={styles.linecontainer}>
-                    <View style={styles.line} />
-                        <View>
-                            <Text style={[styles.title, {marginTop: '10%'}]}>More Information</Text>
-                        </View>
-                    <View style={styles.line} />
-                </View>
+                <EmojiGuide />
 
                 <View style={styles.emptyspace}></View>
 
