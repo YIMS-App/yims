@@ -16,5 +16,10 @@
 ## How to use YIMS 
 Check out the About Page and the How To Play page for more information on our app as well as information on Yale Intramural Sports. For more questions, contact one of us. 
 
+## Software Stack
+Frontend: React Native.js
+Backend: Flask, Python, Amazon EC2 instance
+
 ## Additional Notes
 Disregard the flask-server directory (as in do not try to run the server from your local computer). This is because the server is already running on an Amazon EC2 instance.
+
