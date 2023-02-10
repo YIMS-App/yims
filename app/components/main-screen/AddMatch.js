@@ -3,7 +3,7 @@ import {useState} from 'react'
 import ModalDropdown from 'react-native-modal-dropdown';
 
 function AddMatch(props) {
-    const sports = ['soccer', 'flag football', 'cornhole', 'ping pong', 'spikeball', 'pickleball', 'basketball', 'dodgeball', 'volleyball', 'soccer (indoors)'];
+    const sports = ['soccer', 'flag football', 'cornhole', 'ping pong', 'spikeball', 'pickleball', 'basketball', 'dodgeball', 'volleyball', 'soccer (indoors)', 'broomball', 'water polo'];
     const colleges = ['Benjamin Franklin', 'Berkeley',  'Branford','Davenport', "Ezra Stiles", 'Grace Hopper', 'Jonathan Edwards', 
                     'Morse', 'Pauli Murray', 'Pierson', 'Silliman', 'Saybrook', 'Trumbull', 'Timothy Dwight'] 
     const months = ['01','02','03','04','05','06','07','08','09','10','11','12']

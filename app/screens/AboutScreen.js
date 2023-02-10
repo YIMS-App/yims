@@ -59,6 +59,16 @@ const sports = [
         sport: 'Volleyball',
         points: 6, 
         emoji: "🏐"
+    }, 
+    {
+        sport: 'Broomball',
+        points: 6, 
+        emoji: "🧹"
+    }, 
+    {
+        sport: 'Inner Tube Water Polo',
+        points: 6, 
+        emoji: "🤽"
     }
 ]
 
