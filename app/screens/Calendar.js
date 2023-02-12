@@ -39,13 +39,24 @@ export default function CalendarScreen(props) {
     const renderItem = ({ item }) => (
         <Text style={[styles.sport, {marginTop: 5}]}>{item.sport} {item.emoji} : {item.points} players & points</Text>
       );
+    const [selectedDay, setSelectedDay] = React.useState(new Date().toISOString().slice(0, 10))
+
 
     return (
         <View style={styles.container}>
             <NavBar navigation={props.navigation} title={"Calendar"} color={'white'}/>
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
             <SafeAreaView style={styles.container}>
-                <Calendar />
+                <Calendar 
+                minDate=''
+                markedDates={{
+                    [selectedDay]: {selected: true},
+                }}
+                onDayPress={day => {
+                    const dateString = day['dateString']
+                    setSelectedDay(dateString)
+                }}
+                />
             </SafeAreaView>
             </ScrollView>
         </View>
