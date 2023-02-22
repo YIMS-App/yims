@@ -41,7 +41,6 @@ class Matches (Base):
     qr = Column(String)
 
     sportscores = relationship('Sportscores')
-    users = relationship('users')
 
 class Users (Base):
     __tablename__ = 'users'
