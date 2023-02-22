@@ -4,7 +4,6 @@ import {
   Modal
 } from 'react-native';
 import { useState } from "react";
-import { Profile } from "../shared/Profile"
 
 
 function NavBar(props) {
@@ -21,17 +20,9 @@ function NavBar(props) {
           <Image source={require("../../assets/images/menu-icon-white.png")} style={styles.image}/>
         </TouchableOpacity>
         <Text style={[styles.title, {color: props.color}]}>{props.title}</Text>
-        <TouchableOpacity style={styles.profileButton} onPress={()=>{changeModalVisibility(true)}}>
+        <TouchableOpacity style={styles.profileButton} onPress={()=>{props.navigation.navigate('Profile')}}>
           <Image source={require("../../assets/images/profile-icon-white.png")} style={styles.image}/>
         </TouchableOpacity>
-        <Modal
-                transparent={true}
-                animationType='none'
-                visible={isModalVisible}
-                nRequestClose={() => changeModalVisibility(false)}
-              >
-                <Profile changeModalVisibility={changeModalVisibility} />
-        </Modal>
       </View>
     )
   } else {
@@ -44,14 +35,6 @@ function NavBar(props) {
         <TouchableOpacity style={styles.profileButton} onPress={()=>{changeModalVisibility(true)}}>
           <Image source={require("../../assets/images/profile-icon-blue.png")} style={styles.image}/>
         </TouchableOpacity>
-        <Modal
-                transparent={true}
-                animationType='none'
-                visible={isModalVisible}
-                nRequestClose={() => changeModalVisibility(false)}
-              >
-                <Profile changeModalVisibility={changeModalVisibility} />
-        </Modal>
       </View> 
     )
   }

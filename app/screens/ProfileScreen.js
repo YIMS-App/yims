@@ -2,16 +2,16 @@ import {
     StyleSheet, View, Text, Image, TouchableOpacity
 } from 'react-native'
 
-const Profile = (props) => {
+const ProfileScreen = (props) => {
 
     const onPressItem = () => {
-        props.changeModalVisibility(false);
+        props.navigation.goBack();
     }
 
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.button} onPress={onPressItem}>
-                <Image style={styles.ximage} source={require('../../assets/images/x-button.png')} />
+                <Image resizeMode='contain' style={styles.ximage} source={require('../assets/images/back-button.png')} />
             </TouchableOpacity>
             <View style={styles.content}>
                 <Text style={styles.name}>NetID</Text>
@@ -22,25 +22,30 @@ const Profile = (props) => {
     )
 }
 
-export {Profile}
+export default ProfileScreen
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#3159C4",
         flex: 1,
+		flexDirection: 'column',
     },
     content: {
         justifyContent: 'center',
-        flex: .75,
+        flex: 1,
     },
     button: {
-        alignItems: 'flex-end',
-        marginTop: 60,
-        marginRight: 30,
+        flex: 1,
+        alignSelf: 'left',
+        marginHorizontal: 30,
+        top: '-17%',
+        alignItems: "start",
     },
     ximage: {
-        width: 50,
-        height: 50,
+        alignSelf: 'left',
+        width: 20,
+        height: 20,
+        flex: 1,
     },
     title: {
         alignSelf: 'center',
