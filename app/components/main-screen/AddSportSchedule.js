@@ -1,6 +1,5 @@
 import {StyleSheet, View, Modal, Text, TouchableOpacity, Image} from 'react-native'
 import {useState} from 'react'
-import ModalDropdown from 'react-native-modal-dropdown';
 
 function AddSportSchedule(props) {
     const sports = ['soccer', 'flag football', 'cornhole', 'ping pong', 'spikeball', 'pickleball', 'basketball', 'dodgeball', 'volleyball', 'soccer (indoors)', 'broomball', 'water polo'];
@@ -63,7 +62,7 @@ function AddSportSchedule(props) {
                             <View style={styles.dateContainer}>
                                 <View style={styles.subContainer}>
                                     <Text style={styles.subheader}>Month</Text>
-                                    <ModalDropdown
+                                    {/* <ModalDropdown
                                         textStyle={styles.dateText}
                                         style={styles.dateBox}
                                         dropdownTextStyle={styles.dateTimeText}
@@ -76,11 +75,11 @@ function AddSportSchedule(props) {
                                                 <Image source={require("../../assets/images/blue-down-arrow.png")} style={styles.blueDropDownArrow}/>
                                             );
                                           }}
-                                    />
+                                    /> */}
                                 </View>
                                 <View style={styles.subContainer}>
                                     <Text style={styles.subheader}>Day</Text>
-                                    <ModalDropdown
+                                    {/* <ModalDropdown
                                         textStyle={styles.dateText}
                                         style={styles.dateBox}
                                         dropdownTextStyle={styles.dateTimeText}
@@ -93,11 +92,11 @@ function AddSportSchedule(props) {
                                                 <Image source={require("../../assets/images/blue-down-arrow.png")} style={styles.blueDropDownArrow}/>
                                             );
                                           }}
-                                    />
+                                    /> */}
                                 </View>
                                 <View style={styles.subContainer}>
                                     <Text style={styles.subheader}>Year</Text>
-                                    <ModalDropdown
+                                    {/* <ModalDropdown
                                         textStyle={styles.dateText}
                                         style={styles.dateBox}
                                         dropdownTextStyle={[styles.dateTimeText, {paddingRight: 45,}]}
@@ -110,13 +109,13 @@ function AddSportSchedule(props) {
                                                 <Image source={require("../../assets/images/blue-down-arrow.png")} style={styles.blueDropDownArrow}/>
                                             );
                                           }}
-                                    />
+                                    /> */}
                                 </View>
                             </View>
                         </View>
                         <View style={styles.dropdownContainer}>
                             <Text style={styles.header}>Sport</Text>
-                            <ModalDropdown
+                            {/* <ModalDropdown
                                 textStyle={styles.inputText}
                                 style={styles.inputBox}
                                 dropdownStyle={styles.collegeDropdown}
@@ -132,7 +131,7 @@ function AddSportSchedule(props) {
                                         <Image source={require("../../assets/images/down-arrow.png")} style={styles.whiteDropDownArrow}/>
                                     );
                                   }}
-                           />
+                           /> */}
                         </View>
                     </View>
                     <TouchableOpacity onPress={submitDataHandler} style={styles.addButton}>
