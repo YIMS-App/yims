@@ -106,11 +106,11 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
   }
 
   return (
-    <Modal visible={visible} animationType="slide" transparent={true}>
+    <Modal visible={visible} animationType="slide" transparent={true} testID="update-match-modal">
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <View style={styles.headerContainer}>
-            <Text style={styles.title}>Score</Text>
+            <Text style={styles.title} testID="update-match-score-text">Score</Text>
             <TouchableOpacity onPress={() => cancelDataHandler()}>
               <Image
                 source={require("../../assets/images/x-button.png")}

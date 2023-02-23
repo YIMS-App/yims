@@ -48,7 +48,7 @@ const ModalDropdown = (props) => {
   });
 
   return (
-    <SafeAreaView>
+    <SafeAreaView testID="modal-dropdown-view">
       <TouchableOpacity
         onPress={() => changeModalVisibility(true)}
         style={props.filterButtonStyle}

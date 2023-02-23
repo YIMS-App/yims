@@ -81,14 +81,14 @@ function FirstPlaceStanding(props) {
     },
   };
   return (
-    <View style={styles.firstPlaceContainer}>
+    <View style={styles.firstPlaceContainer} testID="first-place-standing-view">
       <ImageBackground
         style={styles.trophy}
         source={require("../../assets/images/Trophy.png")}
       >
-        <Text style={styles.firstPlaceName}>{props.firstPlace.college}</Text>
+        <Text style={styles.firstPlaceName} testID="first-place-standing-college">{props.firstPlace.college}</Text>
         <Image style={styles.firstPlaceFlag} source={collegesData[props.firstPlace.college].flag} />
-        <Text style={styles.firstPlacePoints}>
+        <Text style={styles.firstPlacePoints} testID="first-place-standing-points">
           {props.firstPlace.score} points
         </Text>
         <Image

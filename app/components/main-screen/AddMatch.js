@@ -254,11 +254,11 @@ function AddMatch(props) {
   }
 
   return (
-    <Modal visible={props.visible} animationType="slide" transparent={true}>
+    <Modal visible={props.visible} animationType="slide" transparent={true} testID="add-match-modal">
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <View style={styles.headerContainer}>
-            <Text style={styles.title}>New Match</Text>
+            <Text style={styles.title} testID="add-match-title">New Match</Text>
             <TouchableOpacity onPress={() => cancelDataHandler()}>
               <Image
                 source={require("../../assets/images/x-button.png")}
