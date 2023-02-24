@@ -215,3 +215,101 @@ def userperms():
         print(ex)
         return jsonify(error=404, text=str(ex)), 404
     return output, 200
+
+@app.route("/getmanager", methods=["POST"])
+def getmanager():
+    """
+    Get manager for a specific match
+    """
+    output = {}
+    try:
+        data = request.get_json()
+        matchid = data['matchid']
+        result = query_db(queries.match_manager(), [matchid])
+        output = jsonify_rows(result)[0]
+        
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+# will need to use the route that gets all match information to get match winner
+@app.route("/betprofit", methods=["POST"])
+def betprofit():
+    """
+    Get amount a user made on a bet
+    """
+    output = {}
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        matchid = data['matchid']
+        result = query_db(queries.bet_earnings(), [netid, matchid])
+        output = jsonify_rows(result)[0]
+        
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/aggregatebet", methods=["POST"])
+def betprofit():
+    """
+    Get total amount of bets for each team
+    """
+    output = {}
+    try:
+        data = request.get_json()
+        matchid = data['matchid']
+        result = query_db(queries.match_manager(), [netid, matchid])
+        output = jsonify({'aggregate_bets': jsonify_rows(result)})
+        
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/addbet", methods=["POST"])
+def addbet():
+    """
+    Add a new bet for a particular user for a match
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        amount = data['amount']
+        winner = data['winner']
+        matchid = data['matchid']
+
+        values = [netid, matchid, amount, winner]
+        query_db(queries.add_bet(), values)
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
+    return output, 200
+
+@app.route("/updateparticipation", methods=["POST"])
+def updateparticipation():
+    """
+    Update participation status for a user
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        status = data['status']
+        matchid = data['matchid']
+
+        values = [status, netid, matchid]
+        query_db(queries.update_participation(), values)
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
+    return output, 200
