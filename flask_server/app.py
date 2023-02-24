@@ -216,7 +216,75 @@ def userperms():
         return jsonify(error=404, text=str(ex)), 404
     return output, 200
 
-@app.route("/getmanager", methods=["POST"])
+@app.route("/getuserdata", methods=["GET"])
+def getuserdata():
+    """
+    Get user data 
+    """
+    output = {}
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        result = query_db(queries.user_info(), [netid])
+        output = jsonify_rows(result)[0]
+        
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/getparticipationpoints", methods=["GET"])
+def getparticipationpoints():
+    """
+    Get user participation points
+    """
+    output = {}
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        result = query_db(queries.user_participation_points(), [netid])
+        output = jsonify_rows(result)[0]
+        
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/getuserbets", methods=["GET"])
+def getuserbets():
+    """
+    Get user bets 
+    """
+    output = {}
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        result = query_db(queries.user_bets(), [netid])
+        output = jsonify_rows(result)[0]
+        
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/getuserevents", methods=["GET"])
+def getuserevents():
+    """
+    Get all matches the user plans to attend/has attended
+    """
+    output = {}
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        result = query_db(queries.user_matches_attended(), [netid])
+        output = jsonify_rows(result)[0]
+        
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/getmanager", methods=["GET"])
 def getmanager():
     """
     Get manager for a specific match
@@ -234,7 +302,7 @@ def getmanager():
     return output, 200
 
 # will need to use the route that gets all match information to get match winner
-@app.route("/betprofit", methods=["POST"])
+@app.route("/betprofit", methods=["GET"])
 def betprofit():
     """
     Get amount a user made on a bet
@@ -252,7 +320,7 @@ def betprofit():
         return jsonify(error=404, text=str(ex)), 404
     return output, 200
 
-@app.route("/aggregatebet", methods=["POST"])
+@app.route("/aggregatebet", methods=["GET"])
 def betprofit():
     """
     Get total amount of bets for each team
@@ -267,6 +335,48 @@ def betprofit():
     except Exception as ex:
         print(ex)
         return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/addparticipationpointscollege", methods=["POST"])
+def addparticipationpointscollege():
+    """
+    Add participation points for a specific college
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        part_score = data['part_score']
+        id = data['id']
+
+        values = [part_score, id]
+        query_db(queries.update_college_participation_score(), values)
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
+    return output, 200
+
+@app.route("/addparticipationpointsuser", methods=["POST"])
+def addparticipationpointsuser():
+    """
+    Add participation points for a specific user
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        participationPoints = data['participationPoints']
+        netid = data['netid']
+
+        values = [participationPoints, netid]
+        query_db(queries.update_user_participation_points(), values)
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
     return output, 200
 
 @app.route("/addbet", methods=["POST"])

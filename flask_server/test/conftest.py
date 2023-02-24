@@ -3,7 +3,7 @@
 # from flask_server import create_app, db
 
 # # for integration testing 
-# @pytest.fixture
+# @pytest.fixture()
 # def app():
 #     app = create_app()
 

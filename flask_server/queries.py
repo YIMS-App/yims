@@ -73,11 +73,8 @@ def add_match():
     return '''INSERT INTO matches 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'''
 
-def user_role():
-    return "SELECT role FROM users WHERE netid = ?"
-
-def user_college():
-    return "SELECT college FROM users WHERE netid = ?"
+def user_info():
+    return "SELECT * FROM users WHERE netid = ?"
 
 def user_participation_points():
     return "SELECT participationPoints FROM users WHERE netid = ?"
