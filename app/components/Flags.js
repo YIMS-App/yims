@@ -89,5 +89,7 @@ const styles = StyleSheet.create({
     width: 100,
     resizeMode: 'contain',
     marginTop: 15,
+    flexDirection: 'column',
+    alignSelf: 'center'
   },
 });
