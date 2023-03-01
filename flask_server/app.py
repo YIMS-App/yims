@@ -4,34 +4,11 @@ from contextlib import closing
 import cas
 import json
 import queries
-
-DATABASE_URL = './table.sqlite'
-CURR_YEAR = 2022
+from flask_server.consts import *
+from flask_server.utils import *
 
 #-----------------------------------------------------------------------
 app = Flask(__name__)
-#-----------------------------------------------------------------------
-def jsonify_rows(rows):
-    """
-    jsonifies the outputs from sqlite table
-    """
-    return [] if not rows else [dict(result) for result in rows]
-
-def query_db(query, params=None):
-    """
-    queries database with params
-    """
-    results = []
-    with sqlite3.connect(DATABASE_URL, isolation_level=None,
-                        uri=True) as connection:
-        with closing(connection.cursor()) as cursor:
-            cursor.row_factory = sqlite3.Row
-            if params:
-                cursor.execute(query, params)
-            else:
-                cursor.execute(query)
-            results = cursor.fetchall()
-    return results
 #-----------------------------------------------------------------------
 @app.route("/totalscores", methods=["GET"])
 def get_total_scores():
