@@ -1,5 +1,5 @@
 # import pytest
 
-# def test_get(client):
+# def test_get():
 #     res = client.get("/")
 #     assert b'[]' in res.data

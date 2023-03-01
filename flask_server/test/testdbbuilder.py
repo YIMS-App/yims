@@ -8,30 +8,14 @@ from sys import argv, stderr, exit
 from sqlite3 import connect as sqlite_connect
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database import Base, Collegeinfo, Sportscores, Bets, Matches, Users, Totalscores, Attendance
-import random
+from flask_server.database import Base, Collegeinfo, Sportscores, Bets, Matches, Users, Totalscores, Attendance
+from .test_consts import *
 #-----------------------------------------------------------------------
+def initialize():
 
-random.seed(10)
-
-FILENAME = 'testtable'
-sports = {'soccer': (11, "⚽"), 'flag football': (6, "🏈"), 'spikeball': (6, "🦔"), 
-        'cornhole': (6, "🌽")}
-
-colleges = {
-    'BF': "Benjamin Franklin", 
-    'BK': "Berkeley", 
-    'BR': "Branford", 
-    'DC': "Davenport",
-    'ES': "Ezra Stiles", 
-    'GH': "Grace Hopper", 
-    }
-
-admins = {
-    "ey229", "ag2658", "bmv6", "cmo48", "awx2", "kq44", "mj598"
-}
-
-def main():
+    admins = list(ADMINS)
+    admins.sort()
+    
     try:
         engine = create_engine('sqlite://',
             creator=lambda: sqlite_connect('file:' + FILENAME + '.sqlite?mode=rwc', 
@@ -75,13 +59,14 @@ def main():
         # matches table
         for i in range(10):
             id1 = "ES"
-            id2 = random.choice(list(colleges.keys()))
-            sport = random.choice(list(sports.keys()))
+            id2 = "BF"
+            sport = "soccer"
             location = "school"
             startTime = "morning"
             endTime = "not morning"
-            winner = random.choice([id1, id2])
-            manager = random.choice(list(admins))
+            winner = "ES"
+            manager = "ey229"
+
             match = Matches(matchid=i, id1=id1, id2=id2, sport=sport, location=location,
                 startTime=startTime, endTime=endTime, winner=winner, manager=manager)
             session.add(match)
@@ -101,25 +86,26 @@ def main():
         session.commit()
 
         # attendance
-        for i in admins:
-            for n in range(3):
-                matchid = random.choice(range(10))
-                dummyid = random.randint(0, 1000000)
-                status = random.choice([0,1,2])
-                attend = Attendance(netid=i, matchid=matchid, dummyid=dummyid, status=status)
-                session.add(attend)
+        for index, i in enumerate(admins):
+
+            matchid = index
+            dummyid = index*10
+            status = index%3
+
+            attend = Attendance(netid=i, matchid=matchid, dummyid=dummyid, status=status)
+            session.add(attend)
         session.commit()
 
         # bets
-        for i in admins:
-            for n in range(3):
-                matchid = random.choice(range(10))
-                dummyid = random.randint(0, 1000000)
-                pointsBet = random.randint(0, 100)
-                winner = "ES"
-                bet = Bets(netid=i, matchid=matchid, dummyid=dummyid, pointsBet=pointsBet,
-                    winner=winner)
-                session.add(bet)
+        for index, i in enumerate(admins):
+
+            matchid = index
+            dummyid = index*10
+            pointsBet = index*10
+            winner = "ES"
+            bet = Bets(netid=i, matchid=matchid, dummyid=dummyid, pointsBet=pointsBet,
+                winner=winner)
+            session.add(bet)
         session.commit()
 
         session.close()
@@ -131,4 +117,4 @@ def main():
 #-----------------------------------------------------------------------
 
 if __name__ == '__main__':
-    main()
+    initialize()

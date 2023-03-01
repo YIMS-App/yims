@@ -4,8 +4,9 @@ from contextlib import closing
 import cas
 import json
 import queries
-from flask_server.consts import *
-from flask_server.utils import *
+
+from consts import *
+from utils import *
 
 #-----------------------------------------------------------------------
 app = Flask(__name__)

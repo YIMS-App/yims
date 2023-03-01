@@ -1,40 +1,28 @@
 import pytest
 
-from flask_server.models import TestSportScores, TestUsers
+from .testdbbuilder import initialize
+from .test_utils import *
+from .test_consts import *
+from flask_server.queries import user_info, user_bets
 
-def test_new_scores():
-    data = {
-        "sport": "flag football",
-        "score": 6,
-        "icon": "🏈"
-    }
+def test_userinfo():
+    initialize()
+    netid = "ey229"
+    result = query_db(user_info(), [netid], TEST_DATABASE_URL)
+    output = jsonify_rows(result)[0]
 
-    test = TestSportScores(
-        sport=data["sport"],
-        score=data["score"],
-        icon=data["icon"]
-    )
+    assert output['netid'] == "ey229"
+    assert output['role'] == "admin"
+    assert output['college'] == "grad"
+    assert output['participationPoints'] == 1000
 
-    assert test.sport == data["sport"]
-    assert test.score == data["score"]
-    assert test.icon == data["icon"]
+def test_userbets():
+    initialize()
+    netid = "ey229"
+    result = query_db(user_bets(), [netid], TEST_DATABASE_URL)
+    output = jsonify_rows(result)
+    output = output[0]
 
-def test_new_users():
-    data = {
-        "netid": "test_user",
-        "role": "admin",
-        "college": "Ezra Stiles",
-        "participationPoints": 10,
-    }
-
-    test = TestUsers(
-        netid=data["netid"],
-        role=data["role"],
-        college=data["college"],
-        participationPoints=data["participationPoints"]
-    )
-
-    assert test.netid == data["netid"]
-    assert test.role == data["role"]
-    assert test.college == data["college"]
-    assert test.participationPoints == data["participationPoints"]
+    assert output['matchid'] == "4"
+    assert output['pointsBet'] == 40
+    assert output['winner'] == "ES"
