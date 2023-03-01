@@ -63,6 +63,9 @@ def match_winner():
             AND location=? 
             AND summary=?'''
 
+def match_winner_by_id():
+    return "SELECT winner FROM matches WHERE matchid = ?"
+
 def update_match_winner():
     return "UPDATE matches SET winner=? WHERE matchid=?"
 
@@ -84,6 +87,9 @@ def user_bets():
 
 def user_matches_attended():
     return "SELECT matchid, status FROM attendance WHERE netid = ?"
+
+def user_match_attended():
+    return "SELECT status FROM attendance WHERE netid = ? AND matchid = ?"
 
 def match_manager():
     return "SELECT manager FROM matches WHERE matchid = ?"
@@ -111,3 +117,6 @@ def add_bet():
 
 def update_participation():
     return "UPDATE attendance SET status=? WHERE netid=? AND matchid=?"
+
+def update_bet():
+    return "UPDATE bets SET pointsbet=?, winner=? WHERE netid=? AND matchid=?"
