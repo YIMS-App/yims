@@ -32,7 +32,7 @@ function NavBar(props) {
           <Image source={require("../../assets/images/menu-icon-blue.png")} style={styles.image}/>
         </TouchableOpacity>
         <Text style={[styles.title, {color: props.color}]}>{props.title}</Text>
-        <TouchableOpacity style={styles.profileButton} onPress={()=>{changeModalVisibility(true)}}>
+        <TouchableOpacity style={styles.profileButton} onPress={()=>{props.navigation.navigate('Profile')}}>
           <Image source={require("../../assets/images/profile-icon-blue.png")} style={styles.image}/>
         </TouchableOpacity>
       </View> 

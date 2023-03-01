@@ -20,6 +20,7 @@ const ProfileScreen = (props) => {
 			<TouchableOpacity style={styles.button} onPress={onPressItem}>
 				<Image resizeMode='contain' style={styles.ximage} source={require('../assets/images/back-button.png')} />
 			</TouchableOpacity>
+
 			<View style={styles.content}>
 				<Flags college={data[0]}></Flags>
 				<Text style={styles.name}>Name</Text>
