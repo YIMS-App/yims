@@ -261,16 +261,16 @@ def getuserevents():
         return jsonify(error=404, text=str(ex)), 404
     return output, 200
 
-@app.route("/getmanager", methods=["GET"])
-def getmanager():
+@app.route("/matchinfo", methods=["GET"])
+def matchinfo():
     """
-    Get manager for a specific match
+    Get all info for a match
     """
     output = {}
     try:
         data = request.get_json()
         matchid = data['matchid']
-        result = query_db(queries.match_manager(), [matchid])
+        result = query_db(queries.match_info(), [matchid])
         output = jsonify_rows(result)[0]
         
     except Exception as ex:
@@ -289,8 +289,13 @@ def betprofit():
         data = request.get_json()
         netid = data['netid']
         matchid = data['matchid']
-        result = query_db(queries.bet_earnings(), [netid, matchid])
-        output = jsonify_rows(result)[0]
+
+        match_winner = query_db(queries.match_winner_by_id(), [matchid])
+        points_bet, bet_winner = query_db(queries.bet_earnings(), [netid, matchid])
+
+        if match_winner == bet_winner:
+            points_bet *= 2
+        output = jsonify_rows(points_bet)[0]
         
     except Exception as ex:
         print(ex)
@@ -298,7 +303,7 @@ def betprofit():
     return output, 200
 
 @app.route("/aggregatebet", methods=["GET"])
-def betprofit():
+def aggregatebet():
     """
     Get total amount of bets for each team
     """
@@ -308,6 +313,24 @@ def betprofit():
         matchid = data['matchid']
         result = query_db(queries.match_manager(), [netid, matchid])
         output = jsonify({'aggregate_bets': jsonify_rows(result)})
+        
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/getbetbyuser", methods=["GET"])
+def getbetbyuser():
+    """
+    Get a specific bet for a user
+    """
+    output = {}
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        matchid = data['matchid']
+        result = query_db(queries.bet_earnings(), [netid, matchid])
+        output = jsonify(result)[0]
         
     except Exception as ex:
         print(ex)
@@ -361,7 +384,7 @@ def addbet():
     """
     Add a new bet for a particular user for a match
     """
-    output = None 
+    output = None
     try:
         data = request.get_json()
         netid = data['netid']
@@ -369,9 +392,20 @@ def addbet():
         winner = data['winner']
         matchid = data['matchid']
 
-        values = [netid, matchid, amount, winner]
-        query_db(queries.add_bet(), values)
-        output = jsonify({'success': True})
+        # check if the user has enough money to make a bet
+        current_points = query_db(queries.user_participation_points(), [netid])
+
+        # if user has enough points to bet, allow them to bet and subtract from their total
+        if current_points > amount:
+            remaining_points = current_points - amount
+            query_db(queries.update_user_participation_points(), [remaining_points, netid])
+
+            values = [netid, matchid, amount, winner]
+            query_db(queries.add_bet(), values)
+
+            output = jsonify({'success': True})
+        else:
+            output = jsonify({'success': False})
     
     except Exception as ex:
         print(ex)
@@ -391,8 +425,61 @@ def updateparticipation():
         status = data['status']
         matchid = data['matchid']
 
+        # check if user exists already in specific match
+        params = [netid, matchid]
+        user_in_match = query_db(queries.user_match_attended(), params)
+        
         values = [status, netid, matchid]
-        query_db(queries.update_participation(), values)
+        if user_in_match:
+            query_db(queries.update_participation(), values)
+        else:
+            #if user is not already in match, add to match
+            query_db(queries.add_participation(), values)
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
+    return output, 200
+
+@app.route("/updatebet", methods=["POST"])
+def updatebet():
+    """
+    Update bet information for a user
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        matchid = data['matchid']
+        pointsbet = data['pointsbet']
+        winner = data['winner']
+
+        values = [pointsbet, winner, netid, matchid]
+        query_db(queries.update_bet(), values)
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
+    return output, 200
+
+@app.route("/addparticipation", methods=["POST"])
+def addparticipation():
+    """
+    Add user to attendance database
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        status = data['status']
+        matchid = data['matchid']
+
+        values = [netid, matchid, status]
+        query_db(queries.add_participation(), values)
         output = jsonify({'success': True})
     
     except Exception as ex:
