@@ -91,8 +91,8 @@ def user_matches_attended():
 def user_match_attended():
     return "SELECT status FROM attendance WHERE netid = ? AND matchid = ?"
 
-def match_manager():
-    return "SELECT manager FROM matches WHERE matchid = ?"
+def match_info():
+    return "SELECT * FROM matches WHERE matchid = ?"
 
 def bet_earnings():
     return "SELECT pointsBet, winner FROM bets WHERE netid = ? AND matchid = ?"
@@ -120,3 +120,6 @@ def update_participation():
 
 def update_bet():
     return "UPDATE bets SET pointsbet=?, winner=? WHERE netid=? AND matchid=?"
+def add_participation():
+    return '''INSERT INTO attendance 
+            VALUES (?, ?, ?)'''

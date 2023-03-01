@@ -284,16 +284,16 @@ def getuserevents():
         return jsonify(error=404, text=str(ex)), 404
     return output, 200
 
-@app.route("/getmanager", methods=["GET"])
-def getmanager():
+@app.route("/matchinfo", methods=["GET"])
+def matchinfo():
     """
-    Get manager for a specific match
+    Get all info for a match
     """
     output = {}
     try:
         data = request.get_json()
         matchid = data['matchid']
-        result = query_db(queries.match_manager(), [matchid])
+        result = query_db(queries.match_info(), [matchid])
         output = jsonify_rows(result)[0]
         
     except Exception as ex:
@@ -407,7 +407,7 @@ def addbet():
     """
     Add a new bet for a particular user for a match
     """
-    output = None 
+    output = None
     try:
         data = request.get_json()
         netid = data['netid']
@@ -415,9 +415,20 @@ def addbet():
         winner = data['winner']
         matchid = data['matchid']
 
-        values = [netid, matchid, amount, winner]
-        query_db(queries.add_bet(), values)
-        output = jsonify({'success': True})
+        # check if the user has enough money to make a bet
+        current_points = query_db(queries.user_participation_points(), [netid])
+
+        # if user has enough points to bet, allow them to bet and subtract from their total
+        if current_points > amount:
+            remaining_points = current_points - amount
+            query_db(queries.update_user_participation_points(), [remaining_points, netid])
+
+            values = [netid, matchid, amount, winner]
+            query_db(queries.add_bet(), values)
+
+            output = jsonify({'success': True})
+        else:
+            output = jsonify({'success': False})
     
     except Exception as ex:
         print(ex)
@@ -470,6 +481,28 @@ def updatebet():
 
         values = [pointsbet, winner, netid, matchid]
         query_db(queries.update_bet(), values)
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
+    return output, 200
+
+@app.route("/addparticipation", methods=["POST"])
+def addparticipation():
+    """
+    Add user to attendance database
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        status = data['status']
+        matchid = data['matchid']
+
+        values = [netid, matchid, status]
+        query_db(queries.add_participation(), values)
         output = jsonify({'success': True})
     
     except Exception as ex:
