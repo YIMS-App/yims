@@ -8,11 +8,14 @@ from sys import argv, stderr, exit
 from sqlite3 import connect as sqlite_connect
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database import Base, Collegeinfo, Sportscores, Matches, Users, Totalscores, Attendance
-from consts import *
+from flask_server.database import Base, Collegeinfo, Sportscores, Bets, Matches, Users, Totalscores, Attendance
+from .test_consts import *
 #-----------------------------------------------------------------------
+def initialize():
 
-def main():
+    admins = list(ADMINS)
+    admins.sort()
+    
     try:
         engine = create_engine('sqlite://',
             creator=lambda: sqlite_connect('file:' + FILENAME + '.sqlite?mode=rwc', 
@@ -34,32 +37,16 @@ def main():
                                 year=2022, population=500, id=2))
         session.add(Collegeinfo(college='Ezra Stiles', college_abbreviation='ES', 
                                 year=2022, population=500, id=3))
-        session.add(Collegeinfo(college='Jonathan Edwards', college_abbreviation='JE', 
-                                year=2022, population=500, id=4))
-        session.add(Collegeinfo(college='Pauli Murray', college_abbreviation='MY', 
-                                year=2022, population=500, id=5))
-        session.add(Collegeinfo(college='Saybrook', college_abbreviation='SY', 
-                                year=2022, population=500, id=6))
-        session.add(Collegeinfo(college='Timothy Dwight', college_abbreviation='TD', 
-                                year=2022, population=500, id=7))
         session.add(Collegeinfo(college='Berkeley', college_abbreviation='BK', 
-                                year=2022, population=500, id=8))
+                                year=2022, population=500, id=4))
         session.add(Collegeinfo(college='Davenport', college_abbreviation='DC', 
-                                year=2022, population=500, id=9))
+                                year=2022, population=500, id=5))
         session.add(Collegeinfo(college='Grace Hopper', college_abbreviation='GH', 
-                                year=2022, population=500, id=10))
-        session.add(Collegeinfo(college='Morse', college_abbreviation='MC', 
-                                year=2022, population=500, id=11))
-        session.add(Collegeinfo(college='Pierson', college_abbreviation='PC', 
-                                year=2022, population=500, id=12))
-        session.add(Collegeinfo(college='Silliman', college_abbreviation='SM', 
-                                year=2022, population=500, id=13))
-        session.add(Collegeinfo(college='Trumbull', college_abbreviation='TC', 
-                                year=2022, population=500, id=14))
+                                year=2022, population=500, id=6))
         session.commit()
 
         # totalscores table
-        for i in range(1, 15):
+        for i in range(1, 7):
             session.add(Totalscores(id=i, score=0, part_score=0))
         session.commit()
 
@@ -67,6 +54,22 @@ def main():
         for sport in sports:
             sportscore = Sportscores(sport=sport, score=sports[sport][0], icon=sports[sport][1])
             session.add(sportscore)
+        session.commit()
+
+        # matches table
+        for i in range(10):
+            id1 = "ES"
+            id2 = "BF"
+            sport = "soccer"
+            location = "school"
+            startTime = "morning"
+            endTime = "not morning"
+            winner = "ES"
+            manager = "ey229"
+
+            match = Matches(matchid=i, id1=id1, id2=id2, sport=sport, location=location,
+                startTime=startTime, endTime=endTime, winner=winner, manager=manager)
+            session.add(match)
         session.commit()
 
         # users table
@@ -77,9 +80,32 @@ def main():
                 if student in admins:
                     role = "admin"
                 session.add(Users(netid=student, college=all_students[student][0],
-                                    role=role))
+                                    role=role, participationPoints= 0))
             session.add(Users(netid="ey229", college="grad",
-                                    role="admin"))
+                                    role="admin", participationPoints=1000))
+        session.commit()
+
+        # attendance
+        for index, i in enumerate(admins):
+
+            matchid = index
+            dummyid = index*10
+            status = index%3
+
+            attend = Attendance(netid=i, matchid=matchid, dummyid=dummyid, status=status)
+            session.add(attend)
+        session.commit()
+
+        # bets
+        for index, i in enumerate(admins):
+
+            matchid = index
+            dummyid = index*10
+            pointsBet = index*10
+            winner = "ES"
+            bet = Bets(netid=i, matchid=matchid, dummyid=dummyid, pointsBet=pointsBet,
+                winner=winner)
+            session.add(bet)
         session.commit()
 
         session.close()
@@ -91,4 +117,4 @@ def main():
 #-----------------------------------------------------------------------
 
 if __name__ == '__main__':
-    main()
+    initialize()

@@ -63,6 +63,9 @@ def match_winner():
             AND location=? 
             AND summary=?'''
 
+def match_winner_by_id():
+    return "SELECT winner FROM matches WHERE matchid = ?"
+
 def update_match_winner():
     return "UPDATE matches SET winner=? WHERE matchid=?"
 
@@ -73,5 +76,54 @@ def add_match():
     return '''INSERT INTO matches 
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'''
 
-def user_role():
-    return "SELECT role FROM users WHERE netid = ?"
+def user_info():
+    return "SELECT * FROM users WHERE netid = ?"
+
+def user_participation_points():
+    return "SELECT participationPoints FROM users WHERE netid = ?"
+
+def user_bets():
+    return "SELECT matchid, pointsBet, winner FROM bets WHERE netid = ?"
+
+def user_matches_attended():
+    return "SELECT matchid, status FROM attendance WHERE netid = ?"
+
+def user_match_attended():
+    return "SELECT status FROM attendance WHERE netid = ? AND matchid = ?"
+
+def match_info():
+    return "SELECT * FROM matches WHERE matchid = ?"
+
+def bet_earnings():
+    return "SELECT pointsBet, winner FROM bets WHERE netid = ? AND matchid = ?"
+
+def bet_aggregates():
+   return "SELECT SUM(pointsBet), winner FROM bets WHERE matchid = ? GROUP BY winner"
+
+def college_participation_score():
+    return '''SELECT college, part_score FROM collegeinfo 
+            NATURAL JOIN totalscores WHERE collegeinfo.year=? 
+            ORDER BY part_score DESC '''
+
+def update_college_participation_score():
+    return "UPDATE totalscores SET part_score=? WHERE id=?"
+
+def update_user_participation_points():
+    return "UPDATE users SET participationPoints=? WHERE netid=?"
+
+def add_bet():
+    return '''INSERT INTO bets 
+            VALUES (?, ?, ?, ?)'''
+
+def update_participation():
+    return "UPDATE attendance SET status=? WHERE netid=? AND matchid=?"
+
+def update_bet():
+    return "UPDATE bets SET pointsbet=?, winner=? WHERE netid=? AND matchid=?"
+    
+def add_participation():
+    return '''INSERT INTO attendance 
+            VALUES (?, ?, ?)'''
+
+def check_userperms():
+    return "SELECT role FROM users WHERE netid=?"

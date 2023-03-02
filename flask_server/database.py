@@ -37,6 +37,8 @@ class Matches (Base):
     endTime = Column(String)
     winner = Column(Integer)
     summary = Column(String)
+    manager = Column(String)
+    qr = Column(String)
 
     sportscores = relationship('Sportscores')
 
@@ -46,6 +48,7 @@ class Users (Base):
     netid = Column(String, primary_key=True)
     role = Column(String)
     college = Column(String)
+    participationPoints = Column(Integer)
 
 class Totalscores (Base):
     __tablename__ = 'totalscores'
@@ -61,7 +64,20 @@ class Attendance (Base):
 
     netid = Column(String, ForeignKey('users.netid'))
     matchid = Column(String, ForeignKey('matches.matchid'))
-    dummmyid = Column(Integer, primary_key=True)
+    dummyid = Column(Integer, primary_key=True)
+    status = Column(Integer) # 0 (absent), 1 (want to go), 2 (attended)
+
+    users = relationship('Users')
+    matches = relationship('Matches')
+
+class Bets (Base):
+    __tablename__ = 'bets'
+
+    netid = Column(String, ForeignKey('users.netid'))
+    matchid = Column(String, ForeignKey('matches.matchid'))
+    dummyid = Column(Integer, primary_key=True)
+    pointsBet = Column(Integer)
+    winner = Column(Integer)
 
     users = relationship('Users')
     matches = relationship('Matches')
