@@ -120,6 +120,10 @@ def update_participation():
 
 def update_bet():
     return "UPDATE bets SET pointsbet=?, winner=? WHERE netid=? AND matchid=?"
+    
 def add_participation():
     return '''INSERT INTO attendance 
             VALUES (?, ?, ?)'''
+
+def check_userperms():
+    return "SELECT role FROM users WHERE netid=?"
