@@ -2,7 +2,7 @@
   "expo": {
     "name": "Yims",
     "slug": "Yims",
-    "scheme": "yims",
+    //"scheme": "yims",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
