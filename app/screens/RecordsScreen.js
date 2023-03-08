@@ -63,14 +63,14 @@ export default function RecordsScreen(props) {
     <View style={styles.container}>
        {loading ? 
         <View style={[styles.container, {justifyContent: 'center', alignItems: 'center', flex:1}]}>
-          <NavBar navigation={props.navigation} title={"Records"} color={'#3159C4'}/>
+          <NavBar navigation={props.navigation} title={"Records"} color={'#3159C4'} extraData={props.extraData}/>
           <View style={[styles.container, {justifyContent: 'center', alignItems: 'center', flex:1}]}>
             <ActivityIndicator animating={true} color='#bc2b78' size="large"/>
           </View> 
         </View> 
         : 
         <View>
-          <NavBar navigation={props.navigation} title={"Records"} color={'#3159C4'}/>
+          <NavBar navigation={props.navigation} title={"Records"} color={'#3159C4'} extraData={props.extraData}/>
           <View style={styles.headerContainer}>
             <SafeAreaView>
               <TouchableOpacity

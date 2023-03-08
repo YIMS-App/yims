@@ -14,7 +14,9 @@ const ProfileScreen = (props) => {
     }
 	//TODO: get image from user's respective college
 	const data = ["Ezra Stiles", "Benjamin Franklin"]
-	const userCoins = 0
+	const userProp = props["route"]["params"]["username"]
+	const username = userProp.replace(/['"]+/g, '')
+	const userCoins = 2222312312312
 
     return (
 		<View style={[styles.container, {flex: 1}]}>
@@ -40,7 +42,7 @@ const ProfileScreen = (props) => {
 					<Flags college={data[0]}></Flags>
 					<Text style={styles.name}>Name</Text>
 					<Text style={styles.title}>College</Text>
-					<Text style={styles.title}>netID</Text>
+					<Text style={styles.title}>{username}</Text>
 				</View>
 			</View>
 
