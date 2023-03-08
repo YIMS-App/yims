@@ -8,6 +8,10 @@ import {
   } from "react-native";
 
 import NavBar from "../components/main-screen/NavBar";
+import QRCodeModal from "../components/QRCodeModal";
+import QRCode from "react-native-qrcode-svg";
+import { useState } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const sports = [
     {
@@ -77,10 +81,29 @@ export default function AboutScreen(props) {
     const renderItem = ({ item }) => (
         <Text style={[styles.sport]}>{item.sport} {item.emoji} </Text>
       );
-
+      
+    {/* QR CODE STUFF STARTS */}
+    function endQRCodeHandler() {
+        setQRCodeIsVisible(false);
+    }
+    function startQRCodeHandler() {
+        setQRCodeIsVisible(true);
+    }
+    const [QRCodeIsVisible, setQRCodeIsVisible] = useState(false);
+    {/* <QRCode STUFF ENDS*/}
     return (
         <View style={styles.container}>
             <NavBar navigation={props.navigation} title={"About"} color={'white'}/>
+             {/* QR CODE STUFF STARTS */}
+            <TouchableOpacity style={[{marginTop: 40}]}
+            onPress={startQRCodeHandler}>
+                <Text>Launch QR Code</Text>
+            </TouchableOpacity>
+            <QRCodeModal
+                onCancel={endQRCodeHandler}
+                visible={QRCodeIsVisible}
+            />
+            {/* <QRCode STUFF ENDS*/}
             <ScrollView style={styles.aboutContainer} showsVerticalScrollIndicator={false}>
                     <Text style={styles.title}>YIMS(Yale Intramural Sports)</Text>
                     <Image style={styles.logo} source={require('../assets/images/logo.png')} />

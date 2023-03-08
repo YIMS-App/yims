@@ -23,7 +23,7 @@ export default function HomeScreen(props) {
         <Drawer.Screen name="Upcoming Matches" component={UpcomingMatchesScreen} />
         <Drawer.Screen name="How To Play" component={HowToPlay} /> 
         <Drawer.Screen name="About" component={AboutScreen} /> 
-        <Drawer.Screen name="Calendar" component={Calendar} />
+        <Drawer.Screen name="Calendar" component={Calendar}/>
       </Drawer.Navigator>
   );
 }
