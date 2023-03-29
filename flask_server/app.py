@@ -95,8 +95,8 @@ def updatematch():
 
     def updatescore(id, points):
         score = query_db(queries.score_by_id(), [id], database_url=app.config['DATABASE'])[0][0]
-        query_db(queries.update_score(), [points + score, id], database_url=app.config['DATABASE'])
-        
+        query_db(queries.update_score(), [points + score, id], database_url=app.config['DATABASE'])   
+
     try:
         data = request.get_json()
         college1 = data['college1']
@@ -107,6 +107,8 @@ def updatematch():
         startTime = data['startTime']
         endTime = data['endTime']
         summary = data['summary']
+        manager = "ey229"
+        qr = "NOT IMPLEMENTED"
 
         college_id1 = get_id(college1)
         college_id2 = get_id(college2)
@@ -115,9 +117,8 @@ def updatematch():
 
         # check if match exists already
         params = [college_id1, college_id2, college_id2, college_id1, 
-                sport, startTime, endTime, location, summary]
+                sport, startTime, endTime, location, summary, manager, qr]
         prev_match = query_db(queries.match_winner(), params, database_url=app.config['DATABASE'])
-        
         # if match exists, we subtract points from previous match 
         # and update the winner in matches
         if prev_match:
@@ -136,7 +137,7 @@ def updatematch():
         else: # if match does not exist, we create a new match
             new_matchid = query_db(queries.count_matches(), database_url=app.config['DATABASE'])[0][0] + 1
             values = [new_matchid, college_id1, college_id2, sport, 
-                    location, startTime, endTime, winner_id, summary]
+                    location, startTime, endTime, winner_id, summary, manager, qr]
             query_db(queries.add_match(), values, database_url=app.config['DATABASE'])
 
         # add points for match
