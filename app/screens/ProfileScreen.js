@@ -1,24 +1,49 @@
 import {
-    StyleSheet, View, Text, Image, TouchableOpacity
+	StyleSheet, View, Text, Image, TouchableOpacity
 } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import Flags from '../components/Flags'
-import { Rect } from 'react-native-svg';
+import React, { useState, useEffect } from "react";
+import { IP_ADDRESS } from "../utils/constants.js";
 
 const ProfileScreen = (props) => {
-    const onPressItem = () => {
-        props.navigation.goBack();
-    }
+	const onPressItem = () => {
+		props.navigation.goBack();
+	}
 	const onPressCoins = () => {
-        console.log("coins pressed");
-    }
+		console.log("coins pressed");
+	}
 	//TODO: get image from user's respective college
 	const data = ["Ezra Stiles", "Benjamin Franklin"]
 	const userProp = props["route"]["params"]["username"]
 	const username = userProp.replace(/['"]+/g, '')
-	const userCoins = 2222312312312
+	const [userCoins, setUserCoins] = useState([])
 
-    return (
+	useEffect(() => { // runs once to update data at the first render
+        setCoins(username);
+      }, []); 
+	const setCoins = async(netid) => {
+		try {
+			await fetch(IP_ADDRESS + '/getparticipationpoints', {
+			method: 'post',
+			mode: 'no-cors',
+			headers: {
+			  'Accept': 'application/json',
+			  'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+			  "netid": netid
+			})
+		  }).then((response =>response.json()))
+		  .then((responseData) => {
+			setUserCoins(responseData["participationPoints"])
+		  });
+		  }
+		  catch(e) {
+			console.log(e)
+		  }
+	  }
+	return (
 		<View style={[styles.container, {flex: 1}]}>
 			<LinearGradient 
 				colors={['#3159C4', '#002075']}
@@ -47,45 +72,45 @@ const ProfileScreen = (props) => {
 			</View>
 
 		</View>
-    )
+	)
 }
 
 export default ProfileScreen
 
 const styles = StyleSheet.create({
-    container: {
+	container: {
 		flex: 1,
 		zIndex: 1,
-    },
+	},
 	gradient: {
 		position: 'absolute',
 		height: '100%',
 		width: '100%',
 		zIndex: 0,
 	},
-    content: {
-        flex: 4,
+	content: {
+		flex: 4,
 		flexDirection: 'column',
 		zIndex: 2,
-    },
+	},
 	text: {
 		zIndex: 2,
 		color: "white",
 		paddingRight: 10
 	},
-    button: {
+	button: {
 		flex: 1,
-        marginHorizontal: 30,
+		marginHorizontal: 30,
 		flexDirection: 'row',
 		alignSelf: 'left',
 		zIndex: 2,
-    },
-    ximage: {
+	},
+	ximage: {
 		flexDirection: 'row',
-        alignSelf: 'center',
-        width: 20,
-        height: 20,
-    },
+		alignSelf: 'center',
+		width: 20,
+		height: 20,
+	},
 	coinsButton: {
 		flexDirection: 'row',
 		alignSelf: "flex-end",
@@ -103,18 +128,18 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignSelf: 'center',
 	},
-    title: {
-        alignSelf: 'center',
-        fontSize: 20, 
-        fontWeight: '700',
-        color: 'white',
-        margin: 5,
-    },
-    name: {
-        alignSelf: 'center',
-        fontSize: 30, 
-        fontWeight: '700',
-        color: 'white',
-        margin: 5,
-    },
+	title: {
+		alignSelf: 'center',
+		fontSize: 20, 
+		fontWeight: '700',
+		color: 'white',
+		margin: 5,
+	},
+	name: {
+		alignSelf: 'center',
+		fontSize: 30, 
+		fontWeight: '700',
+		color: 'white',
+		margin: 5,
+	},
 })
