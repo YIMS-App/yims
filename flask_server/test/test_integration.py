@@ -23,3 +23,8 @@ def test_userbets():
     assert output['matchid'] == "4"
     assert output['pointsBet'] == 40
     assert output['winner'] == "ES"
+
+def test_pastmatches():
+    r = requests.get(url = TEST_ADDRESS + '/getpastmatches')
+    output = r.json()
+    print(output)
