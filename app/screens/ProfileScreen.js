@@ -1,10 +1,16 @@
 import {
-	StyleSheet, View, Text, Image, TouchableOpacity
+	StyleSheet,
+	View,
+	Text,
+	Image,
+	TouchableOpacity,
+	ActivityIndicator
 } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import Flags from '../components/Flags'
 import React, { useState, useEffect } from "react";
-import { IP_ADDRESS } from "../utils/constants.js";
+import { IP_ADDRESS, college_mapping } from "../utils/constants.js";
+
 
 const ProfileScreen = (props) => {
 	const onPressItem = () => {
@@ -14,14 +20,18 @@ const ProfileScreen = (props) => {
 		console.log("coins pressed");
 	}
 	//TODO: get image from user's respective college
-	const data = ["Ezra Stiles", "Benjamin Franklin"]
-	const userProp = props["route"]["params"]["username"]
-	const username = userProp.replace(/['"]+/g, '')
-	const [userCoins, setUserCoins] = useState([])
+	const [loading, setLoading] = useState(true);
+	const [college, setCollege] = useState([]);
+	const [name, setName] = useState([]);
+	const userProp = props["route"]["params"]["username"];
+	const username = userProp.replace(/['"]+/g, '');
+	const [userCoins, setUserCoins] = useState([]);
 
 	useEffect(() => { // runs once to update data at the first render
         setCoins(username);
+		setUserInfo(username);
       }, []); 
+
 	const setCoins = async(netid) => {
 		try {
 			await fetch(IP_ADDRESS + '/getparticipationpoints', {
@@ -43,7 +53,36 @@ const ProfileScreen = (props) => {
 			console.log(e)
 		  }
 	  }
-	return (
+	const setUserInfo = async(netid) => {
+		try {
+			await fetch(IP_ADDRESS + '/getuserdata', {
+				method: 'post',
+				mode: 'no-cors',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					"netid": netid
+				})
+			}).then((response => response.json()))
+			.then((responseData) => {
+				console.log(responseData);
+				setCollege(college_mapping[responseData["college"]])
+				setName(responseData["name"])
+				setLoading(false);
+			})
+		}
+		catch(e) {
+			console.log(e)
+		}
+	}
+	return (loading ? 
+        <View style={[styles.container, {justifyContent: 'center', alignItems: 'center'}]}>
+          <ActivityIndicator animating={true} color='#bc2b78' size="large"/>
+        </View> 
+		:
+		(
 		<View style={[styles.container, {flex: 1}]}>
 			<LinearGradient 
 				colors={['#3159C4', '#002075']}
@@ -64,15 +103,15 @@ const ProfileScreen = (props) => {
 					<Text style={[styles.text, {}]}>{userCoins}</Text>
 				</TouchableOpacity>
 				<View style={styles.content}>
-					<Flags college={data[0]}></Flags>
-					<Text style={styles.name}>Name</Text>
-					<Text style={styles.title}>College</Text>
+					<Flags college={college}></Flags>
+					<Text style={styles.name}>{name}</Text>
+					<Text style={styles.title}>{college}</Text>
 					<Text style={styles.title}>{username}</Text>
 				</View>
 			</View>
 
 		</View>
-	)
+	))
 }
 
 export default ProfileScreen
