@@ -1,15 +1,18 @@
 #!/usr/bin/env python
 #-----------------------------------------------------------------------
-# databasebuilder.py
+# testdbbuilder.py
 #-----------------------------------------------------------------------
 import requests
 import pickle
+import sys
 from sys import argv, stderr, exit
 from sqlite3 import connect as sqlite_connect
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from flask_server.database import Base, Collegeinfo, Sportscores, Bets, Matches, Users, Totalscores, Attendance
-from .test_consts import *
+sys.path.append('./')
+sys.path.append('./test/')
+from database import Base, Collegeinfo, Sportscores, Bets, Matches, Users, Totalscores, Attendance
+from test_consts import *
 #-----------------------------------------------------------------------
 def initialize():
 
@@ -79,10 +82,10 @@ def initialize():
                 role = "student"
                 if student in admins:
                     role = "admin"
-                session.add(Users(netid=student, college=all_students[student][0],
-                                    role=role, participationPoints= 0))
-            session.add(Users(netid="ey229", college="grad",
-                                    role="admin", participationPoints=1000))
+                session.add(Users(netid=student, firstName=all_students[student][1], lastName=all_students[student][2],
+                                  college=all_students[student][0],role=role))
+            session.add(Users(netid="ey229", firstName="Edward", lastName = "Yang", college="grad",
+                                    role="admin"))
         session.commit()
 
         # attendance
@@ -113,8 +116,6 @@ def initialize():
     except Exception as ex:
         print(ex, file=stderr)
         exit(1)
-
-#-----------------------------------------------------------------------
 
 if __name__ == '__main__':
     initialize()

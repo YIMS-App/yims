@@ -12,6 +12,8 @@ def test_userinfo():
     output = jsonify_rows(result)[0]
 
     assert output['netid'] == "ey229"
+    assert output['firstName'] == "Edward"
+    assert output['lastName'] == "Yang"
     assert output['role'] == "admin"
     assert output['college'] == "grad"
     assert output['participationPoints'] == 1000

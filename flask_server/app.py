@@ -10,6 +10,7 @@ from utils import *
 
 #-----------------------------------------------------------------------
 app = Flask(__name__)
+app.config.update({"DATABASE": DATABASE_URL})
 #-----------------------------------------------------------------------
 @app.route("/totalscores", methods=["GET"])
 def get_total_scores():
