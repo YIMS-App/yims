@@ -61,13 +61,13 @@ def initialize():
 
         # matches table
         for i in range(10):
-            id1 = "ES"
-            id2 = "BF"
+            id1 = 1
+            id2 = 2
             sport = "soccer"
             location = "school"
             startTime = "2007-05-08 12:34:29"
             endTime = "2007-05-08 12:35:29"
-            winner = "ES"
+            winner = 1
             manager = "ey229"
 
             match = Matches(matchid=i, id1=id1, id2=id2, sport=sport, location=location,
