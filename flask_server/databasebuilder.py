@@ -79,7 +79,7 @@ def main():
                 session.add(Users(netid=student, firstName=all_students[student][1], lastName=all_students[student][2],
                                   college=all_students[student][0],role=role))
             session.add(Users(netid="ey229", firstName="Edward", lastName = "Yang", college="grad",
-                                    role="admin"))
+                                    role="admin", participationPoints = 1000))
         session.commit()
 
         session.close()
