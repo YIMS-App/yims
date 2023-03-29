@@ -46,6 +46,8 @@ class Users (Base):
     __tablename__ = 'users'
 
     netid = Column(String, primary_key=True)
+    firstName = Column(String)
+    lastName = Column(String)
     role = Column(String)
     college = Column(String)
     participationPoints = Column(Integer)
