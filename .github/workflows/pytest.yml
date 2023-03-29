@@ -35,9 +35,13 @@ jobs:
 
       - name: Run server
         working-directory: ./flask_server
-        run: python3 run_server.py
+        run: | 
+          nohup python3 run_server.py
+          sleep 1
 
       - name: Run unit tests
         working-directory: ./flask_server
-        run: pytest .
+        run: | 
+          pytest .
+          kill -9 $(lsof -i :8080 | awk 'FNR > 1 {print $2}')
 
