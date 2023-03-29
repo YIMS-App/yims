@@ -76,9 +76,9 @@ def main():
                 role = "student"
                 if student in admins:
                     role = "admin"
-                session.add(Users(netid=student, college=all_students[student][0],
-                                    role=role))
-            session.add(Users(netid="ey229", college="grad",
+                session.add(Users(netid=student, firstName=all_students[student][1], lastName=all_students[student][2],
+                                  college=all_students[student][0],role=role))
+            session.add(Users(netid="ey229", firstName="Edward", lastName = "Yang", college="grad",
                                     role="admin"))
         session.commit()
 
