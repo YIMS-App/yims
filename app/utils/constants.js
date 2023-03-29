@@ -14,5 +14,6 @@ export const college_mapping = {
 	'SY': 'Saybrook',
 	'SM': 'Silliman',
 	'TD': 'Timothy Dwight',
-	'TC': 'Trumbull'
+	'TC': 'Trumbull',
+    'grad': 'Graduate Student'
 }
