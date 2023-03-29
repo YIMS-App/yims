@@ -33,6 +33,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt --use-pep517
 
+      # IMPORTANT NOTE: right now this testing pipeline is not connected to aws server so integration tests will fail as it cannot connect to a server, right now we are doing integration testing by running a server manually, so once the aws server works this pipeline will work smoothly
       - name: Run unit tests
         working-directory: ./flask_server
         run: | 
