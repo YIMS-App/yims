@@ -36,7 +36,8 @@ jobs:
       - name: Run unit tests
         working-directory: ./flask_server
         run: | 
-          python3 run_server.py &
+          python3 test/testdbbuilder.py
+          python3 run_server.py --database test/testtable.sqlite &
           sleep 5
           pytest .
 
