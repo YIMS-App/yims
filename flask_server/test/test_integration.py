@@ -41,3 +41,29 @@ def test_addmatch():
     data['summary'] = ""
 
     r = requests.post(url = TEST_ADDRESS + '/updatematch', json = data)
+    # print(r.json())
+
+def test_getbetbyuser_false():
+    data = {'netid': "ey229", "matchid": 1}
+    r = requests.post(url = TEST_ADDRESS + '/getbetbyuser', json = data)
+    # print(r.json()) # didn't bet on this so expect false 
+
+def test_getbetbyuser_true():
+    data = {'netid': "awx2", "matchid": 1}
+    r = requests.post(url = TEST_ADDRESS + '/getbetbyuser', json = data)
+    # print(r.json()) # bet on this so expect true 
+
+def test_userperms():
+    data = {'userid': "ey229"}
+    r = requests.post(url = TEST_ADDRESS + '/userperms', json = data)
+    # print(r.json()) # didn't bet on this so expect true 
+
+def test_getuserdata():
+    data = {'netid': "ey229"}
+    r = requests.post(url = TEST_ADDRESS + '/getuserdata', json = data)
+    # print(r.json()) # didn't bet on this so expect true 
+
+def test_getuserbets():
+    data = {'netid': "ey229"}
+    r = requests.post(url = TEST_ADDRESS + '/getuserbets', json = data)
+    print(r.json()) # didn't bet on this so expect true 
