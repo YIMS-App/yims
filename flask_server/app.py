@@ -313,7 +313,7 @@ def aggregatebet():
     try:
         data = request.get_json()
         matchid = data['matchid']
-        result = query_db(queries.match_manager(), [netid, matchid], database_url=app.config['DATABASE'])
+        result = query_db(queries.bet_aggregates(), [netid, matchid], database_url=app.config['DATABASE'])
         output = jsonify({'aggregate_bets': jsonify_rows(result)})
         
     except Exception as ex:
@@ -460,28 +460,6 @@ def updatebet():
 
         values = [pointsbet, winner, netid, matchid]
         query_db(queries.update_bet(), values, database_url=app.config['DATABASE'])
-        output = jsonify({'success': True})
-    
-    except Exception as ex:
-        print(ex)
-        return jsonify(error=404, text=str(ex)), 404
-
-    return output, 200
-
-@app.route("/addparticipation", methods=["POST"])
-def addparticipation():
-    """
-    Add user to attendance database
-    """
-    output = None 
-    try:
-        data = request.get_json()
-        netid = data['netid']
-        status = data['status']
-        matchid = data['matchid']
-
-        values = [netid, matchid, status]
-        query_db(queries.add_participation(), values, database_url=app.config['DATABASE'])
         output = jsonify({'success': True})
     
     except Exception as ex:

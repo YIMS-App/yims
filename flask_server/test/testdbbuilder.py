@@ -50,7 +50,7 @@ def initialize():
 
         # totalscores table
         for i in range(1, 7):
-            session.add(Totalscores(id=i, score=0, part_score=0))
+            session.add(Totalscores(id=i, score=i*10, part_score=i*15))
         session.commit()
 
         # sportscores table
@@ -70,7 +70,7 @@ def initialize():
             winner = 1
             manager = "ey229"
 
-            match = Matches(matchid=i, id1=id1, id2=id2, sport=sport, location=location,
+            match = Matches(id1=id1, id2=id2, sport=sport, location=location,
                 startTime=startTime, endTime=endTime, winner=winner, manager=manager)
             session.add(match)
         session.commit()
@@ -83,19 +83,17 @@ def initialize():
                 if student in admins:
                     role = "admin"
                 session.add(Users(netid=student, firstName=all_students[student][1], lastName=all_students[student][2],
-                                  college=all_students[student][0],role=role))
+                                  college=all_students[student][0],role=role, participationPoints = 1000))
             session.add(Users(netid="ey229", firstName="Edward", lastName = "Yang", college="grad",
                                     role="admin", participationPoints = 1000))
         session.commit()
 
         # attendance
         for index, i in enumerate(admins):
-
             matchid = index
-            dummyid = index*10
             status = index%3
 
-            attend = Attendance(netid=i, matchid=matchid, dummyid=dummyid, status=status)
+            attend = Attendance(netid=i, matchid=matchid, status=status)
             session.add(attend)
         session.commit()
 
@@ -103,10 +101,9 @@ def initialize():
         for index, i in enumerate(admins):
 
             matchid = index
-            dummyid = index*10
             pointsBet = index*10
             winner = "ES"
-            bet = Bets(netid=i, matchid=matchid, dummyid=dummyid, pointsBet=pointsBet,
+            bet = Bets(netid=i, matchid=matchid, pointsBet=pointsBet,
                 winner=winner)
             session.add(bet)
         session.commit()

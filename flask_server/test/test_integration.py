@@ -36,9 +36,8 @@ def test_addmatch():
     data['sport'] = 'soccer'
     data['location'] = 'here'
     data['winner'] = "Ezra Stiles"
-    data['startTime'] = "2007-05-08 12:34:29"
-    data['endTime'] = "2007-05-09 12:34:29"
+    data['startTime'] = "2030-05-08 12:34:29"
+    data['endTime'] = "2030-05-09 12:34:29"
     data['summary'] = ""
 
     r = requests.post(url = TEST_ADDRESS + '/updatematch', json = data)
-    print(r)
