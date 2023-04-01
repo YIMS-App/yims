@@ -1,4 +1,4 @@
-import { Modal, Text, TouchableOpacity } from "react-native";
+import { Modal, Text, TouchableOpacity, StyleSheet, View, Image} from "react-native";
 
 export default function MatchDetails( { match, visible }) {
 
@@ -6,7 +6,7 @@ export default function MatchDetails( { match, visible }) {
         
     };
     return (
-        <Modal visible={visible} animationType="slide" transparent={true}>
+        <Modal visible={visible} animationType="slide" transparent={true} testID="match-details-modal">
             <View>
                 <View>
                     <TouchableOpacity onPress={() => cancelDataHandler()}>
@@ -14,10 +14,10 @@ export default function MatchDetails( { match, visible }) {
                     </TouchableOpacity>
                 </View>
                 <Text>Match Details</Text>
-                <Text>{match.college1}</Text>
-                <Text>{match.college2}</Text>
-                <Text>{match.sport}</Text>
-                <Text>{match.location}</Text>
+                <Text testID="match-standings-college1">{match.college1}</Text>
+                <Text testID="match-standings-college2">{match.college2}</Text>
+                <Text testID="match-standings-sport">{match.sport}</Text>
+                <Text testID="match-standings-location">{match.location}</Text>
                 <TouchableOpacity>
                     <Text>Add to GCal</Text>
                 </TouchableOpacity>

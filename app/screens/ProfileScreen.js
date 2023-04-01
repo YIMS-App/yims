@@ -1,5 +1,6 @@
 import {
 	StyleSheet,
+	FlatList,
 	View,
 	Text,
 	Image,
@@ -68,8 +69,8 @@ const ProfileScreen = (props) => {
 			}).then((response => response.json()))
 			.then((responseData) => {
 				console.log(responseData);
-				setCollege(college_mapping[responseData["college"]])
-				setName(responseData["name"])
+				setCollege(college_mapping[responseData['college']])
+				setName(responseData['firstName'] + ' ' + responseData['lastName'])
 				setLoading(false);
 			})
 		}
@@ -83,7 +84,7 @@ const ProfileScreen = (props) => {
         </View> 
 		:
 		(
-		<View style={[styles.container, {flex: 1}]}>
+		<View style={styles.container}>
 			<LinearGradient 
 				colors={['#3159C4', '#002075']}
 				style={[styles.gradient]}>
@@ -102,6 +103,7 @@ const ProfileScreen = (props) => {
 					source={require('../assets/images/coin.png')}/>
 					<Text style={[styles.text, {}]}>{userCoins}</Text>
 				</TouchableOpacity>
+				{/* Names */}
 				<View style={styles.content}>
 					<Flags college={college}></Flags>
 					<Text style={styles.name}>{name}</Text>
@@ -109,7 +111,9 @@ const ProfileScreen = (props) => {
 					<Text style={styles.title}>{username}</Text>
 				</View>
 			</View>
-
+			<View>
+				<FlatList></FlatList>
+			</View>
 		</View>
 	))
 }
@@ -181,4 +185,7 @@ const styles = StyleSheet.create({
 		color: 'white',
 		margin: 5,
 	},
+	list: {
+		flex: 2
+	}
 })

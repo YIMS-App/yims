@@ -15,11 +15,11 @@ function NavBar(props) {
 
   if (props.color == "white") {
     return (
-      <View style={styles.navigationContainer}>
+      <View style={styles.navigationContainer} testID="navbar-view-white">
         <TouchableOpacity style={styles.menuButton} onPress={()=>{props.navigation.toggleDrawer()}}>
           <Image source={require("../../assets/images/menu-icon-white.png")} style={styles.image}/>
         </TouchableOpacity>
-        <Text style={[styles.title, {color: props.color}]}>{props.title}</Text>
+        <Text style={[styles.title, {color: props.color}]} testID="navbar-title-white">{props.title}</Text>
         <TouchableOpacity style={styles.profileButton} onPress={()=>{props.navigation.navigate('Profile', props.extraData)}}>
           <Image source={require("../../assets/images/profile-icon-white.png")} style={styles.image}/>
         </TouchableOpacity>
@@ -27,11 +27,11 @@ function NavBar(props) {
     )
   } else {
     return (
-      <View style={styles.navigationContainer}>
+      <View style={styles.navigationContainer} testID="navbar-view-blue">
         <TouchableOpacity style={styles.menuButton} onPress={()=>{props.navigation.toggleDrawer()}}>
           <Image source={require("../../assets/images/menu-icon-blue.png")} style={styles.image}/>
         </TouchableOpacity>
-        <Text style={[styles.title, {color: props.color}]}>{props.title}</Text>
+        <Text style={[styles.title, {color: props.color}]} testID="navbar-title-blue">{props.title}</Text>
         <TouchableOpacity style={styles.profileButton} onPress={()=>{props.navigation.navigate('Profile', props.extraData)}}>
           <Image source={require("../../assets/images/profile-icon-blue.png")} style={styles.image}/>
         </TouchableOpacity>

@@ -145,7 +145,7 @@ export default function MainScreen(props) {
               <Text style={styles.updateText}>Add Match</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.updateMatchButton} onPress={startUpdateMatchHandler}>
-              <Text style={styles.updateText}>Add Match Score</Text>
+              <Text style={styles.updateText}>Score A Match</Text>
             </TouchableOpacity>
           </View>
           : null
