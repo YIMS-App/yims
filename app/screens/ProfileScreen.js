@@ -27,12 +27,40 @@ const ProfileScreen = (props) => {
 	const userProp = props["route"]["params"]["username"];
 	const username = userProp.replace(/['"]+/g, '');
 	const [userCoins, setUserCoins] = useState([]);
+	const [matches, setMatches] = useState([]);
+	const [sports, setSports] = useState({});
+	const dummyMatches = [
+		{
+		  "college1": "Benjamin Franklin",
+		  "college1Abbrev": "BF",
+		  "college2": "Ezra Stiles",
+		  "college2Abbrev": "ES",
+		  "sport": "soccer",
+		  "location": "school",
+		  "startTime": "2007-05-08 12:34:29",
+		  "endTime": "2007-05-08 12:35:29",
+		  "winner": "Benjamin Franklin",
+		  "summary": null
+		},
+		{
+		  "college1": "Jonathan Edwards",
+		  "college1Abbrev": "JE",
+		  "college2": "Branford",
+		  "college2Abbrev": "BR",
+		  "sport": "soccer",
+		  "location": "school",
+		  "startTime": "2007-05-08 12:34:29",
+		  "endTime": "2007-05-08 12:35:29",
+		  "winner": "Jonathan Edwards",
+		  "summary": null
+		}
+	]
+
 
 	useEffect(() => { // runs once to update data at the first render
         setCoins(username);
-		setUserInfo(username);
+		fetchUserInfo(username);
       }, []); 
-
 	const setCoins = async(netid) => {
 		try {
 			await fetch(IP_ADDRESS + '/getparticipationpoints', {
@@ -54,9 +82,10 @@ const ProfileScreen = (props) => {
 			console.log(e)
 		  }
 	  }
-	const setUserInfo = async(netid) => {
+	
+	const fetchUserInfo = async(netid) => {
 		try {
-			await fetch(IP_ADDRESS + '/getuserdata', {
+			await Promise.all([fetch(IP_ADDRESS + '/getuserdata', {
 				method: 'post',
 				mode: 'no-cors',
 				headers: {
@@ -66,18 +95,41 @@ const ProfileScreen = (props) => {
 				body: JSON.stringify({
 					"netid": netid
 				})
-			}).then((response => response.json()))
-			.then((responseData) => {
-				console.log(responseData);
-				setCollege(college_mapping[responseData['college']])
-				setName(responseData['firstName'] + ' ' + responseData['lastName'])
-				setLoading(false);
+			}),
+			fetch(IP_ADDRESS + '/getuserevents', {
+				method: 'post',
+				mode: 'no-cors',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					"netid": netid
+				})
+			}),
+			fetch(IP_ADDRESS + "/getallsportscores")])
+			.then(([userInfo, userGames, sportsScores]) => 
+				Promise.all([userInfo.json(), userGames.json(), sportsScores.json()]))
+			.then(([userInfoData, userGamesData, sportsData]) => {
+				setSports(sportsData);
+				setUserInfo(userInfoData, userGamesData);
 			})
 		}
 		catch(e) {
 			console.log(e)
 		}
 	}
+	const setUserInfo = async(data) => {
+		setCollege(college_mapping[data['college']])
+		setName(data['firstName'] + ' ' + data['lastName'])
+		console.log(college);
+		userMatches = []
+		// TODO: add all match ids where user participated
+
+		setMatches(dummyMatches);
+		setLoading(false);
+	}
+
 	return (loading ? 
         <View style={[styles.container, {justifyContent: 'center', alignItems: 'center'}]}>
           <ActivityIndicator animating={true} color='#bc2b78' size="large"/>
@@ -111,8 +163,76 @@ const ProfileScreen = (props) => {
 					<Text style={styles.title}>{username}</Text>
 				</View>
 			</View>
-			<View>
-				<FlatList></FlatList>
+			<View style={styles.container}>
+				<View
+				style={{
+					flexDirection: "row",
+					justifyContent: "space-evenly",
+					borderTopColor: "white",
+					borderTopWidth: 1,
+					borderBottomColor: "white",
+					borderBottomWidth: 1,
+					marginTop: 10,
+				}}
+				>
+				<Text style={styles.collegeTableHeader}>Date</Text>
+				<Text style={styles.collegeTableHeader}>Points</Text>
+				<Text style={styles.collegeTableHeader}>Opponent</Text>
+				<Text style={styles.collegeTableHeader}>W/L/T</Text>
+				<Text style={styles.collegeTableHeader}>Sport</Text>
+			</View>
+			<FlatList
+			data = {matches}
+			showsVerticalScrollIndicator = {false}
+			renderItem={(itemData) => {
+				return (
+					<View style={{ flexDirection: "row", padding: 3 }}>
+                    <Text style={styles.collegeMatchDate}>
+                      {itemData.item.startTime.slice(5, 7) +
+                        "/" +
+                        itemData.item.startTime.slice(8, 10)}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.matchPts,
+                        {
+                          color:
+                            itemData.item.winner == college
+                              ? "#1FED27"
+                              : itemData.item.winner == "TIE"
+                              ? "#FFCA28"
+                              : "#FF5353",
+                        },
+                      ]}
+                    >
+                      +{" "}
+                      {itemData.item.winner == college
+                        ? sports[itemData.item.sport][0]
+                        : itemData.item.winner == "TIE"
+                        ? sports[itemData.item.sport][0] / 2
+                        : 0}
+                      pts
+                    </Text>
+                    <Text style={styles.matchOpponent}>
+                      {itemData.item.college1 == college
+                        ? itemData.item.college2Abbrev
+                        : itemData.item.college1Abbrev}
+                    </Text>
+                    <Text style={styles.matchOutcome}>
+                      {itemData.item.winner == college
+                        ? "W"
+                        : itemData.item.winner == "TIE"
+                        ? "T"
+                        : "L"}
+                    </Text>
+                    <Text style={styles.collegeMatchSport}>
+                      {sports[itemData.item.sport][1]}
+                    </Text>
+                  </View>
+				)
+			}}>
+
+			</FlatList>
 			</View>
 		</View>
 	))
@@ -187,5 +307,43 @@ const styles = StyleSheet.create({
 	},
 	list: {
 		flex: 2
-	}
+	},
+	collegeTableHeader: {
+		fontSize: 20,
+		color: "white",
+		paddingVertical: 3,
+	},
+	collegeMatchDate: {
+		fontWeight: "700",
+		fontSize: 15,
+		color: "white",
+		marginLeft: 13,
+	},
+	matchPts: {
+		fontWeight: "700",
+		fontSize: 15,
+		color: "white",
+		marginLeft: 13,
+	},
+	matchOpponent: {
+		fontWeight: "700",
+		fontSize: 15,
+		color: "white",
+		width: 30,
+		marginLeft: 55,
+	},
+	matchOutcome: {
+		fontWeight: "700",
+		fontSize: 15,
+		color: "white",
+		width: 20,
+		marginLeft: 60,
+	},
+	collegeMatchSport: {
+		marginLeft: 45,
+		width: 25,
+		fontWeight: "700",
+		fontSize: 15,
+		color: "white",
+	},
 })
