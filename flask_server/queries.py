@@ -61,7 +61,9 @@ def match_winner():
             AND startTime=?
             AND endTime=?
             AND location=? 
-            AND summary=?'''
+            AND summary=?
+            AND manager=?
+            AND qr=?'''
 
 def match_winner_by_id():
     return "SELECT winner FROM matches WHERE matchid = ?"
@@ -74,7 +76,7 @@ def count_matches():
 
 def add_match():
     return '''INSERT INTO matches 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'''
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
 
 def user_info():
     return "SELECT * FROM users WHERE netid = ?"

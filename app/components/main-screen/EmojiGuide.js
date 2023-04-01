@@ -58,14 +58,14 @@ const wintersports = [
 
  function EmojiGuide() {
   return (
-    <View>
-        <Text style={styles.title}>Fall</Text>
+    <View testID='emoji-guide-view'>
+        <Text style={styles.title} testID='emoji-guide-fall'>Fall</Text>
         {
-          fallsports.map((item, key) => <Text style={[styles.sport, {marginTop: 5}]}>{item["sport"]} {item.emoji} : {item.points} players & points</Text>)
+          fallsports.map((item) => <Text key={item.sport} style={[styles.sport, {marginTop: 5}]}>{item["sport"]} {item.emoji} : {item.points} players & points</Text>)
         }
         <Text style={styles.title}>Winter</Text>
         {
-          wintersports.map((item, key) => <Text style={[styles.sport, {marginTop: 5}]}>{item["sport"]} {item.emoji} : {item.points} players & points</Text>)
+          wintersports.map((item) => <Text key={item.sport} style={[styles.sport, {marginTop: 5}]}>{item["sport"]} {item.emoji} : {item.points} players & points</Text>)
         }
         <Text style={styles.title}>Spring</Text>
     </View>
