@@ -91,6 +91,7 @@ export default function AboutScreen(props) {
     }
     const [QRCodeIsVisible, setQRCodeIsVisible] = useState(false);
     {/* <QRCode STUFF ENDS*/}
+    
     return (
         <View style={styles.container}>
             <NavBar navigation={props.navigation} title={"About"} color={'white'}/>

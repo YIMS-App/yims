@@ -37,6 +37,7 @@ export default function LoginScreen({ navigation }) {
           })
         });
         const data = await response.json();
+        data.username = JSON.stringify(data["username"]);
         navigation.navigate("Home", data);
       };
       login(data);
