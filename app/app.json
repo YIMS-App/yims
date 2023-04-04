@@ -2,8 +2,8 @@
   "expo": {
     "name": "Yims",
     "slug": "Yims",
-    //"scheme": "yims",
     "version": "1.0.0",
+    "scheme": "yims",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -19,13 +19,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.yims"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.yims"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -85,7 +85,7 @@ export default function MainScreen(props) {
             "startTime": startTime,
             "endTime": endTime,
             "location": location,
-            "summary": ""
+            "summary": "",
           })
         });
         }

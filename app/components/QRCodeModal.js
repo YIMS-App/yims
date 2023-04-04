@@ -31,7 +31,7 @@ import {
               <Text style={styles.title}>Scan QR Code to </Text>
               <Text style={styles.title}>earn attendance points</Text>
               <QRCode
-                  value="exp://172.27.115.238:19000/userqrcode"
+                  value="exp://172.27.112.229:19000/--/userqrcode"
                   size={250}
               />
               <Text style={[styles.title, {marginTop: 10}]}>Thanks for coming!</Text>
