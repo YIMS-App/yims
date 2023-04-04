@@ -67,3 +67,8 @@ def test_getuserbets():
     data = {'netid': "ey229"}
     r = requests.post(url = TEST_ADDRESS + '/getuserbets', json = data)
     print(r.json()) # didn't bet on this so expect true 
+
+def test_updatebet():
+    data = {}
+    data['netid'] = "ey229"
+    data['matchid'] = ""
