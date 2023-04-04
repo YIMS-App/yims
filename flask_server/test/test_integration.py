@@ -62,8 +62,8 @@ def test_totalscores():
     r = requests.get(url = TEST_ADDRESS + '/totalscores')
     output = r.json()
 
-    assert output['scores'][0]["college"] == "Benjamin Franklin"
-    assert output['scores'][0]["score"] == 0.0
+    assert output['scores'][0]["college"] == "Grace Hopper"
+    assert output['scores'][0]["score"] == 60.0
 
 def test_futurematches():
     
