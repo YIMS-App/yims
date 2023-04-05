@@ -80,7 +80,7 @@ export default function AboutScreen(props) {
 
     return (
         <View style={styles.container}>
-            <NavBar navigation={props.navigation} title={"About"} color={'white'}/>
+            <NavBar navigation={props.navigation} title={"About"} color={'white'} extraData = {props.extraData}/>
             <ScrollView style={styles.aboutContainer} showsVerticalScrollIndicator={false}>
                     <Text style={styles.title}>YIMS(Yale Intramural Sports)</Text>
                     <Image style={styles.logo} source={require('../assets/images/logo.png')} />
