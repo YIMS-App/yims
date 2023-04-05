@@ -9,7 +9,7 @@ import MoreInfo from '../components/main-screen/MoreInfo';
 
 function IndividualMatch(props) {
 
-  props = props.route.params.data;
+  const matchData = props.route.params.data;
 
   const [display, setDisplay] = useState(true);
   const [score1, setScore1] = useState(0);
@@ -55,17 +55,17 @@ const onChanged2 = (text) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => props.navigation.goBack()}>
         <Image style={styles.image} source={require('../assets/images/blue-down-arrow.png')}/>
       </TouchableOpacity>
 
       <Banner 
-        date={props.startTime} 
-        college1={props.college1} 
-        college2={props.college2} 
+        date={matchData.startTime} 
+        college1={matchData.college1} 
+        college2={matchData.college2} 
         score1={dummy.score1}
         score2={dummy.score2}
-        sport={emoji[props.sport]}
+        sport={emoji[matchData.sport]}
       />
 
       <View style={styles.whitespace}></View>
@@ -73,7 +73,7 @@ const onChanged2 = (text) => {
       {/* MORE INFO + PARTICIPATION  */}
       <View style={styles.stretch}>
         <MoreInfo 
-        location={props.location}
+        location={matchData.location}
         participants={dummy.participants}
         />
       </View>
@@ -91,10 +91,10 @@ const onChanged2 = (text) => {
                 </Text>
                 <View style={styles.buttons}>
                   <TouchableOpacity style={styles.surveyButton}>
-                    <Text style={styles.surveyButtonText} >{props.college1}</Text>
+                    <Text style={styles.surveyButtonText} >{matchData.college1}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.surveyButton}>
-                    <Text style={styles.surveyButtonText}>{props.college2}</Text>
+                    <Text style={styles.surveyButtonText}>{matchData.college2}</Text>
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.winner}>

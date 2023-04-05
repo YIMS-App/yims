@@ -24,7 +24,6 @@ export default function RecordsScreen(props) {
   const [sports, setSports] = useState({});
 
   function startIndividualMatch(data) {
-    console.log(data)
     props.navigation.navigate("IndividualMatch", {data});
   }
 

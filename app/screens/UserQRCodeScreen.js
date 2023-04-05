@@ -31,11 +31,11 @@ export default function UserQRCodeScreen(props) {
         //const userProp = props["route"]["params"]["username"];
         //console.log(userProp)
         console.log(props["route"]["params"]["matchId"]);
-        //"route": {"key": "UserQRCode-dwnnV75NfwZz82bgmtTlw", "name": "UserQRCode", "params": {"matchId": "1"}, "path": "userqrcode?matchId=1"}}
-		fetchUserInfo('cmo48');
+        const matchId = props["route"]["params"]["matchId"];
+		fetchUserInfo('cmo48', matchId);
       }, []); 
 
-    const fetchUserInfo = async(netid) => {
+    const fetchUserInfo = async(netid, matchid) => {
 		try {
 			await Promise.all([fetch(IP_ADDRESS + '/getuserdata', {
 				method: 'post',
@@ -48,11 +48,24 @@ export default function UserQRCodeScreen(props) {
 					"netid": netid
 				})
             }),
+            fetch(IP_ADDRESS + '/getparticipationmatch', {
+				method: 'post',
+				mode: 'no-cors',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					"netid": netid,
+                    "matchid": matchid,
+				})
+			}),
             ])
-			.then(([userInfo]) => 
-				Promise.all([userInfo.json()]))
-			.then(([userInfoData]) => {
-                console.log(userInfoData)
+			.then(([userInfo, participationStatus]) => 
+				Promise.all([userInfo.json(), participationStatus.json()]))
+			.then(([userInfoData, participationStatusData]) => {
+                console.log("Data" + userInfoData)
+                console.log("Status" + participationStatusData)
                 // TODO: fetch user status for this match
 
                 // if user status != 2:
