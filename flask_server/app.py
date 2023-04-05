@@ -256,7 +256,7 @@ def getuserevents():
         data = request.get_json()
         netid = data['netid']
         result = query_db(queries.user_matches_attended(), [netid], database_url=app.config['DATABASE'])
-        output = jsonify_rows(result)[0]
+        output = jsonify_rows(result)
         
     except Exception as ex:
         print(ex)
