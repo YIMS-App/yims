@@ -9,12 +9,90 @@ import {
     Modal,
     RefreshControl,
   } from "react-native";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect} from "react";
 import LottieView from 'lottie-react-native';
 import assets from "../assets";
+import { IP_ADDRESS } from "../utils/constants.js";
+
 
 export default function UserQRCodeScreen(props) {
+
+    /* TODO: MUST ENSURE THAT USER IS LOGGED IN */
+
     // make backend call updating user points values and attendance numbers for this match upon opening this screen
+    const collegeId = 2;
+
+    // const userProp = props.extraData.username;
+	// const username = userProp.replace(/['"]+/g, '');
+
+    useEffect(() => { // runs once to update data at the first render
+        //setCoins(username);
+        //const userProp = props["route"]["params"]["username"];
+        //console.log(userProp)
+        console.log(props["route"]["params"]["matchId"]);
+        //"route": {"key": "UserQRCode-dwnnV75NfwZz82bgmtTlw", "name": "UserQRCode", "params": {"matchId": "1"}, "path": "userqrcode?matchId=1"}}
+		fetchUserInfo('cmo48');
+      }, []); 
+
+    const fetchUserInfo = async(netid) => {
+		try {
+			await Promise.all([fetch(IP_ADDRESS + '/getuserdata', {
+				method: 'post',
+				mode: 'no-cors',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					"netid": netid
+				})
+            }),
+			// fetch(IP_ADDRESS + '/getuserevents', {
+			// 	method: 'post',
+			// 	mode: 'no-cors',
+			// 	headers: {
+			// 		'Accept': 'application/json',
+			// 		'Content-Type': 'application/json'
+			// 	},
+			// 	body: JSON.stringify({
+			// 		"netid": netid
+			// 	})
+			// }),
+			// fetch(IP_ADDRESS + "/getallsportscores")
+            ])
+			.then(([userInfo]) => 
+				Promise.all([userInfo.json()]))
+			.then(([userInfoData]) => {
+				//setSports(sportsData);
+                console.log(userInfoData)
+                addParticipationPointsToCollege(collegeId, 17) //TODO: change number of points to be variable?
+				//setUserInfo(userInfoData);
+			})
+		}
+		catch(e) {
+			console.log(e)
+		}
+	}
+
+    const addParticipationPointsToCollege = async(collegeId, participationPoints) => {
+        try {
+          await fetch(IP_ADDRESS + '/addparticipationpointscollege', {
+          method: 'post',
+          mode: 'no-cors',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "id": collegeId,
+            "part_score": participationPoints,
+          })
+        });
+        }
+        catch(e) {
+          console.log(e)
+        }
+      };
 
     return (
         <View style={styles.container}>

@@ -37,7 +37,6 @@ export default function LoginScreen({ navigation }) {
           },
           body: JSON.stringify({
             userid: params["username"]
-            
           })
         });
         const data = await response.json();

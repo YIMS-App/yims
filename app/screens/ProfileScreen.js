@@ -61,6 +61,7 @@ const ProfileScreen = (props) => {
         setCoins(username);
 		fetchUserInfo(username);
       }, []); 
+	  
 	const setCoins = async(netid) => {
 		try {
 			await fetch(IP_ADDRESS + '/getparticipationpoints', {
