@@ -352,7 +352,7 @@ def addparticipationpointscollege():
         part_score = data['part_score']
         id = data['id']
 
-        score = query_db(queries.score_by_id(), [id], database_url=app.config['DATABASE'])[0][0]
+        score = query_db(queries.part_score_by_id(), [id], database_url=app.config['DATABASE'])[0][0]
 
         values = [part_score + score, id]
         query_db(queries.update_college_participation_score(), values, database_url=app.config['DATABASE'])

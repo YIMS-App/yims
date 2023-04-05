@@ -3,6 +3,11 @@ import requests
 
 from .test_consts import *
 
+from .testdbbuilder import initialize
+from .test_utils import *
+from .test_consts import *
+from flask_server.queries import part_score_by_id
+
 def test_userinfo():
 
     data = {'netid': "ey229"}
@@ -170,3 +175,13 @@ def test_betprofit_success():
     data['matchid'] = 4
     r = requests.post(url = TEST_ADDRESS + '/betprofit', json = data)
     print(r.json()) # didn't bet on this so expect true 
+
+
+def test_addparticipationpointscollege():
+    initialize()
+    id = 1
+    data = {'id': id, 'part_score': 10}
+    r = requests.post(url = TEST_ADDRESS + '/addparticipationpointscollege', json = data)
+    score = query_db(part_score_by_id(), [id], database_url=TEST_DATABASE_URL)
+
+    assert jsonify_rows(score)[0]['part_score'] == 25.0
