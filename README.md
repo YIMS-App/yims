@@ -19,7 +19,13 @@
 Check out the About Page and the How To Play page for more information on our app as well as information on Yale Intramural Sports. For more questions, contact one of us. 
 
 ## How to test
-Eun 'npm run test' in your terminal.
+Run 'npm run test' in your terminal for frontend tests.
+
+To run backend tests:
+1. cd into the 'flask_server' directory in your terminal
+2. run 'python3 test/testdbbuilder.py' in your terminal (or whatever command you use in your terminal to run python 3)
+3. run 'python3 run_server.py --database test/testtable.sqlite' in your terminal (or whatever command you use in your terminal to run python 3)
+4. in another terminal while the server is running, make sure you are again in the 'flask_server' directory and run 'pytest .' in your terminal
 
 ## Software Stack
 Frontend: React Native.js
