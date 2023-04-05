@@ -22,7 +22,7 @@ def test_userbets():
 
     assert output['matchid'] == "4"
     assert output['pointsBet'] == 40
-    assert output['winner'] == "ES"
+    assert output['winner'] == 1
 
 def test_participationpoints():
 
@@ -164,16 +164,9 @@ def test_updatebet_success():
     r = requests.post(url = TEST_ADDRESS + '/updatebet', json = data)
     print(r.json()) # didn't bet on this so expect true 
 
-def test_betprofit_fail():
-    data = {}
-    data['netid'] = "ey229"
-    data['matchid'] = 4
-    r = requests.post(url = TEST_ADDRESS + '/betprofit', json = data)
-    print(r.json()) # didn't bet on this so expect true 
-
 def test_betprofit_success():
     data = {}
     data['netid'] = "ey229"
-    data['matchid'] = 5
+    data['matchid'] = 4
     r = requests.post(url = TEST_ADDRESS + '/betprofit', json = data)
     print(r.json()) # didn't bet on this so expect true 

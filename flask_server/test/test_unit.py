@@ -27,4 +27,4 @@ def test_userbets():
 
     assert output['matchid'] == "4"
     assert output['pointsBet'] == 40
-    assert output['winner'] == "ES"
+    assert output['winner'] == 1
