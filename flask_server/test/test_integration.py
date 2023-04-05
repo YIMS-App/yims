@@ -143,3 +143,23 @@ def test_getuserbets():
     data = {'netid': "ey229"}
     r = requests.post(url = TEST_ADDRESS + '/getuserbets', json = data)
     print(r.json()) # didn't bet on this so expect true 
+
+def test_updatebet_fail():
+    data = {}
+    data['netid'] = "ey229"
+    data['matchid'] = 4
+    data['pointsbet'] = 1050
+    data['winner'] = "ES"
+    data['exists'] = True
+    r = requests.post(url = TEST_ADDRESS + '/updatebet', json = data)
+    print(r.json()) # didn't bet on this so expect true 
+
+def test_updatebet_success():
+    data = {}
+    data['netid'] = "ey229"
+    data['matchid'] = 4
+    data['pointsbet'] = 1040
+    data['winner'] = "ES"
+    data['exists'] = True
+    r = requests.post(url = TEST_ADDRESS + '/updatebet', json = data)
+    print(r.json()) # didn't bet on this so expect true 
