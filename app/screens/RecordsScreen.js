@@ -23,6 +23,11 @@ export default function RecordsScreen(props) {
   const [points, setPoints] = useState(0);
   const [sports, setSports] = useState({});
 
+  function startIndividualMatch(data) {
+    console.log(data)
+    props.navigation.navigate("IndividualMatch", {data});
+  }
+
   const fetchMatchesScores = async () => {
     Promise.all([
       fetch(IP_ADDRESS + "/getpastmatches"),
@@ -161,44 +166,47 @@ export default function RecordsScreen(props) {
               showsVerticalScrollIndicator={false}
               renderItem={(itemData) => {
                 return filterText == "All Colleges" ? (
-                  <View style={{ flexDirection: "row", padding: 3 }}>
-                    <Text style={styles.matchDate}>
-                      {itemData.item.startTime.slice(5, 7) +
-                        "/" +
-                        itemData.item.startTime.slice(8, 10)}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.matchWinner,
-                        itemData.item.winner == "TIE"
-                          ? { color: "yellow" }
-                          : {},
-                      ]}
-                    >
-                      {itemData.item.college1 == itemData.item.winner
-                        ? itemData.item.college1Abbrev
-                        : itemData.item.college2 == itemData.item.winner
-                        ? itemData.item.college2Abbrev
-                        : itemData.item.college1Abbrev + "(T)"}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.matchLoser,
-                        itemData.item.winner == "TIE"
-                          ? { color: "yellow" }
-                          : {},
-                      ]}
-                    >
-                      {itemData.item.college1 == itemData.item.winner
-                        ? itemData.item.college2Abbrev
-                        : itemData.item.college2 == itemData.item.winner
-                        ? itemData.item.college1Abbrev
-                        : itemData.item.college2Abbrev + "(T)"}
-                    </Text>
-                    <Text style={styles.matchSport}>
-                      {sports[itemData.item.sport][1]}
-                    </Text>
-                  </View>
+                  <TouchableOpacity
+                  onPress={() => startIndividualMatch(itemData.item)} >     
+                    <View style={{ flexDirection: "row", padding: 3 }}>
+                      <Text style={styles.matchDate}>
+                        {itemData.item.startTime.slice(5, 7) +
+                          "/" +
+                          itemData.item.startTime.slice(8, 10)}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.matchWinner,
+                          itemData.item.winner == "TIE"
+                            ? { color: "yellow" }
+                            : {},
+                        ]}
+                      >
+                        {itemData.item.college1 == itemData.item.winner
+                          ? itemData.item.college1Abbrev
+                          : itemData.item.college2 == itemData.item.winner
+                          ? itemData.item.college2Abbrev
+                          : itemData.item.college1Abbrev + "(T)"}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.matchLoser,
+                          itemData.item.winner == "TIE"
+                            ? { color: "yellow" }
+                            : {},
+                        ]}
+                      >
+                        {itemData.item.college1 == itemData.item.winner
+                          ? itemData.item.college2Abbrev
+                          : itemData.item.college2 == itemData.item.winner
+                          ? itemData.item.college1Abbrev
+                          : itemData.item.college2Abbrev + "(T)"}
+                      </Text>
+                      <Text style={styles.matchSport}>
+                        {sports[itemData.item.sport][1]}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 ) : (
                   <View style={{ flexDirection: "row", padding: 3 }}>
                     <Text style={styles.collegeMatchDate}>
@@ -243,7 +251,9 @@ export default function RecordsScreen(props) {
                       {sports[itemData.item.sport][1]}
                     </Text>
                   </View>
+                  
                 );
+                
               }}
             />
           </View>
