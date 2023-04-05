@@ -292,11 +292,12 @@ def betprofit():
         matchid = data['matchid']
 
         match_winner = query_db(queries.match_winner_by_id(), [matchid], database_url=app.config['DATABASE'])
+        print(match_winner)
         points_bet, bet_winner = query_db(queries.bet_earnings(), [netid, matchid], database_url=app.config['DATABASE'])
 
         if match_winner == bet_winner:
             points_bet *= 2
-        output = jsonify_rows(points_bet)[0]
+        output = jsonify({'points_bet': points_bet})
         
     except Exception as ex:
         print(ex)
