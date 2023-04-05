@@ -65,7 +65,9 @@ export default function UserQRCodeScreen(props) {
 			.then(([userInfoData]) => {
 				//setSports(sportsData);
                 console.log(userInfoData)
-                addParticipationPointsToCollege(collegeId, 17) //TODO: change number of points to be variable?
+                //addParticipationPointsToCollege(collegeId, 17) //TODO: change number of points to be variable?
+                //addParticipationPointsToUser(netid, 17)
+                updateMatchParticipation(netid, 2, 3)
 				//setUserInfo(userInfoData);
 			})
 		}
@@ -93,6 +95,48 @@ export default function UserQRCodeScreen(props) {
           console.log(e)
         }
       };
+
+      const addParticipationPointsToUser = async(netid, participationPoints) => {
+        try {
+          await fetch(IP_ADDRESS + '/addparticipationpointsuser', {
+          method: 'post',
+          mode: 'no-cors',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "netid": netid,
+            "participationPoints": participationPoints,
+          })
+        });
+        }
+        catch(e) {
+          console.log(e)
+        }
+      };
+
+      const updateMatchParticipation = async(netid, status, matchId) => {
+        try {
+          await fetch(IP_ADDRESS + '/updateparticipation', {
+          method: 'post',
+          mode: 'no-cors',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            "netid": netid,
+            "status": status,
+            "matchid": matchId,
+          })
+        });
+        }
+        catch(e) {
+          console.log(e)
+        }
+      };
+
 
     return (
         <View style={styles.container}>
