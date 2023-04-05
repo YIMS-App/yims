@@ -64,9 +64,9 @@ class Totalscores (Base):
 class Attendance (Base):
     __tablename__ = 'attendance'
 
+    dummyid = Column(Integer, primary_key=True)
     netid = Column(String, ForeignKey('users.netid'))
     matchid = Column(String, ForeignKey('matches.matchid'))
-    dummyid = Column(Integer, primary_key=True)
     status = Column(Integer) # 0 (absent), 1 (want to go), 2 (attended)
 
     users = relationship('Users')
@@ -75,9 +75,9 @@ class Attendance (Base):
 class Bets (Base):
     __tablename__ = 'bets'
 
+    dummyid = Column(Integer, primary_key=True)
     netid = Column(String, ForeignKey('users.netid'))
     matchid = Column(String, ForeignKey('matches.matchid'))
-    dummyid = Column(Integer, primary_key=True)
     pointsBet = Column(Integer)
     winner = Column(Integer)
 
