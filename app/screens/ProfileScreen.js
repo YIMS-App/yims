@@ -117,6 +117,11 @@ const ProfileScreen = (props) => {
 			.then(([userInfoData, userGamesData, sportsData]) => {
 				setSports(sportsData);
 				let promises = []
+				userGamesData = userGamesData.filter(function (match) {
+					if (match["status"] == 2) {
+					  return match;
+					}
+				  })
 				let foundMatches = []
 				userGamesData = userGamesData.filter(function (match) {
 					if (match["status"] == 2) {
