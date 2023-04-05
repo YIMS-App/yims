@@ -24,6 +24,9 @@ export default function LoginScreen({ navigation }) {
 
   function CASLoginHandler(data) {
     if (data["username"]){
+
+      const username = data["username"]
+      
       const login = async (params) => {
         const response = await fetch(IP_ADDRESS + '/userperms', {
           method: 'post',
@@ -34,10 +37,11 @@ export default function LoginScreen({ navigation }) {
           },
           body: JSON.stringify({
             userid: params["username"]
+            
           })
         });
         const data = await response.json();
-        data.username = JSON.stringify(data["username"]);
+        data.username = JSON.stringify(username);
         navigation.navigate("Home", data);
       };
       login(data);

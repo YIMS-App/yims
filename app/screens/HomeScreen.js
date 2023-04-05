@@ -20,10 +20,10 @@ export default function HomeScreen(props) {
       >
         <Drawer.Screen name="Leaderboard">{values => <MainScreen {...values} extraData={props["route"]["params"]} />}</Drawer.Screen>
         <Drawer.Screen name="Records">{values => <RecordsScreen {...values} extraData={props["route"]["params"]} />}</Drawer.Screen>
-        <Drawer.Screen name="Upcoming Matches" component={UpcomingMatchesScreen} />
-        <Drawer.Screen name="How To Play" component={HowToPlay} /> 
-        <Drawer.Screen name="About" component={AboutScreen} /> 
-        <Drawer.Screen name="Calendar" component={Calendar}/>
+        <Drawer.Screen name="Upcoming Matches">{values => <UpcomingMatchesScreen {...values} extraData={props["route"]["params"]} />}</Drawer.Screen>
+        <Drawer.Screen name="How To Play">{values => <HowToPlay {...values} extraData={props["route"]["params"]} />}</Drawer.Screen>
+        <Drawer.Screen name="About">{values => <AboutScreen {...values} extraData={props["route"]["params"]} />}</Drawer.Screen>
+        <Drawer.Screen name="Calendar">{values => <Calendar {...values} extraData={props["route"]["params"]} />}</Drawer.Screen>
       </Drawer.Navigator>
   );
 }

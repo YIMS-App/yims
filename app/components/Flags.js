@@ -2,6 +2,11 @@ import { Button, FlatList, StyleSheet, Text, View, TouchableOpacity, Image } fro
 
 function Flags(props) {
     const collegesData = {
+      "Graduate Student": {
+        name: "Benjamin Franklin",
+        flag: require("../assets/images/college-logos/gradcap.png"),
+        points: 0,
+      },
         "Benjamin Franklin": {
           name: "Benjamin Franklin",
           flag: require("../assets/images/college-logos/franklin-flag.png"),
@@ -89,5 +94,7 @@ const styles = StyleSheet.create({
     width: 100,
     resizeMode: 'contain',
     marginTop: 15,
+    flexDirection: 'column',
+    alignSelf: 'center'
   },
 });
