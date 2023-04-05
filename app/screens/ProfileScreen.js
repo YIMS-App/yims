@@ -116,34 +116,29 @@ const ProfileScreen = (props) => {
 			)
 			.then(([userInfoData, userGamesData, sportsData]) => {
 				setSports(sportsData);
+				let promises = []
+				let foundMatches = []
 				userGamesData.forEach(element => {
-					getMatchInfo(element["matchid"]);
-				});
+					promises.push(
+						fetch(IP_ADDRESS + '/matchinfo', {
+							method: 'post',
+							mode: 'no-cors',
+							headers: {
+								'Accept': 'application/json',
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({
+								"matchid": element["matchid"]
+							})
+						}).then((response) => 
+							response.json()
+						).catch ((e) => {
+						}));
+					}
+				);
+				Promise.all(promises).then(x => { setMatches(x) }).catch((e) => {console.log(e)})
+
 				setUserInfo(userInfoData);
-			})
-		}
-		catch(e) {
-			console.log(e)
-		}
-	}
-	const getMatchInfo = async(matchid) => {
-		try {
-			await Promise.all([fetch(IP_ADDRESS + '/matchinfo', {
-				method: 'post',
-				mode: 'no-cors',
-				headers: {
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({
-					"matchid": matchid
-				})
-			})])
-			.then(([matchInfo]) => 
-				Promise.all([matchInfo.json()]))
-			.then(([matchInfoJson]) => {
-				console.log(matchInfoJson)
-				populate.push(matchInfoJson)
 			})
 		}
 		catch(e) {
