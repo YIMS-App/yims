@@ -38,8 +38,8 @@ def test_userevents():
     r = requests.post(url = TEST_ADDRESS + '/getuserevents', json = data) 
     output = r.json()
 
-    assert output['matchid'] == "4"
-    assert output['status'] == 1
+    assert output[0]['matchid'] == "4"
+    assert output[0]['status'] == 1
 
 def test_matchinfo():
 
