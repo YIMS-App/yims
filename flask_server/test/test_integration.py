@@ -3,6 +3,11 @@ import requests
 
 from .test_consts import *
 
+from .testdbbuilder import initialize
+from .test_utils import *
+from .test_consts import *
+from flask_server.queries import part_score_by_id
+
 def test_userinfo():
 
     data = {'netid': "ey229"}
@@ -22,7 +27,7 @@ def test_userbets():
 
     assert output['matchid'] == "4"
     assert output['pointsBet'] == 40
-    assert output['winner'] == "ES"
+    assert output['winner'] == 1
 
 def test_participationpoints():
 
@@ -38,8 +43,8 @@ def test_userevents():
     r = requests.post(url = TEST_ADDRESS + '/getuserevents', json = data) 
     output = r.json()
 
-    assert output['matchid'] == "4"
-    assert output['status'] == 1
+    assert output[0]['matchid'] == "4"
+    assert output[0]['status'] == 1
 
 def test_matchinfo():
 
@@ -143,3 +148,74 @@ def test_getuserbets():
     data = {'netid': "ey229"}
     r = requests.post(url = TEST_ADDRESS + '/getuserbets', json = data)
     print(r.json()) # didn't bet on this so expect true 
+
+def test_updatebet_fail():
+    data = {}
+    data['netid'] = "ey229"
+    data['matchid'] = 4
+    data['pointsbet'] = 1050
+    data['winner'] = 1
+    data['exists'] = True
+    r = requests.post(url = TEST_ADDRESS + '/updatebet', json = data)
+    print(r.json()) # didn't bet on this so expect true 
+
+def test_updatebet_success():
+    data = {}
+    data['netid'] = "ey229"
+    data['matchid'] = 4
+    data['pointsbet'] = 1040
+    data['winner'] = 1
+    data['exists'] = True
+    r = requests.post(url = TEST_ADDRESS + '/updatebet', json = data)
+    print(r.json()) # didn't bet on this so expect true 
+
+def test_updatebet_success():
+    data = {}
+    data['netid'] = "ey229"
+    data['matchid'] = 5
+    data['pointsbet'] = 10
+    data['winner'] = 1
+    data['exists'] = False
+    r = requests.post(url = TEST_ADDRESS + '/updatebet', json = data)
+    print(r.json()) # didn't bet on this so expect true 
+
+# TODO need a way to test for failure case which is currently not handled
+def test_betprofit_success():
+    data = {}
+    data['netid'] = "ey229"
+    data['matchid'] = 4
+    r = requests.post(url = TEST_ADDRESS + '/betprofit', json = data)
+    print(r.json()) # didn't bet on this so expect true 
+
+
+def test_addparticipationpointscollege():
+    initialize()
+    id = 1
+    data = {'id': id, 'part_score': 10}
+    r = requests.post(url = TEST_ADDRESS + '/addparticipationpointscollege', json = data)
+    score = query_db(part_score_by_id(), [id], database_url=TEST_DATABASE_URL)
+
+    assert jsonify_rows(score)[0]['part_score'] == 25.0
+
+def test_updateparticipation():
+    data = {'netid': "ey229", 'status': 2, 'matchid':4}
+    r = requests.post(url = TEST_ADDRESS + '/updateparticipation', json = data)
+    print(r.json())
+
+def test_addparticipationpointsuser():
+    data = {'netid': "ey229", 'participationPoints': 10}
+    r = requests.post(url = TEST_ADDRESS + '/addparticipationpointsuser', json = data)
+    print(r.json())
+
+def test_aggregatebet():
+    data = {'matchid':4}
+    r = requests.post(url = TEST_ADDRESS + '/aggregatebet', json = data)
+    print(r.json())
+
+def test_getparticipationmatch():
+
+    data = {'netid': 'ey229', 'matchid':4}
+    r = requests.post(url = TEST_ADDRESS + '/getparticipationmatch', json = data) 
+    output = r.json()
+
+    assert output['status'] == 2

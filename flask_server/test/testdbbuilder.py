@@ -102,7 +102,7 @@ def initialize():
 
             matchid = index
             pointsBet = index*10
-            winner = "ES"
+            winner = 1
             bet = Bets(netid=i, matchid=matchid, pointsBet=pointsBet,
                 winner=winner)
             session.add(bet)

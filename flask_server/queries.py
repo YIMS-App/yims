@@ -44,6 +44,9 @@ def collegeids():
 def score_by_id():
     return "SELECT score FROM totalscores WHERE id=?"
 
+def part_score_by_id():
+    return "SELECT part_score FROM totalscores WHERE id=?"
+
 def update_score():
     return "UPDATE totalscores SET score=? WHERE id=?"
 
@@ -114,7 +117,7 @@ def update_user_participation_points():
     return "UPDATE users SET participationPoints=? WHERE netid=?"
 
 def add_bet():
-    return '''INSERT INTO bets 
+    return '''INSERT INTO bets (netid, matchid, pointsBet, winner)
             VALUES (?, ?, ?, ?)'''
 
 def update_participation():
