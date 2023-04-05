@@ -135,6 +135,8 @@ def updatematch():
 
             query_db(queries.update_match_winner(), [winner_id, matchid], database_url=app.config['DATABASE'])
         else: # if match does not exist, we create a new match
+
+            # TODO we don't need to manually create a matchid 
             new_matchid = query_db(queries.count_matches(), database_url=app.config['DATABASE'])[0][0] + 1
             values = [new_matchid, college_id1, college_id2, sport, 
                     location, startTime, endTime, winner_id, summary, manager, qr]
@@ -295,7 +297,9 @@ def betprofit():
         values = jsonify_rows(query_db(queries.bet_earnings(), [netid, matchid], database_url=app.config['DATABASE']))[0]
 
         if match_winner == values['winner']:
-            points_bet *= 2
+            values['pointsBet'] *= 2
+        else:
+            values['pointsBet'] = 0 
         output = jsonify({'points_bet': values['pointsBet']})
         
     except Exception as ex:
@@ -312,7 +316,7 @@ def aggregatebet():
     try:
         data = request.get_json()
         matchid = data['matchid']
-        result = query_db(queries.bet_aggregates(), [netid, matchid], database_url=app.config['DATABASE'])
+        result = query_db(queries.bet_aggregates(), [matchid], database_url=app.config['DATABASE'])
         output = jsonify({'aggregate_bets': jsonify_rows(result)})
         
     except Exception as ex:
@@ -375,33 +379,7 @@ def addparticipationpointsuser():
         participationPoints = data['participationPoints']
         netid = data['netid']
 
-        current_points = query_db(queries.user_participation_points(), [netid], database_url=app.config['DATABASE'])
-
-        values = [current_points + participationPoints, netid]
-        query_db(queries.update_user_participation_points(), values, database_url=app.config['DATABASE'])
-        output = jsonify({'success': True})
-    
-    except Exception as ex:
-        print(ex)
-        return jsonify(error=404, text=str(ex)), 404
-
-    return output, 200
-
-@app.route("/addbet", methods=["POST"])
-def addbet():
-    """
-    Add a new bet for a particular user for a match
-    """
-    output = None
-    try:
-        data = request.get_json()
-        netid = data['netid']
-        amount = data['amount']
-        winner = data['winner']
-        matchid = data['matchid']
-
-        # check if the user has enough money to make a bet
-        current_points = query_db(queries.user_participation_points(), [netid], database_url=app.config['DATABASE'])
+        current_points = query_db(queries.user_participation_points(), [netid], database_url=app.config['DATABASE'])[0][0]
 
         values = [current_points + participationPoints, netid]
         query_db(queries.update_user_participation_points(), values, database_url=app.config['DATABASE'])
@@ -473,7 +451,7 @@ def updatebet():
                 values = [pointsbet, winner, netid, matchid]
                 query_db(queries.update_bet(), values, database_url=app.config['DATABASE'])
             else:
-                values = [netid, matchid, amount, winner]
+                values = [netid, matchid, pointsbet, winner]
                 query_db(queries.add_bet(), values, database_url=app.config['DATABASE'])
             output = jsonify({'success': True})
         else:

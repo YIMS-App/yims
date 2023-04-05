@@ -117,7 +117,7 @@ def update_user_participation_points():
     return "UPDATE users SET participationPoints=? WHERE netid=?"
 
 def add_bet():
-    return '''INSERT INTO bets 
+    return '''INSERT INTO bets (netid, matchid, pointsBet, winner)
             VALUES (?, ?, ?, ?)'''
 
 def update_participation():
