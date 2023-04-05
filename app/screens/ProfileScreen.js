@@ -118,6 +118,11 @@ const ProfileScreen = (props) => {
 				setSports(sportsData);
 				let promises = []
 				let foundMatches = []
+				userGamesData = userGamesData.filter(function (match) {
+					if (match["status"] == 2) {
+					  return match;
+					}
+				  })
 				userGamesData.forEach(element => {
 					promises.push(
 						fetch(IP_ADDRESS + '/matchinfo', {
