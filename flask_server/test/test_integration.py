@@ -211,3 +211,11 @@ def test_aggregatebet():
     data = {'matchid':4}
     r = requests.post(url = TEST_ADDRESS + '/aggregatebet', json = data)
     print(r.json())
+
+def test_getparticipationmatch():
+
+    data = {'netid': 'ey229', 'matchid':4}
+    r = requests.post(url = TEST_ADDRESS + '/getparticipationmatch', json = data) 
+    output = r.json()
+
+    assert output['status'] == 2

@@ -462,3 +462,27 @@ def updatebet():
         return jsonify(error=404, text=str(ex)), 404
 
     return output, 200
+
+@app.route("/getparticipationmatch", methods=["POST"])
+def getparticipationmatch():
+    """
+    Get participation status for a user for a specific match
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        netid = data['netid']
+        matchid = data['matchid']
+
+        params = [netid, matchid]
+        result = query_db(queries.user_match_attended(), params, database_url=app.config['DATABASE'])
+        
+        if result:
+                output = jsonify_rows(result)[0]
+        else:
+            output = jsonify({'success': False})
+            
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
