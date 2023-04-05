@@ -44,6 +44,9 @@ def collegeids():
 def score_by_id():
     return "SELECT score FROM totalscores WHERE id=?"
 
+def part_score_by_id():
+    return "SELECT part_score FROM totalscores WHERE id=?"
+
 def update_score():
     return "UPDATE totalscores SET score=? WHERE id=?"
 
