@@ -38,8 +38,8 @@ def test_userevents():
     r = requests.post(url = TEST_ADDRESS + '/getuserevents', json = data) 
     output = r.json()
 
-    assert output['matchid'] == "4"
-    assert output['status'] == 1
+    assert output[0]['matchid'] == "4"
+    assert output[0]['status'] == 1
 
 def test_matchinfo():
 
@@ -149,7 +149,7 @@ def test_updatebet_fail():
     data['netid'] = "ey229"
     data['matchid'] = 4
     data['pointsbet'] = 1050
-    data['winner'] = "ES"
+    data['winner'] = 1
     data['exists'] = True
     r = requests.post(url = TEST_ADDRESS + '/updatebet', json = data)
     print(r.json()) # didn't bet on this so expect true 
@@ -159,7 +159,7 @@ def test_updatebet_success():
     data['netid'] = "ey229"
     data['matchid'] = 4
     data['pointsbet'] = 1040
-    data['winner'] = "ES"
+    data['winner'] = 1
     data['exists'] = True
     r = requests.post(url = TEST_ADDRESS + '/updatebet', json = data)
     print(r.json()) # didn't bet on this so expect true 
