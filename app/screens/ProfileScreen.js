@@ -28,6 +28,7 @@ const ProfileScreen = (props) => {
 	const username = userProp.replace(/['"]+/g, '');
 	const [userCoins, setUserCoins] = useState([]);
 	const [matches, setMatches] = useState([]);
+	const [populate, setPopulate] = useState([]);
 	const [sports, setSports] = useState({});
 	const dummyMatches = [
 		{
@@ -47,7 +48,7 @@ const ProfileScreen = (props) => {
 		  "college1Abbrev": "JE",
 		  "college2": "Branford",
 		  "college2Abbrev": "BR",
-		  "sport": "soccer",
+		  "sport": "flag football",
 		  "location": "school",
 		  "startTime": "2007-05-08 12:34:29",
 		  "endTime": "2007-05-08 12:35:29",
@@ -57,10 +58,12 @@ const ProfileScreen = (props) => {
 	]
 
 
-	useEffect(() => { // runs once to update data at the first render
+	useEffect(() => { // runs once to update data at the first render\
+		setMatches([]);
         setCoins(username);
 		fetchUserInfo(username);
       }, []); 
+	  
 	const setCoins = async(netid) => {
 		try {
 			await fetch(IP_ADDRESS + '/getparticipationpoints', {
@@ -109,24 +112,48 @@ const ProfileScreen = (props) => {
 			}),
 			fetch(IP_ADDRESS + "/getallsportscores")])
 			.then(([userInfo, userGames, sportsScores]) => 
-				Promise.all([userInfo.json(), userGames.json(), sportsScores.json()]))
+				Promise.all([userInfo.json(), userGames.json(), sportsScores.json()])
+			)
 			.then(([userInfoData, userGamesData, sportsData]) => {
 				setSports(sportsData);
-				setUserInfo(userInfoData, userGamesData);
+				userGamesData.forEach(element => {
+					getMatchInfo(element["matchid"]);
+				});
+				setUserInfo(userInfoData);
 			})
 		}
 		catch(e) {
 			console.log(e)
 		}
 	}
-	const setUserInfo = async(data) => {
+	const getMatchInfo = async(matchid) => {
+		try {
+			await Promise.all([fetch(IP_ADDRESS + '/matchinfo', {
+				method: 'post',
+				mode: 'no-cors',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					"matchid": matchid
+				})
+			})])
+			.then(([matchInfo]) => 
+				Promise.all([matchInfo.json()]))
+			.then(([matchInfoJson]) => {
+				console.log(matchInfoJson)
+				populate.push(matchInfoJson)
+			})
+		}
+		catch(e) {
+			console.log(e)
+		}
+	}
+	const setUserInfo = (data) => {
 		setCollege(college_mapping[data['college']])
 		setName(data['firstName'] + ' ' + data['lastName'])
-		console.log(college);
-		userMatches = []
-		// TODO: add all match ids where user participated
-
-		setMatches(dummyMatches);
+		setMatches(populate);
 		setLoading(false);
 	}
 
@@ -186,8 +213,8 @@ const ProfileScreen = (props) => {
 			showsVerticalScrollIndicator = {false}
 			renderItem={(itemData) => {
 				return (
-					<View style={{ flexDirection: "row", padding: 3 }}>
-                    <Text style={styles.collegeMatchDate}>
+					<View style={{ flexDirection: "row", padding: 6, justifyContent: "space-between", alignItems: "center"}}>
+                    <Text style={[styles.collegeMatchDate, styles.userMatchData]}>
                       {itemData.item.startTime.slice(5, 7) +
                         "/" +
                         itemData.item.startTime.slice(8, 10)}
@@ -196,36 +223,28 @@ const ProfileScreen = (props) => {
                       style={[
                         styles.matchPts,
                         {
-                          color:
-                            itemData.item.winner == college
-                              ? "#1FED27"
-                              : itemData.item.winner == "TIE"
-                              ? "#FFCA28"
-                              : "#FF5353",
+                          color: "#1FED27"
                         },
                       ]}
                     >
                       +{" "}
-                      {itemData.item.winner == college
-                        ? sports[itemData.item.sport][0]
-                        : itemData.item.winner == "TIE"
-                        ? sports[itemData.item.sport][0] / 2
-                        : 0}
+                      {sports[itemData.item.sport][0]
+                        }
                       pts
                     </Text>
-                    <Text style={styles.matchOpponent}>
+                    <Text style={[styles.matchOpponent, styles.userMatchData]}>
                       {itemData.item.college1 == college
                         ? itemData.item.college2Abbrev
                         : itemData.item.college1Abbrev}
                     </Text>
-                    <Text style={styles.matchOutcome}>
+                    <Text style={[styles.matchOutcome, styles.userMatchData]}>
                       {itemData.item.winner == college
                         ? "W"
                         : itemData.item.winner == "TIE"
                         ? "T"
                         : "L"}
                     </Text>
-                    <Text style={styles.collegeMatchSport}>
+                    <Text style={[styles.collegeMatchSport, styles.userMatchData]}>
                       {sports[itemData.item.sport][1]}
                     </Text>
                   </View>
@@ -263,6 +282,7 @@ const styles = StyleSheet.create({
 	},
 	button: {
 		flex: 1,
+		top: "5%",
 		marginHorizontal: 30,
 		flexDirection: 'row',
 		alignSelf: 'left',
@@ -277,8 +297,7 @@ const styles = StyleSheet.create({
 	coinsButton: {
 		flexDirection: 'row',
 		alignSelf: "flex-end",
-		zIndex: 2,
-		top: "-24%",
+		top: "-14%",
 		right: 10,
 		backgroundColor: "#413232",
 		justifyContent: "space-between",
@@ -309,9 +328,12 @@ const styles = StyleSheet.create({
 		flex: 2
 	},
 	collegeTableHeader: {
+		flexDirection: "row",
 		fontSize: 20,
 		color: "white",
 		paddingVertical: 3,
+		justifyContent: "space-between",
+		alignItems: "center"
 	},
 	collegeMatchDate: {
 		fontWeight: "700",
@@ -346,4 +368,9 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		color: "white",
 	},
+	userMatchData: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center"
+	}
 })
