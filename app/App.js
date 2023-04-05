@@ -7,6 +7,7 @@ import HomeScreen from "./screens/HomeScreen";
 import UserQRCodeScreen from "./screens/UserQRCodeScreen";
 import * as Linking from 'expo-linking';
 import ProfileScreen from "./screens/ProfileScreen";
+import IndividualMatch from "./screens/IndividualMatch";
 
 const prefix = Linking.createURL('/');
 
@@ -48,6 +49,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="UserQRCode" component={UserQRCodeScreen} />
         <Stack.Screen name="Profile" component={ProfileScreen} />
+        <Stack.Screen name="IndividualMatch" component={IndividualMatch} />
       </Stack.Navigator>
     </NavigationContainer>
   );
