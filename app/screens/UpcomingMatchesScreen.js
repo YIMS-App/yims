@@ -114,6 +114,7 @@ export default function UpcomingMatchesScreen(props) {
             navigation={props.navigation}
             title={"Upcoming Matches"}
             color={"#3159C4"}
+            extraData={props.extraData}
           />
           <View
             style={[
@@ -130,6 +131,7 @@ export default function UpcomingMatchesScreen(props) {
             navigation={props.navigation}
             title={"Upcoming Matches"}
             color={"#3159C4"}
+            extraData={props.extraData}
           />
           <View style={styles.headerContainer}>
             <ModalDropdown
