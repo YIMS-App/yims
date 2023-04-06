@@ -58,6 +58,51 @@ const onChanged2 = (text) => {
   setScore2(newText);
 }
 
+function setHeight(count, win, position) {
+    if (position == "left") {
+      if (win) {
+        return {
+          height: count, 
+          width: 100, 
+          backgroundColor: "#1FED27",
+          marginLeft: -20,
+        }
+      } else {
+        return {
+          height: count, 
+          width: 100, 
+          backgroundColor: "#1FED27",
+          marginLeft: -20,
+        }
+      }
+    } else {
+      if (win) {
+        return {
+          height: count, 
+          width: 100, 
+          backgroundColor: "green",
+          marginLeft: 50,      
+        }
+      } else {
+        return {
+          height: count, 
+          width: 100, 
+          backgroundColor: "red",
+          marginLeft: 50,
+        }
+      }
+    }
+    }
+  
+    function setCollegeText(count) {
+      return {
+        marginTop: count, 
+        textAlign: "center", 
+        padding: 10,
+        flexWrap: 'wrap'
+      }
+    }
+
   const emoji = {soccer: "⚽"};
 
   const dummy = {
@@ -150,7 +195,20 @@ const onChanged2 = (text) => {
           </View> 
           :
           <View> 
-            <Text style={styles.bettingTitle}> The Bets are In </Text> 
+            <Text style={styles.bettingTitle}> The Bets are In! </Text> 
+
+            <View style={styles.graph}> 
+              <View style={setHeight(200, true, "left")}>
+                <Text style={styles.barText}>200</Text>
+                <Text style={setCollegeText(170)}>{props.college1}</Text>
+              </View>
+              <View style={setHeight(100, false, "right")}>
+              <Text style={styles.barText}>100</Text>
+              <Text style={setCollegeText(70)}>{props.college2}</Text>
+              </View>
+              
+            </View>
+
           </View>
         }
       </View>
@@ -238,6 +296,17 @@ const styles = StyleSheet.create({
     marginTop: 70, 
     marginBottom: 20,
     justifyContent: "start",
+  }, 
+  graph: {
+    flexDirection: "row",
+    alignItems: "flex-end", 
+    margin: 30,
+  }, 
+  barText: {
+    alignSelf: "center", 
+    padding: 10, 
+    color: "white",
+    fontWeight: "700", 
   }, 
 },
 );

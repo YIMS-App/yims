@@ -57,8 +57,8 @@ def test_matchinfo():
     assert output['id2'] == 2
     assert output['sport'] == "soccer"
     assert output['location'] == "school"
-    assert output['startTime'] == "2007-05-08 12:34:29"
-    assert output['endTime'] == "2007-05-08 12:35:29"
+    assert output['startTime'] == "2022-03-08 12:34:29"
+    assert output['endTime'] == "2022-03-08 12:35:29"
     assert output['winner'] == 1
     assert output['manager'] == "ey229"
 
@@ -106,8 +106,8 @@ def test_pastmatches():
     assert output['matches'][0]["college2Abbrev"] == "BR"
     assert output['matches'][0]["sport"] == "soccer"
     assert output['matches'][0]["location"] == "school"
-    assert output['matches'][0]["startTime"] == "2007-05-08 12:34:29"
-    assert output['matches'][0]["endTime"] == "2007-05-08 12:35:29"
+    assert output['matches'][0]["startTime"] == "2022-03-08 12:34:29"
+    assert output['matches'][0]["endTime"] == "2022-03-08 12:35:29"
     assert output['matches'][0]["winner"] == "Benjamin Franklin"
 
 def test_addmatch():
