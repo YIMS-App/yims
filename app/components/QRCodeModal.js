@@ -13,7 +13,6 @@ import {
   export default function QRCodeModal(props) {
     
     //TODO: fetch match id to send through qr code
-    const matchId = 1;
     function cancelDataHandler() {
       props.onCancel();
     };
@@ -33,7 +32,7 @@ import {
               <Text style={styles.title}>Scan QR Code to </Text>
               <Text style={styles.title}>earn attendance points</Text>
               <QRCode
-                  value={"exp://10.74.157.54:19000/--/userqrcode?matchId="+matchId}
+                  value={"exp://172.27.112.229:19000/--/userqrcode?matchId="+props.matchId}
                   size={250}
               />
               <Text style={[styles.title, {marginTop: 10}]}>Thanks for coming!</Text>

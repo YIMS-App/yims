@@ -1,6 +1,10 @@
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Touchable, Image} from 'react-native';
 import React, { useState } from "react";
 import Participants from './Participants';
+import QRCodeModal from '../QRCodeModal';
+import QRCode from 'react-native-qrcode-svg';
+import { google } from "calendar-link";
+import { Linking } from "react-native";
 
 function MoreInfo(props) {
     const [tab, setTab] = useState("More Info");
@@ -12,6 +16,36 @@ function MoreInfo(props) {
     function changeMoreInfo() {
       setTab("More Info")
     }
+
+    function endQRCodeHandler() {
+        setQRCodeIsVisible(false);
+    }
+    function startQRCodeHandler() {
+        setQRCodeIsVisible(true);
+    }
+    const [QRCodeIsVisible, setQRCodeIsVisible] = useState(false);
+
+    const OpenURLButton = ({ url, buttonStyle, textStyle, text }) => {
+      //pasted from expo docs
+      const handlePress = useCallback(async () => {
+        // Checking if the link is supported for links with custom URL scheme.
+        const supported = await Linking.canOpenURL(url);
+  
+        if (supported) {
+          // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+          // by some browser in the mobile
+          await Linking.openURL(url);
+        } else {
+          Alert.alert(`Don't know how to open this URL: ${url}`);
+        }
+      }, [url])
+      return (
+        <TouchableOpacity style={buttonStyle} onPress={handlePress}>
+          <Text style={textStyle}>{text}</Text>
+        </TouchableOpacity>
+      );
+    };
+
     return (
         <View>
             <View style={styles.tabs}>
@@ -21,16 +55,33 @@ function MoreInfo(props) {
                 <TouchableOpacity style={styles.button} onPress={() => {changeParticipants()}}>
                     <Text style={styles.buttonText}>Participants</Text>
                 </TouchableOpacity>
+                
             </View>
-        
             <View style={styles.tab}> 
                 { tab == 'More Info' ? 
                     <View style={styles.moreinfo}>
-                    <Text style={styles.moreinfo1}>Location: </Text>
-                    <Text style={styles.moreinfo2}> {props.location}</Text> 
+                      <Text style={styles.moreinfo1}>Location: </Text>
+                      <Text style={styles.moreinfo2}> {props.location}</Text> 
+                      <TouchableOpacity style={styles.addToCalButton}>
+                        <View style={styles.calendarContainer}>
+                          <Image source={require("../../assets/images/Calendar.png")} style={styles.image}/>
+                        </View>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.addToCalButton}
+                      onPress={startQRCodeHandler}>
+                          <QRCode
+                            value={"exp://172.27.112.229:19000/--/userqrcode?matchId="+props.matchId}
+                            size={40}
+                        />
+                      </TouchableOpacity>
+                      <QRCodeModal
+                          onCancel={endQRCodeHandler}
+                          visible={QRCodeIsVisible}
+                          matchId={props.matchId}
+                      />
                     </View>
                 : 
-                    <Participants participants={props.participants} />
+                  <Participants participants={props.participants} />
                 }
             </View>
         </View>
@@ -79,13 +130,46 @@ const styles = StyleSheet.create({
       moreinfo1: {
         color: "#1A3B93",
         fontSize: 20,
+        alignItems: "center",
+        justifyContent: "center",
       },
       moreinfo2: {
         color: "#1A3B93",
         fontSize: 20,
         fontWeight: "700", 
+        alignItems: "center",
+        justifyContent: "center",
       }, 
       moreinfo: {
         flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center",
       },
+      addToCalButton: {
+        backgroundColor: "#DFE5F2",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 5,
+        margin: 10,
+      },
+      addToCalText: {
+        fontSize: 18,
+        fontWeight: "700",
+        color: "#3159C4",
+        textAlign: "center",
+        textAlignVertical: "center",
+      },
+      calendarContainer: {
+        backgroundColor: 'rgba(49, 89, 196, 0.08)',
+        borderRadius: 20,
+        width: 40,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    image: {
+      width: 30,
+      height: 30,
+      resizeMode: 'contain',
+  },
 })

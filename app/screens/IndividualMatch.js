@@ -1,5 +1,3 @@
-
-
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, TextInput, Image } from 'react-native';
 import React, { useState, useEffect } from "react";
 
@@ -10,10 +8,25 @@ import MoreInfo from '../components/main-screen/MoreInfo';
 function IndividualMatch(props) {
 
   const matchData = props.route.params.data;
+  const today = Date();
 
-  const [display, setDisplay] = useState(true);
+  const [bettingOver, setBettingOver] = useState(true);
   const [score1, setScore1] = useState(0);
   const [score2, setScore2] = useState(0);
+
+  useEffect(() => { 
+    //console.log(props)
+    console.log(today)
+    console.log(matchData.startTime)
+    const matchDate = new Date(matchData.startTime)
+    //const matchDate = new Date('2022-03-2')
+    console.log(matchDate)
+    console.log(matchDate < today)
+    setBettingOver(matchDate < today)
+    // if the starttime is BEFORE today (which means it is less than), then it is in the past. so the betting is over. and this is TRUE
+
+    // if the starttime is AFTER today (which means it is greater than), then it is in the future. so the betting is not over. so this should be false.
+  }, []); 
 
   const onChanged1 = (text) => {
     let newText = '';
@@ -48,9 +61,9 @@ const onChanged2 = (text) => {
   const emoji = {soccer: "⚽"};
 
   const dummy = {
-    score1: 1,
+    score1: 1, //TODO: scores need to be added to the match object
     score2: 0,
-    participants: ["AX", "BX", "CO"],
+    participants: ["AX", "BX", "CO"], //TODO: fetch participants of a certain match
   }
 
   return (
@@ -63,8 +76,8 @@ const onChanged2 = (text) => {
         date={matchData.startTime} 
         college1={matchData.college1} 
         college2={matchData.college2} 
-        score1={dummy.score1}
-        score2={dummy.score2}
+        score1={today < matchData.startTime ? '' : dummy.score1}
+        score2={today < matchData.startTime ? '-' : dummy.score2}
         sport={emoji[matchData.sport]}
       />
 
@@ -74,17 +87,20 @@ const onChanged2 = (text) => {
       <View style={styles.stretch}>
         <MoreInfo 
         location={matchData.location}
+        matchid={matchData.matchid}
         participants={dummy.participants}
         />
       </View>
 
       {/* BETTING */}    
       <View style={styles.betting}>
-        { display ? 
+        
+        { 
+         !bettingOver ? 
           <View> 
             <Text style={styles.bettingTitle}> Place Your Bet Now! </Text> 
             <View style={styles.center}> 
-              <Countdown />
+              <Countdown startTime={matchData.startTime}/>
               <View style={styles.survey}>
                 <Text style={styles.winner}>
                   Select Winner: 

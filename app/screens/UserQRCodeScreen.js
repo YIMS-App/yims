@@ -9,7 +9,7 @@ import {
     Modal,
     RefreshControl,
   } from "react-native";
-import React, { useCallback, useEffect} from "react";
+import React, { useCallback, useEffect, useState} from "react";
 import LottieView from 'lottie-react-native';
 import assets from "../assets";
 import { IP_ADDRESS } from "../utils/constants.js";
@@ -23,6 +23,7 @@ export default function UserQRCodeScreen(props) {
 
     //TODO: fetch user's college id using the abbreviation stored in their userData
     const collegeId = 2;
+    const [message, setMessage] = useState('Great Job! You\'ve earned attendance points.');
 
     // const userProp = props.extraData.username;
 	// const username = userProp.replace(/['"]+/g, '');
@@ -65,15 +66,16 @@ export default function UserQRCodeScreen(props) {
 				Promise.all([userInfo.json(), participationStatus.json()]))
 			.then(([userInfoData, participationStatusData]) => {
                 console.log("Data" + userInfoData)
+                //setUserInfo(userInfoData);
                 console.log("Status" + participationStatusData)
-                // TODO: fetch user status for this match
-
-                // if user status != 2:
-                    //addParticipationPointsToCollege(collegeId, 17) //TODO: change number of points to be variable based on sport?
-                    //addParticipationPointsToUser(netid, 17)
-                    updateMatchParticipation(netid, 2, 3)
-                // else change message to say 'you've already earned points for this game!'
-				//setUserInfo(userInfoData);
+                participationStatusData = 2
+                if(participationStatusData != 2) {
+                    addParticipationPointsToCollege(collegeId, 17); //TODO: change number of points to be variable based on sport?
+                    addParticipationPointsToUser(netid, 17)
+                    updateMatchParticipation(netid, participationStatusData, matchId)
+                } else {
+                    setMessage('you\'ve already earned points for this game!')
+                }
 			})
 		}
 		catch(e) {
@@ -144,7 +146,7 @@ export default function UserQRCodeScreen(props) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.textStyle}>Great Job! You've earned X attendance points. </Text>
+            <Text style={styles.textStyle}>{message}</Text>
             <LottieView source={assets.lottieFiles.coin} autoPlay loop style={styles.animationContainer}/>
             <TouchableOpacity 
                 style={styles.doneButton}
