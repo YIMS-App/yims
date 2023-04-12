@@ -8,24 +8,15 @@ import MoreInfo from '../components/main-screen/MoreInfo';
 function IndividualMatch(props) {
 
   const matchData = props.route.params.data;
-  const today = Date();
+  const today = new Date();
+  const matchDate = new Date(matchData.startTime)
 
   const [bettingOver, setBettingOver] = useState(true);
   const [score1, setScore1] = useState(0);
   const [score2, setScore2] = useState(0);
 
   useEffect(() => { 
-    //console.log(props)
-    console.log(today)
-    console.log(matchData.startTime)
-    const matchDate = new Date(matchData.startTime)
-    //const matchDate = new Date('2022-03-2')
-    console.log(matchDate)
-    console.log(matchDate < today)
     setBettingOver(matchDate < today)
-    // if the starttime is BEFORE today (which means it is less than), then it is in the past. so the betting is over. and this is TRUE
-
-    // if the starttime is AFTER today (which means it is greater than), then it is in the future. so the betting is not over. so this should be false.
   }, []); 
 
   const onChanged1 = (text) => {
@@ -145,7 +136,7 @@ function setHeight(count, win, position) {
           <View> 
             <Text style={styles.bettingTitle}> Place Your Bet Now! </Text> 
             <View style={styles.center}> 
-              <Countdown startTime={matchData.startTime}/>
+              <Countdown startTime={matchDate}/>
               <View style={styles.survey}>
                 <Text style={styles.winner}>
                   Select Winner: 

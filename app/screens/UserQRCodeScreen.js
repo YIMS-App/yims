@@ -68,11 +68,11 @@ export default function UserQRCodeScreen(props) {
                 console.log("Data" + userInfoData)
                 //setUserInfo(userInfoData);
                 console.log("Status" + participationStatusData)
-                participationStatusData = 2
                 if(participationStatusData != 2) {
+                    setMessage('Great Job! You\'ve earned attendance points.')
                     addParticipationPointsToCollege(collegeId, 17); //TODO: change number of points to be variable based on sport?
                     addParticipationPointsToUser(netid, 17)
-                    updateMatchParticipation(netid, participationStatusData, matchId)
+                    updateMatchParticipation(netid, participationStatusData, matchid)
                 } else {
                     setMessage('you\'ve already earned points for this game!')
                 }
