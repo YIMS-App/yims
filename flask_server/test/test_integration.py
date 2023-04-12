@@ -106,8 +106,8 @@ def test_pastmatches():
     assert output['matches'][0]["college2Abbrev"] == "BR"
     assert output['matches'][0]["sport"] == "soccer"
     assert output['matches'][0]["location"] == "school"
-    assert output['matches'][0]["startTime"] == "2007-05-08 12:34:29"
-    assert output['matches'][0]["endTime"] == "2007-05-08 12:35:29"
+    assert output['matches'][0]["startTime"] == "2022-03-08 12:34:29"
+    assert output['matches'][0]["endTime"] == "2022-03-08 12:35:29"
     assert output['matches'][0]["winner"] == "Benjamin Franklin"
 
 def test_addmatch():
@@ -219,3 +219,11 @@ def test_getparticipationmatch():
     output = r.json()
 
     assert output['status'] == 2
+
+def test_collegeparticipation():
+    
+    r = requests.get(url = TEST_ADDRESS + '/getcollegeparticipation')
+    output = r.json()
+
+    assert output['scores'][0]["college"] == "Grace Hopper"
+    assert output['scores'][0]["score"] == 90.0

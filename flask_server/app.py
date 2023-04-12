@@ -482,3 +482,17 @@ def getparticipationmatch():
         print(ex)
         return jsonify(error=404, text=str(ex)), 404
     return output, 200
+
+@app.route("/getcollegeparticipation", methods=["GET"])
+def getcollegeparticipation():
+    """
+    Gets total participation scores for all colleges
+    """
+    output = None
+    try:
+        result = query_db(queries.college_participation_score(), [CURR_YEAR], database_url=app.config['DATABASE'])
+        output = jsonify({'scores': jsonify_rows(result)})
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(e)), 404
+    return output, 200

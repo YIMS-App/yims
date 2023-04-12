@@ -65,8 +65,8 @@ def initialize():
             id2 = 2
             sport = "soccer"
             location = "school"
-            startTime = "2007-05-08 12:34:29"
-            endTime = "2007-05-08 12:35:29"
+            startTime = "2022-03-08 12:34:29"
+            endTime = "2022-03-08 12:35:29"
             winner = 1
             manager = "ey229"
 
