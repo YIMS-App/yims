@@ -87,10 +87,6 @@ function Standing(props) {
                 </View>
                 <Image style={styles.flag} source={collegesData[props.collegeData.item.college].flag} />
             </View>
-            
-            <View style={styles.calendarContainer}>
-                <Image source={require("../../assets/images/Calendar.png")} style={styles.image}/>
-            </View>
         </View>
     )
 };
@@ -115,11 +111,13 @@ const styles = StyleSheet.create({
     },
     rowContainer: {
         flexDirection: 'row',
-        width: 230,
+        alignItems: 'row',
+        width: 250,
         height: 70,
         borderRadius: 20,
         backgroundColor: 'rgba(49, 89, 196, 0.08)',
         margin: 3,
+        left: 7,
         alignItems: 'center'
     },
     collegeContainer: {

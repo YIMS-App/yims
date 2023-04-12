@@ -58,7 +58,7 @@ const ProfileScreen = (props) => {
 	]
 
 
-	useEffect(() => { // runs once to update data at the first render\
+	useEffect(() => { // runs once to update data at the first render
 		setMatches([]);
         setCoins(username);
 		fetchUserInfo(username);
