@@ -433,7 +433,7 @@ def updatebet():
         matchid = data['matchid']
         pointsbet = data['pointsbet']
         winner = data['winner']
-        exists = data['exists'] # see if a bet exists already
+        exists = query_db(queries.bet_earnings(), [netid, matchid], database_url=app.config['DATABASE'])[0][0] # see if a bet exists already
 
         # check if the user has enough money to make a bet
         money = query_db(queries.user_participation_points(), [netid], database_url=app.config['DATABASE'])[0][0]
@@ -476,11 +476,7 @@ def getparticipationmatch():
 
         params = [netid, matchid]
         result = query_db(queries.user_match_attended(), params, database_url=app.config['DATABASE'])
-        
-        if result:
-                output = jsonify_rows(result)[0]
-        else:
-            output = jsonify({'success': False})
+        output = jsonify_rows(result)[0]
             
     except Exception as ex:
         print(ex)

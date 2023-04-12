@@ -97,7 +97,7 @@ def user_match_attended():
     return "SELECT status FROM attendance WHERE netid = ? AND matchid = ?"
 
 def match_info():
-    return "SELECT * FROM matches WHERE matchid = ?"
+    return matches() + "WHERE matchid = ?"
 
 def bet_earnings():
     return "SELECT pointsBet, winner FROM bets WHERE netid = ? AND matchid = ?"
