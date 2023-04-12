@@ -5,6 +5,8 @@ import {
   Text,
   TouchableOpacity,
   Image,
+  TextInput,
+  SafeAreaView,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { ModalDropdown } from "../shared/ModalDropdown";
@@ -22,6 +24,8 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
   const [selectedMatchString, setSelectedMatchString] =
     useState("Select Match");
   const [matches, setMatches] = useState([]);
+  const [score1, setScore1] = useState(0);
+  const [score2, setScore2] = useState(0);
 
   const fetchUnscoredMatches = async () => {
     const resp = await fetch(IP_ADDRESS + "/getunscoredmatches");
@@ -105,6 +109,36 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
     onCancel();
   }
 
+  const onChanged1 = (text) => {
+    let newText = '';
+    let numbers = '0123456789';
+
+    for (var i=0; i < text.length; i++) {
+        if(numbers.indexOf(text[i]) > -1 ) {
+            newText = newText + text[i];
+        }
+        else {
+            alert("Please enter numbers!");
+        }
+    }
+    setScore1(newText);
+}
+
+const onChanged2 = (text) => {
+  let newText = '';
+  let numbers = '0123456789';
+
+  for (var i=0; i < text.length; i++) {
+      if(numbers.indexOf(text[i]) > -1 ) {
+          newText = newText + text[i];
+      }
+      else {
+          alert("Please enter numbers!");
+      }
+  }
+  setScore2(newText);
+}
+
   return (
     <Modal visible={visible} animationType="slide" transparent={true} testID="update-match-modal">
       <View style={styles.container}>
@@ -159,8 +193,22 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
           {selectedMatch ? (
             <View>
               <View style={styles.dropdownContainer}>
-                <Text style={styles.header}>{selectedMatch.college1}</Text>
-                <RadioForm animation={true} initial={-1} formHorizontal={true}>
+                <Text style={styles.header}>Enter Final Scores</Text>
+
+                <SafeAreaView style={styles.enterScore}> 
+                  <Text style={styles.collegeText}>{selectedMatch.college1}:</Text>          
+                  <TextInput
+                      keyboardType='numeric'
+                      onChangeText={text => onChanged1(text)}
+                      value={score1}
+                      style={styles.input}
+                      placeholder='0'
+                      maxLength={10}
+                  />
+                </SafeAreaView>
+                
+                
+                {/* <RadioForm animation={true} initial={-1} formHorizontal={true}>
                   {matchOptions.map((matchOption, i) => (
                     <RadioButton labelHorizontal={true} key={i}>
                       <RadioButtonInput
@@ -189,11 +237,23 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
                       />
                     </RadioButton>
                   ))}
-                </RadioForm>
+                </RadioForm> */}
               </View>
               <View style={styles.dropdownContainer}>
-                <Text style={styles.header}>{selectedMatch.college2}</Text>
-                <RadioForm animation={true} initial={-1} formHorizontal={true}>
+                <SafeAreaView style={styles.enterScore}>
+                  <Text style={styles.collegeText}>{selectedMatch.college2}:</Text>
+                  <TextInput
+                      keyboardType='numeric'
+                      onChangeText={text => onChanged2(text)}
+                      value={score2}
+                      style={styles.input}
+                      placeholder='0'
+                      maxLength={10}
+                  />
+                </SafeAreaView>
+
+
+                {/* <RadioForm animation={true} initial={-1} formHorizontal={true}>
                   {matchOptions.map((matchOption, i) => (
                     <RadioButton labelHorizontal={true} key={i}>
                       <RadioButtonInput
@@ -222,7 +282,7 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
                       />
                     </RadioButton>
                   ))}
-                </RadioForm>
+                </RadioForm> */}
               </View>
               <TouchableOpacity
                 onPress={submitDataHandler}
@@ -286,6 +346,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginBottom: 3,
     marginLeft: 5,
+    marginTop: 3,
+  },
+  collegeText: {
+    color: "white",
+    fontWeight: "300",
+    fontSize: 22,
+    marginBottom: 3, 
+    marginLeft: 16,
     marginTop: 3,
   },
   inputBox: {
@@ -355,4 +423,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     textAlignVertical: "center",
   },
+  enterScore: {
+    flexDirection: "row",
+    margin: 10, 
+  }, 
+  input: {
+    backgroundColor: 'white',
+    borderRadius: 10, 
+    height: 30, 
+    width: 40, 
+    marginLeft: 10,
+    textAlign: "center",
+    fontSize: 20,
+    color: "#3159C4",
+  }, 
 });
