@@ -223,7 +223,9 @@ const ProfileScreen = (props) => {
                       ]}
                     >
                       +{" "}
-                      {sports[itemData.item.sport][0]
+                      {itemData.item.winner == college 
+					  ? "2"
+					  : "1"
                         }
                       pts
                     </Text>

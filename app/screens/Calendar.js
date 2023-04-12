@@ -7,7 +7,6 @@ import {
 import React, {useCallback} from "react";
 import {Calendar} from 'react-native-calendars';
 import NavBar from "../components/main-screen/NavBar";
-import FilterButton from "../components/main-screen/FilterButton";
 import {Linking} from "react-native";
 
 const OpenURLButton = ({ url, children }) => {
@@ -35,16 +34,19 @@ const OpenURLButton = ({ url, children }) => {
 
 export default function CalendarScreen(props) {
 
+    const link = "https://intramurals.yale.edu/tyng-cup-point-system"
+
+    const renderItem = ({ item }) => (
+        <Text style={[styles.sport, {marginTop: 5}]}>{item.sport} {item.emoji} : {item.points} players & points</Text>
+      );
     const [selectedDay, setSelectedDay] = React.useState(new Date().toISOString().slice(0, 10))
+
 
     return (
         <View style={styles.container}>
             <NavBar navigation={props.navigation} title={"Calendar"} color={'white'} extraData = {props.extraData}/>
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
             <SafeAreaView style={styles.container}>
-                <FilterButton>
-                    
-                </FilterButton>
                 <Calendar 
                 minDate=''
                 markedDates={{
