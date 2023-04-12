@@ -52,15 +52,15 @@ def test_matchinfo():
     r = requests.post(url = TEST_ADDRESS + '/matchinfo', json = data) 
     output = r.json()
 
-    assert output['matchid'] == 1
-    assert output['id1'] == 1
-    assert output['id2'] == 2
+    assert output['college1'] == "Benjamin Franklin"
+    assert output['college1Abbrev'] == "BF"
+    assert output['college2'] == "Branford"
+    assert output['college2Abbrev'] == "BR"
     assert output['sport'] == "soccer"
     assert output['location'] == "school"
-    assert output['startTime'] == "2022-03-08 12:34:29"
-    assert output['endTime'] == "2022-03-08 12:35:29"
-    assert output['winner'] == 1
-    assert output['manager'] == "ey229"
+    assert output['startTime'] == "2007-05-08 12:34:29"
+    assert output['endTime'] == "2007-05-08 12:35:29"
+    assert output['winner'] == "Benjamin Franklin"
 
 def test_totalscores():
     
@@ -219,3 +219,11 @@ def test_getparticipationmatch():
     output = r.json()
 
     assert output['status'] == 2
+
+def test_collegeparticipation():
+    
+    r = requests.get(url = TEST_ADDRESS + '/getcollegeparticipation')
+    output = r.json()
+
+    assert output['scores'][0]["college"] == "Grace Hopper"
+    assert output['scores'][0]["score"] == 90.0
