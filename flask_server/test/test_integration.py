@@ -225,7 +225,5 @@ def test_collegeparticipation():
     r = requests.get(url = TEST_ADDRESS + '/getcollegeparticipation')
     output = r.json()
 
-    print(output)
-
     assert output['scores'][0]["college"] == "Grace Hopper"
     assert output['scores'][0]["score"] == 90.0
