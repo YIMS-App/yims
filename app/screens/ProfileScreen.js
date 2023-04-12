@@ -117,7 +117,6 @@ const ProfileScreen = (props) => {
 			.then(([userInfoData, userGamesData, sportsData]) => {
 				setSports(sportsData);
 				let promises = []
-				let foundMatches = []
 				userGamesData.forEach(element => {
 					promises.push(
 						fetch(IP_ADDRESS + '/matchinfo', {
@@ -223,9 +222,7 @@ const ProfileScreen = (props) => {
                       ]}
                     >
                       +{" "}
-                      {itemData.item.winner == college 
-					  ? "2"
-					  : "1"
+                      {"1"
                         }
                       pts
                     </Text>
