@@ -75,21 +75,17 @@ function Standing(props) {
       };
 
     return (
-        <View style={styles.rankContainer}>
+        <View style={styles.rankContainer} testID="standing-view">
             <View style={[styles.medal, (props.collegeData.index+2> 3 ? styles.normal: (props.collegeData.index+2 == 3 ? styles.bronze : styles.silver))]}>
                 <Text style={styles.medalText}>{props.collegeData.index+2}</Text>
                 <Text style={styles.medalTextSuffix}>{(props.collegeData.index+2> 3 ? "th": (props.collegeData.index+2 == 3 ? "rd" : "nd"))}</Text>
             </View>
             <View style={styles.rowContainer}>
                 <View style={styles.collegeContainer}>
-                    <Text style={styles.collegeName}>{props.collegeData.item.college}</Text>
-                    <Text style={styles.points}>{props.collegeData.item.score} points</Text>
+                    <Text style={styles.collegeName} testID="standing-college-text">{props.collegeData.item.college}</Text>
+                    <Text style={styles.points} testID="standing-score-text">{props.collegeData.item.score} points</Text>
                 </View>
                 <Image style={styles.flag} source={collegesData[props.collegeData.item.college].flag} />
-            </View>
-            
-            <View style={styles.calendarContainer}>
-                <Image source={require("../../assets/images/Calendar.png")} style={styles.image}/>
             </View>
         </View>
     )
@@ -115,11 +111,13 @@ const styles = StyleSheet.create({
     },
     rowContainer: {
         flexDirection: 'row',
-        width: 230,
+        alignItems: 'row',
+        width: 250,
         height: 70,
         borderRadius: 20,
         backgroundColor: 'rgba(49, 89, 196, 0.08)',
         margin: 3,
+        left: 7,
         alignItems: 'center'
     },
     collegeContainer: {

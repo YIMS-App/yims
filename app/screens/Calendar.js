@@ -39,7 +39,7 @@ export default function CalendarScreen(props) {
 
     return (
         <View style={styles.container}>
-            <NavBar navigation={props.navigation} title={"Calendar"} color={'white'}/>
+            <NavBar navigation={props.navigation} title={"Calendar"} color={'white'} extraData = {props.extraData}/>
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
             <SafeAreaView style={styles.container}>
                 <FilterButton>

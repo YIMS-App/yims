@@ -103,7 +103,7 @@ export default function HowToPlay(props) {
 
     return (
         <View style={styles.container}>
-            <NavBar navigation={props.navigation} title={"How To Play"} color={'white'}/>
+            <NavBar navigation={props.navigation} title={"How To Play"} color={'white'} extraData = {props.extraData}/>
             <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
                 <View style={styles.linecontainer}>
                     <View style={styles.line} />

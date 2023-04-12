@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import { useState, useEffect } from "react";
-import ModalDropdown from "react-native-modal-dropdown";
+import { ModalDropdown } from "../shared/ModalDropdown";
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
@@ -19,17 +19,20 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
   const [college1State, setCollege1State] = useState(null);
   const [college2State, setCollege2State] = useState(null);
   const [selectedMatch, setSelectedMatch] = useState(null);
+  const [selectedMatchString, setSelectedMatchString] =
+    useState("Select Match");
   const [matches, setMatches] = useState([]);
 
   const fetchUnscoredMatches = async () => {
-      const resp = await fetch(IP_ADDRESS + "/getunscoredmatches");
-      const matches = await resp.json();
-      setMatches(matches["matches"]);
-    };
+    const resp = await fetch(IP_ADDRESS + "/getunscoredmatches");
+    const matches = await resp.json();
+    setMatches(matches["matches"]);
+  };
 
-  useEffect(() => { // runs once to update data at the first render
-      fetchUnscoredMatches();
-    }, []);
+  useEffect(() => {
+    // runs once to update data at the first render
+    fetchUnscoredMatches();
+  }, []);
 
   const matchOptions = [
     {
@@ -47,6 +50,7 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
   ];
 
   function matchHandler(selectedMatch) {
+    setSelectedMatchString(selectedMatch);
     selectedMatch = selectedMatch.split(" ");
     //TODO: can we store this style of string on the backend?? would make it much easier.
     setSelectedMatch(
@@ -61,40 +65,52 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
 
   function submitDataHandler() {
     // handle potential errors by the user
-    let winner = 'NONE';
-    if(college1State == null || college2State == null) { // hasn't selected one of them
-        alert("please select a result for each college.")
-    }else if(college1State == college2State && college1State == 'Won') {
-        alert("both colleges can't win, silly!")
-    } else if (college1State == college2State  && college2State == 'Lost') {
-        alert("both colleges surely couldn't have lost!")
-    } else { // valid responses
-        if(college1State == 'Won') {
-            winner = selectedMatch.college1;
-        } else if (college2State == 'Won') {
-            winner = selectedMatch.college2;
-        } else { // tie
-            winner = 'TIE';
-        }
+    let winner = "NONE";
+    if (college1State == null || college2State == null) {
+      // hasn't selected one of them
+      alert("please select a result for each college.");
+    } else if (college1State == college2State && college1State == "Won") {
+      alert("both colleges can't win, silly!");
+    } else if (college1State == college2State && college2State == "Lost") {
+      alert("both colleges surely couldn't have lost!");
+    } else {
+      // valid responses
+      if (college1State == "Won") {
+        winner = selectedMatch.college1;
+      } else if (college2State == "Won") {
+        winner = selectedMatch.college2;
+      } else {
+        // tie
+        winner = "TIE";
+      }
 
-        onSubmitData(selectedMatch.college1, selectedMatch.college2, selectedMatch.sport, selectedMatch.startTime, selectedMatch.endTime, winner, selectedMatch.location);
+      onSubmitData(
+        selectedMatch.college1,
+        selectedMatch.college2,
+        selectedMatch.sport,
+        selectedMatch.startTime,
+        selectedMatch.endTime,
+        winner,
+        selectedMatch.location
+      );
     }
   }
 
   function cancelDataHandler() {
     // reset all of the data entry points
     setSelectedMatch(null);
-    setCollege1State(null)
-    setCollege2State(null)
+    setSelectedMatchString("Select Match");
+    setCollege1State(null);
+    setCollege2State(null);
     onCancel();
   }
 
   return (
-    <Modal visible={visible} animationType="slide" transparent={true}>
+    <Modal visible={visible} animationType="slide" transparent={true} testID="update-match-modal">
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <View style={styles.headerContainer}>
-            <Text style={styles.title}>Score</Text>
+            <Text style={styles.title} testID="update-match-score-text">Score</Text>
             <TouchableOpacity onPress={() => cancelDataHandler()}>
               <Image
                 source={require("../../assets/images/x-button.png")}
@@ -105,24 +121,29 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
           <View style={styles.dropdownContainer}>
             <Text style={styles.header}>Match</Text>
             <ModalDropdown
-              textStyle={styles.inputText}
-              style={styles.inputBox}
-              dropdownStyle={styles.matchDropdown}
-              dropdownTextStyle={styles.matchDropdownText}
-              dropdownTextHighlightStyle={styles.matchDropdownTextSelected}
-              showsVerticalScrollIndicator={true}
-              isFullWidth={true}
+              setData={(match) => matchHandler(match)}
               options={matches.map((match) => {
                 return (
                   match.college1Abbrev +
-                  " vs " + 
-                  match.college2Abbrev + 
+                  " vs " +
+                  match.college2Abbrev +
                   " (" +
-                  match.startTime.split(' ')[0] +
+                  match.startTime.split(" ")[0] +
                   "), " +
                   match.sport
                 );
               })}
+              dropdownStyle={styles.matchDropdown}
+              modalStyle={styles.modal}
+              dropdownTextStyle={styles.matchDropdownText}
+              dropdownTextHighlightStyle={styles.matchDropdownTextSelected}
+              filterText={selectedMatchString}
+              filterButtonStyle={styles.inputBox}
+              filterTextStyle={styles.inputText}
+            ></ModalDropdown>
+
+            {/* {<ModalDropdown    
+              showsVerticalScrollIndicator={true}
               defaultValue={"Select Match"}
               onSelect={(idx, match) => matchHandler(match)}
               renderRightComponent={() => {
@@ -133,7 +154,7 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
                   />
                 );
               }}
-            />
+            />} */}
           </View>
           {selectedMatch ? (
             <View>
@@ -163,8 +184,8 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
                         labelStyle={{ fontSize: 15, color: "white" }}
                         labelWrapStyle={{}}
                         onPress={() => {
-                            setCollege1State(matchOption.label);
-                          }}
+                          setCollege1State(matchOption.label);
+                        }}
                       />
                     </RadioButton>
                   ))}
@@ -196,7 +217,7 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
                         labelStyle={{ fontSize: 15, color: "white" }}
                         labelWrapStyle={{}}
                         onPress={() => {
-                            setCollege2State(matchOption.label);
+                          setCollege2State(matchOption.label);
                         }}
                       />
                     </RadioButton>
@@ -205,7 +226,8 @@ function UpdateMatch({ visible, onSubmitData, onCancel }) {
               </View>
               <TouchableOpacity
                 onPress={submitDataHandler}
-                style={styles.addButton}>
+                style={styles.addButton}
+              >
                 <Text style={styles.addButtonText}>Add</Text>
               </TouchableOpacity>
             </View>
@@ -284,19 +306,30 @@ const styles = StyleSheet.create({
     fontWeight: "300",
   },
   matchDropdown: {
-    borderRadius: 8,
+    borderRadius: 20,
+  },
+  modal: {
+    alignSelf: "center",
+    height: "30%",
+    marginTop: 450,
+    width: 300,
+    backgroundColor: "white",
+    borderRadius: 20,
+    marginRight: 35,
   },
   matchDropdownText: {
     color: "#3159C4",
     fontSize: 25,
     fontWeight: "300",
-    marginLeft: 5,
+    marginLeft: 15,
+    marginTop: 10,
   },
   matchDropdownTextSelected: {
     backgroundColor: "#7195F6",
     fontSize: 25,
     fontWeight: "300",
-    marginLeft: 5,
+    marginLeft: 15,
+    marginTop: 10,
     color: "white",
   },
   whiteDropDownArrow: {
@@ -310,11 +343,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderRadius: 5,
     width: 75,
-    alignSelf: 'flex-end',
+    alignSelf: "flex-end",
     marginTop: 10,
     marginRight: 20,
     padding: 5,
-
   },
   addButtonText: {
     color: "#3159C4",
