@@ -108,6 +108,8 @@ def updatematch():
         endTime = data['endTime']
         summary = data['summary']
         manager = "ey229"
+        score1 = data['score1']
+        score2 = data['score2']
         qr = "NOT IMPLEMENTED"
 
         college_id1 = get_id(college1)
@@ -139,7 +141,7 @@ def updatematch():
             # TODO we don't need to manually create a matchid 
             new_matchid = query_db(queries.count_matches(), database_url=app.config['DATABASE'])[0][0] + 1
             values = [new_matchid, college_id1, college_id2, sport, 
-                    location, startTime, endTime, winner_id, summary, manager, qr]
+                    location, startTime, endTime, winner_id, summary, manager, score1, score2, qr]
             query_db(queries.add_match(), values, database_url=app.config['DATABASE'])
 
         # add points for match

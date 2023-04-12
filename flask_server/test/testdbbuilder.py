@@ -67,11 +67,13 @@ def initialize():
             location = "school"
             startTime = "2022-03-08 12:34:29"
             endTime = "2022-03-08 12:35:29"
+            score1 = 2
+            score2 = 1
             winner = 1
             manager = "ey229"
 
             match = Matches(id1=id1, id2=id2, sport=sport, location=location,
-                startTime=startTime, endTime=endTime, winner=winner, manager=manager)
+                startTime=startTime, endTime=endTime, winner=winner, score1 = score1, score2 = score2, manager=manager)
             session.add(match)
         session.commit()
 
