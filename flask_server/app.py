@@ -513,5 +513,21 @@ def getmatchattendees():
         output = jsonify({'attendees': jsonify_rows(result)})
     except Exception as ex:
         print(ex)
-        return jsonify(error=404, text=str(e)), 404
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/getcollegeid", methods=["POST"])
+def getcollegeid():
+    """
+    Returns a given college's id when given its abbreviation
+    """
+    output = None
+    try:
+        data = request.get_json()
+        college_abbreviation = data['college_abbreviation']
+        result = query_db(queries.college_id(), [college_abbreviation], database_url=app.config['DATABASE'])
+        output = jsonify_rows(result)
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
     return output, 200

@@ -238,3 +238,11 @@ def test_getmatchattendees():
     output = r.json()
 
     assert output['attendees'][0]['firstName'] == "Anna"
+    
+def test_collegeid():
+
+    data = {'college_abbreviation': "BF"}
+    r = requests.post(url = TEST_ADDRESS + '/getcollegeid', json = data) 
+    output = r.json()
+
+    assert output[0]['id'] == 1

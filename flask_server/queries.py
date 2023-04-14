@@ -137,3 +137,7 @@ def check_userperms():
     
 def match_attendees():
     return "SELECT firstName, lastName FROM users NATURAL JOIN attendance WHERE matchid=? AND status=1"
+
+def college_id():
+    return "SELECT id FROM collegeinfo WHERE college_abbreviation=?"
+    
