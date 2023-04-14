@@ -6,9 +6,9 @@ def totalscores():
 def matches():
     return '''SELECT
                 C1.college AS college1,
-                C1.college_abbreviation AS college1Abbrev,
+                C1.collegeAbbreviation AS college1Abbrev,
                 C2.college AS college2,
-                C2.college_abbreviation AS college2Abbrev,
+                C2.collegeAbbreviation AS college2Abbrev,
                 matches.sport,
                 matches.location,
                 matches.startTime,
@@ -47,7 +47,7 @@ def score_by_id():
     return "SELECT score FROM totalscores WHERE id=?"
 
 def part_score_by_id():
-    return "SELECT part_score FROM totalscores WHERE id=?"
+    return "SELECT partScore FROM totalscores WHERE id=?"
 
 def update_score():
     return "UPDATE totalscores SET score=? WHERE id=?"
@@ -108,12 +108,12 @@ def bet_aggregates():
    return "SELECT SUM(pointsBet), winner FROM bets WHERE matchid = ? GROUP BY winner"
 
 def college_participation_score():
-    return '''SELECT college, part_score FROM collegeinfo 
+    return '''SELECT college, partScore FROM collegeinfo 
             NATURAL JOIN totalscores WHERE collegeinfo.year=? 
-            ORDER BY part_score DESC '''
+            ORDER BY partScore DESC '''
 
 def update_college_participation_score():
-    return "UPDATE totalscores SET part_score=? WHERE id=?"
+    return "UPDATE totalscores SET partScore=? WHERE id=?"
 
 def update_user_participation_points():
     return "UPDATE users SET participationPoints=? WHERE netid=?"
