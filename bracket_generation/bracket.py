@@ -9,11 +9,11 @@ random.seed(SEED)
 # read in the CSV file
 df = pd.read_csv('schedule.csv')
 
-# # create a list of colleges
+# create a list of colleges
 colleges = ['BF', 'BK', 'BR', 'DC', 'ES', 'GH', 'JE', 'MC', 'MY', 'PC', 'SY', 'SM', 'TD', 'TC']
-# # random.shuffle(colleges)
+random.shuffle(colleges)
 
-# # divide colleges into divisions
+# divide colleges into divisions
 divisions = [colleges[i:i+7] for i in range(0, len(colleges), 7)]
 # colleges = ['BF', 'BK', 'BR', 'DC', 'ES', 'GH', 'JE']
 # divisions = [colleges]
@@ -32,7 +32,6 @@ for sport in sports:
         for pair in pairs:
             matches.append(tuple(list(pair)+[sport]))
 random.shuffle(matches)
-print(matches)
 
 class Step:
     def __init__(self, schedule, sport_dict, slot_dict, matches, new_match, match_index, \
@@ -82,7 +81,6 @@ while matches:
 
     filled = False
     while not filled and time_index<len(date_slot_list):
-        print(len(matches), len(date_slot_list), time_index)
         c1, c2, sport = matches[match_index]
 
         # valid time_slot
@@ -119,14 +117,14 @@ while matches:
             continue 
 
         # cant play same sport twice in one day
-        if sport in college_sport[c1] or sport in college_sport[c2]:
-            time_index += 1
-            if time_index >= len(date_slot_list):
-                continue
-            date, time_slot = date_slot_list[time_index]
-            college_sport = sport_dict[date]
-            college_slots = slot_dict[date]
-            continue 
+        # if sport in college_sport[c1] or sport in college_sport[c2]:
+        #     time_index += 1
+        #     if time_index >= len(date_slot_list):
+        #         continue
+        #     date, time_slot = date_slot_list[time_index]
+        #     college_sport = sport_dict[date]
+        #     college_slots = slot_dict[date]
+        #     continue 
         
         # cant play games of different sports at same time
         if time_slot in college_slots[c1] or time_slot in college_slots[c2]:
@@ -150,14 +148,14 @@ while matches:
 
         matches.pop(match_index)
         date_slot_list.pop(time_index)
+        filled = True
 
+        if len(matches)==0 and len(date_slot_list)==0:
+            break
+        
         time_index = 0
         date, time_slot = date_slot_list[time_index]
-
-        filled = True
-        match_index = 0
-        # print(c1, c2, sport, date, time_slot)
-        
+        match_index = 0    
 
     # backtrack if failure
     if not filled:
@@ -173,10 +171,6 @@ while matches:
             continue
         date, time_slot = date_slot_list[time_index]
         step_count[len(step_list)]+=1
-        # print(step_count)
-        # if len(step_list)==31:
-        #     print(new_step.new_match, new_step.match_index)
-
     
 for sport in schedule:
     print(f"{sport}:")
