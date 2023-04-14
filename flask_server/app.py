@@ -355,7 +355,7 @@ def addparticipationpointscollege():
     output = None 
     try:
         data = request.get_json()
-        part_score = data['part_score']
+        part_score = data['partScore']
         id = data['id']
 
         score = query_db(queries.part_score_by_id(), [id], database_url=app.config['DATABASE'])[0][0]
@@ -524,7 +524,7 @@ def getcollegeid():
     output = None
     try:
         data = request.get_json()
-        college_abbreviation = data['college_abbreviation']
+        college_abbreviation = data['collegeAbbreviation']
         result = query_db(queries.college_id(), [college_abbreviation], database_url=app.config['DATABASE'])
         output = jsonify_rows(result)
     except Exception as ex:
