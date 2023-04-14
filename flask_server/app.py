@@ -498,3 +498,20 @@ def getcollegeparticipation():
         print(ex)
         return jsonify(error=404, text=str(e)), 404
     return output, 200
+
+@app.route("/getmatchattendees", methods=["POST"])
+def getmatchattendees():
+    """
+    Get the first name and last name of all users who are attending a match
+    """
+    output = None
+    try:
+        data = request.get_json()
+        matchid = data['matchid']
+
+        result = query_db(queries.match_attendees(), [matchid], database_url=app.config['DATABASE'])
+        output = jsonify({'attendees': jsonify_rows(result)})
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(e)), 404
+    return output, 200

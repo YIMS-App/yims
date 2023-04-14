@@ -231,3 +231,10 @@ def test_collegeparticipation():
 
     assert output['scores'][0]["college"] == "Grace Hopper"
     assert output['scores'][0]["part_score"] == 90.0
+
+def test_getmatchattendees():
+    data = {'matchid':1}
+    r = requests.post(url = TEST_ADDRESS + '/getmatchattendees', json = data)
+    output = r.json()
+
+    assert output['attendees'][0]['firstName'] == "Anna"

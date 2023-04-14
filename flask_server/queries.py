@@ -135,3 +135,5 @@ def add_participation():
 def check_userperms():
     return "SELECT role FROM users WHERE netid=?"
     
+def match_attendees():
+    return "SELECT firstName, lastName FROM users NATURAL JOIN attendance WHERE matchid=? AND status=1"
