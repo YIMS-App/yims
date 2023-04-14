@@ -1,5 +1,5 @@
 TEST_DATABASE_URL = './test/testtable.sqlite'
-TEST_ADDRESS = 'http://127.0.0.1:8180'
+TEST_ADDRESS = 'http://127.0.0.1:8080'
 CURR_YEAR = 2022
 ADMINS = {
     "ey229", "ag2658", "bmv6", "cmo48", "awx2", "kq44", "mj598"

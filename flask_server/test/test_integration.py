@@ -231,3 +231,11 @@ def test_collegeparticipation():
 
     assert output['scores'][0]["college"] == "Grace Hopper"
     assert output['scores'][0]["part_score"] == 90.0
+
+def test_collegeid():
+
+    data = {'college_abbreviation': "BF"}
+    r = requests.post(url = TEST_ADDRESS + '/getcollegeid', json = data) 
+    output = r.json()
+
+    assert output[0]['id'] == 1

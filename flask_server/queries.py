@@ -134,4 +134,7 @@ def add_participation():
 
 def check_userperms():
     return "SELECT role FROM users WHERE netid=?"
+
+def college_id():
+    return "SELECT id FROM collegeinfo WHERE college_abbreviation=?"
     
