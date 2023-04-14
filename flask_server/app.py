@@ -4,6 +4,8 @@ from contextlib import closing
 import cas
 import json
 import queries
+import datetime
+import calendar
 
 from consts import *
 from utils import *
@@ -526,6 +528,51 @@ def getcollegeid():
         data = request.get_json()
         college_abbreviation = data['collegeAbbreviation']
         result = query_db(queries.college_id(), [college_abbreviation], database_url=app.config['DATABASE'])
+        output = jsonify_rows(result)
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/getdatematches", methods=["POST"])
+def getdatematches():
+    """
+    Returns a list of matches on a specific day, month, year with option of college and sport
+    """
+    output = None
+    try:
+        data = request.get_json()
+        day = data['day']
+        month = data['month']
+        year = data['year']
+        college = data['college']
+        sport = data['sport']
+
+        if day:
+            startTime = datetime.datetime(int(year), int(month), int(day), 0, 0, 0, 0)
+            endTime = datetime.datetime(int(year), int(month), int(day), 23, 59, 59, 0)
+        else:
+            num_days = calendar.monthrange(int(year), int(month))[1]
+            startTime = datetime.datetime(int(year), int(month), 1, 0, 0, 0, 0)
+            endTime = datetime.datetime(int(year), int(month), num_days, 23, 59, 59, 0)
+        
+        if college and sport:
+            query = queries.college_sport_matches()
+            query = queries.time_filter_matches(query)
+            result = query_db(query, [college, college, sport, startTime, endTime], database_url=app.config['DATABASE'])
+        elif sport:
+            query = queries.sport_matches()
+            query = queries.time_filter_matches(query)
+            result = query_db(query, [sport, startTime, endTime], database_url=app.config['DATABASE'])
+        elif college:
+            query = queries.college_matches()
+            query = queries.time_filter_matches(query)
+            result = query_db(query, [college, college, startTime, endTime], database_url=app.config['DATABASE'])
+        else:
+            query = queries.matches()
+            query = queries.time_filter_matches(query)
+            result = query_db(query, [startTime, endTime], database_url=app.config['DATABASE'])
+            
         output = jsonify_rows(result)
     except Exception as ex:
         print(ex)
