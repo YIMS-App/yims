@@ -82,6 +82,7 @@ export default function RecordsScreen(props) {
             navigation={props.navigation}
             title={"Records"}
             color={"#3159C4"}
+            extraData={props.extraData}
           />
           <View
             style={[
@@ -98,6 +99,7 @@ export default function RecordsScreen(props) {
             navigation={props.navigation}
             title={"Records"}
             color={"#3159C4"}
+            extraData={props.extraData}
           />
           <View style={styles.headerContainer}>
             <ModalDropdown

@@ -106,7 +106,7 @@ export default function MainScreen(props) {
         <StatusBar style="auto" />
         <LinearGradient style={styles.gradient} colors={["#3159C4", "#022277"]}></LinearGradient>
         <View style={styles.headerContainer}> 
-          <NavBar navigation={props.navigation} title={"Leaderboard"} color={'white'}/>
+          <NavBar navigation={props.navigation} title={"Leaderboard"} color={'white'} extraData = {props.extraData}/>
           <View style={styles.screenNavigator}>
             <TouchableOpacity 
             style={[styles.navButton, tab == 'points' ? {backgroundColor: 'white'}: {}]}

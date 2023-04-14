@@ -577,4 +577,3 @@ def getdatematches():
     except Exception as ex:
         print(ex)
         return jsonify(error=404, text=str(ex)), 404
-    return output, 200
