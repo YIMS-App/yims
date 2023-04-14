@@ -58,8 +58,10 @@ def test_matchinfo():
     assert output['college2Abbrev'] == "BR"
     assert output['sport'] == "soccer"
     assert output['location'] == "school"
-    assert output['startTime'] == "2007-05-08 12:34:29"
-    assert output['endTime'] == "2007-05-08 12:35:29"
+    assert output['startTime'] == "2022-03-08 12:34:29"
+    assert output['endTime'] == "2022-03-08 12:35:29"
+    assert output['score1'] == 2
+    assert output['score2'] == 1
     assert output['winner'] == "Benjamin Franklin"
 
 def test_totalscores():
@@ -119,6 +121,8 @@ def test_addmatch():
     data['winner'] = "Ezra Stiles"
     data['startTime'] = "2030-05-08 12:34:29"
     data['endTime'] = "2030-05-09 12:34:29"
+    data['score1'] = 1
+    data['score2'] = 2
     data['summary'] = ""
 
     r = requests.post(url = TEST_ADDRESS + '/updatematch', json = data)
@@ -226,4 +230,19 @@ def test_collegeparticipation():
     output = r.json()
 
     assert output['scores'][0]["college"] == "Grace Hopper"
-    assert output['scores'][0]["score"] == 90.0
+    assert output['scores'][0]["part_score"] == 90.0
+
+def test_getmatchattendees():
+    data = {'matchid':1}
+    r = requests.post(url = TEST_ADDRESS + '/getmatchattendees', json = data)
+    output = r.json()
+
+    assert output['attendees'][0]['firstName'] == "Anna"
+    
+def test_collegeid():
+
+    data = {'college_abbreviation': "BF"}
+    r = requests.post(url = TEST_ADDRESS + '/getcollegeid', json = data) 
+    output = r.json()
+
+    assert output[0]['id'] == 1

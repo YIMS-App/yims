@@ -38,6 +38,8 @@ class Matches (Base):
     winner = Column(Integer)
     summary = Column(String)
     manager = Column(String)
+    score1 = Column(Integer)
+    score2 = Column(Integer)
     qr = Column(String)
 
     sportscores = relationship('Sportscores')

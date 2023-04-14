@@ -14,6 +14,8 @@ def matches():
                 matches.startTime,
                 matches.endTime,
                 C3.college AS winner,
+                matches.score1, 
+                matches.score2,
                 matches.summary
             FROM matches
             INNER JOIN collegeinfo AS C1 ON matches.id1 = C1.id
@@ -79,7 +81,7 @@ def count_matches():
 
 def add_match():
     return '''INSERT INTO matches 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'''
 
 def user_info():
     return "SELECT * FROM users WHERE netid = ?"
@@ -132,4 +134,10 @@ def add_participation():
 
 def check_userperms():
     return "SELECT role FROM users WHERE netid=?"
+    
+def match_attendees():
+    return "SELECT firstName, lastName FROM users NATURAL JOIN attendance WHERE matchid=? AND status=1"
+
+def college_id():
+    return "SELECT id FROM collegeinfo WHERE college_abbreviation=?"
     
