@@ -32,10 +32,19 @@ def unscored_matches():
     return matches() + "WHERE datetime(startTime) < datetime(\'now\') AND winner=-1 ORDER BY datetime(startTime) ASC"
 
 def sport_matches():
-    return matches() + "WHERE matches.sport=? ORDER BY datetime(startTime) ASC"
+    return matches() + "WHERE matches.sport=? AND "
 
 def college_matches():
-    return matches() + "WHERE (C1.id=? OR C2.id=?) ORDER BY datetime(startTime) ASC"
+    return matches() + "WHERE (C1.id=? OR C2.id=?) AND "
+
+def college_sport_matches():
+    return matches() + "WHERE (C1.id=? OR C2.id=?) AND matches.sport=? AND "
+
+def time_filter_matches(query):
+    if "WHERE" in query:
+        return query + "datetime(startTime) >= datetime(?) AND datetime(startTime) <= datetime(?) ORDER BY datetime(startTime) ASC"
+    else:
+        return query + "WHERE datetime(startTime) >= datetime(?) AND datetime(startTime) <= datetime(?) ORDER BY datetime(startTime) ASC"
 
 def winner_matches():
     return matches() + "WHERE C3.id=? ORDER BY datetime(startTime) ASC"

@@ -246,3 +246,25 @@ def test_collegeid():
     output = r.json()
 
     assert output[0]['id'] == 1
+
+def test_getdatematches_day():
+
+    data = {}
+    data['day'] = 8
+    data['month'] = 3
+    data['year'] = 2022
+    data['college'] = 2
+    data['sport'] = "soccer"
+    r = requests.post(url = TEST_ADDRESS + '/getdatematches', json = data) 
+    print(r.json())
+
+def test_getdatematches_month():
+
+    data = {}
+    data['day'] = ""
+    data['month'] = 3
+    data['year'] = 2022
+    data['college'] = 2
+    data['sport'] = "soccer"
+    r = requests.post(url = TEST_ADDRESS + '/getdatematches', json = data) 
+    print(r.json())
