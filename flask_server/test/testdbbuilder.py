@@ -30,27 +30,27 @@ def initialize():
         #---------------------------------------------------------------
 
         # collegeinfo table
-        session.add(Collegeinfo(college='NONE', college_abbreviation='NONE', 
+        session.add(Collegeinfo(college='NONE', collegeAbbreviation='NONE', 
                                 year=0, population=500, id=-1))
-        session.add(Collegeinfo(college='TIE', college_abbreviation='TIE', 
+        session.add(Collegeinfo(college='TIE', collegeAbbreviation='TIE', 
                                 year=0, population=500, id=0))
-        session.add(Collegeinfo(college='Benjamin Franklin', college_abbreviation='BF', 
+        session.add(Collegeinfo(college='Benjamin Franklin', collegeAbbreviation='BF', 
                                 year=2022, population=500, id=1))
-        session.add(Collegeinfo(college='Branford', college_abbreviation='BR', 
+        session.add(Collegeinfo(college='Branford', collegeAbbreviation='BR', 
                                 year=2022, population=500, id=2))
-        session.add(Collegeinfo(college='Ezra Stiles', college_abbreviation='ES', 
+        session.add(Collegeinfo(college='Ezra Stiles', collegeAbbreviation='ES', 
                                 year=2022, population=500, id=3))
-        session.add(Collegeinfo(college='Berkeley', college_abbreviation='BK', 
+        session.add(Collegeinfo(college='Berkeley', collegeAbbreviation='BK', 
                                 year=2022, population=500, id=4))
-        session.add(Collegeinfo(college='Davenport', college_abbreviation='DC', 
+        session.add(Collegeinfo(college='Davenport', collegeAbbreviation='DC', 
                                 year=2022, population=500, id=5))
-        session.add(Collegeinfo(college='Grace Hopper', college_abbreviation='GH', 
+        session.add(Collegeinfo(college='Grace Hopper', collegeAbbreviation='GH', 
                                 year=2022, population=500, id=6))
         session.commit()
 
         # totalscores table
         for i in range(1, 7):
-            session.add(Totalscores(id=i, score=i*10, part_score=i*15))
+            session.add(Totalscores(id=i, score=i*10, partScore=i*15))
         session.commit()
 
         # sportscores table

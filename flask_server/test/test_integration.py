@@ -195,11 +195,11 @@ def test_betprofit_success():
 def test_addparticipationpointscollege():
     initialize()
     id = 1
-    data = {'id': id, 'part_score': 10}
+    data = {'id': id, 'partScore': 10}
     r = requests.post(url = TEST_ADDRESS + '/addparticipationpointscollege', json = data)
     score = query_db(part_score_by_id(), [id], database_url=TEST_DATABASE_URL)
 
-    assert jsonify_rows(score)[0]['part_score'] == 25.0
+    assert jsonify_rows(score)[0]['partScore'] == 25.0
 
 def test_updateparticipation():
     data = {'netid': "ey229", 'status': 2, 'matchid':4}
@@ -230,7 +230,7 @@ def test_collegeparticipation():
     output = r.json()
 
     assert output['scores'][0]["college"] == "Grace Hopper"
-    assert output['scores'][0]["part_score"] == 90.0
+    assert output['scores'][0]["partScore"] == 90.0
 
 def test_getmatchattendees():
     data = {'matchid':1}
@@ -238,10 +238,10 @@ def test_getmatchattendees():
     output = r.json()
 
     assert output['attendees'][0]['firstName'] == "Anna"
-    
+
 def test_collegeid():
 
-    data = {'college_abbreviation': "BF"}
+    data = {'collegeAbbreviation': "BF"}
     r = requests.post(url = TEST_ADDRESS + '/getcollegeid', json = data) 
     output = r.json()
 

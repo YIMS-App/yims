@@ -16,7 +16,7 @@ class Collegeinfo (Base):
     year = Column(Integer)
     population = Column(Integer)
     id = Column(Integer, primary_key=True)
-    college_abbreviation = Column(String)
+    collegeAbbreviation = Column(String)
 
 class Sportscores (Base):
     __tablename__ = 'sportscores'
@@ -59,7 +59,7 @@ class Totalscores (Base):
 
     id = Column(Integer, ForeignKey('collegeinfo.id'), primary_key=True)
     score = Column(Float)
-    part_score = Column(Float)
+    partScore = Column(Float)
 
     collegeinfo = relationship('Collegeinfo')
 
