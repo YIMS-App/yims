@@ -8,9 +8,9 @@ import {
 	ActivityIndicator
 } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
-import Flags from '../components/Flags'
+import Flag from '../components/Flag'
 import React, { useState, useEffect } from "react";
-import { IP_ADDRESS, college_mapping } from "../utils/constants.js";
+import { IP_ADDRESS, COLLEGE_MAPPING } from "../utils/constants.js";
 
 
 const ProfileScreen = (props) => {
@@ -155,7 +155,7 @@ const ProfileScreen = (props) => {
 		}
 	}
 	const setUserInfo = (data) => {
-		setCollege(college_mapping[data['college']])
+		setCollege(COLLEGE_MAPPING[data['college']])
 		setName(data['firstName'] + ' ' + data['lastName'])
 		setMatches(populate);
 		setLoading(false);
@@ -188,7 +188,7 @@ const ProfileScreen = (props) => {
 				</TouchableOpacity>
 				{/* Names */}
 				<View style={styles.content}>
-					<Flags college={college}></Flags>
+					<Flag college={college} />
 					<Text style={styles.name}>{name}</Text>
 					<Text style={styles.title}>{college}</Text>
 					<Text style={styles.title}>{username}</Text>

@@ -8,6 +8,7 @@ import MoreInfo from '../components/main-screen/MoreInfo';
 function IndividualMatch(props) {
 
   const matchData = props.route.params.data;
+  
   const today = new Date();
   const matchDate = new Date(matchData.startTime)
 
@@ -125,6 +126,7 @@ function setHeight(count, win, position) {
         location={matchData.location}
         matchid={matchData.matchid}
         participants={dummy.participants}
+        extraData={props.route.params.extraData}
         />
       </View>
 

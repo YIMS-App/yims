@@ -227,7 +227,7 @@ export default function UpcomingMatchesScreen(props) {
                     onPress={() => {
                       //handleSelectedMatch(itemData.item);
                       const data = itemData.item;
-                      props.navigation.navigate("IndividualMatch", {data})
+                      props.navigation.navigate("IndividualMatch", {data, 'extraData': props.extraData,})
                     }}
                   >
                     <View style={styles.futureMatchContainer}>

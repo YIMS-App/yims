@@ -47,6 +47,7 @@ export default function MainScreen(props) {
           setaddButtonVisible(false);
         }
       }
+      
       function startUpdateMatchHandler() {
         setUpdateMatchIsVisibile(true);
       }

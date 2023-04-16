@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { useState, useEffect } from "react";
 import NavBar from "../components/main-screen/NavBar";
-import Flags from "../components/Flags";
+import Flag from "../components/Flag";
 import { ModalDropdown } from "../components/shared/ModalDropdown";
 import { COLLEGES, IP_ADDRESS } from "../utils/constants";
 
@@ -24,7 +24,7 @@ export default function RecordsScreen(props) {
   const [sports, setSports] = useState({});
 
   function startIndividualMatch(data) {
-    props.navigation.navigate("IndividualMatch", {data});
+    props.navigation.navigate("IndividualMatch", {data, 'extraData': props.extraData});
   }
 
   const fetchMatchesScores = async () => {
@@ -118,7 +118,7 @@ export default function RecordsScreen(props) {
                   <Text style={styles.gamepoints}>game</Text>
                   <Text style={styles.gamepoints}>points</Text>
                 </View>
-                <Flags college={filterText} />
+                <Flag college={filterText} />
               </View>
             ) : (
               <View style={styles.emptySpace}></View>

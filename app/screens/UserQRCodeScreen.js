@@ -29,11 +29,13 @@ export default function UserQRCodeScreen(props) {
 	// const username = userProp.replace(/['"]+/g, '');
 
     useEffect(() => { // runs once to update data at the first render
-        //const userProp = props["route"]["params"]["username"];
-        //console.log(userProp)
-        console.log(props["route"]["params"]["matchId"]);
-        const matchId = props["route"]["params"]["matchId"];
-		fetchUserInfo('cmo48', matchId);
+      // if(!props["route"]) {
+      //   // send user to login screen and return here after
+      // }
+      console.log(props)
+      const matchId = props["route"]["params"]["matchId"];
+      const netid = 'cmo48' //props["route"]["params"]["netid"];
+		  fetchUserInfo(netid, matchId);
       }, []); 
 
     const fetchUserInfo = async(netid, matchid) => {
@@ -65,9 +67,9 @@ export default function UserQRCodeScreen(props) {
 			.then(([userInfo, participationStatus]) => 
 				Promise.all([userInfo.json(), participationStatus.json()]))
 			.then(([userInfoData, participationStatusData]) => {
-                console.log("Data" + userInfoData)
+                //console.log("Data" + userInfoData)
                 //setUserInfo(userInfoData);
-                console.log("Status" + participationStatusData)
+                //console.log("Status" + participationStatusData)
                 if(participationStatusData != 2) {
                     setMessage('Great Job! You\'ve earned attendance points.')
                     addParticipationPointsToCollege(collegeId, 17); //TODO: change number of points to be variable based on sport?

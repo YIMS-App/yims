@@ -12,7 +12,6 @@ import {
 
   export default function QRCodeModal(props) {
     
-    //TODO: fetch match id to send through qr code
     function cancelDataHandler() {
       props.onCancel();
     };

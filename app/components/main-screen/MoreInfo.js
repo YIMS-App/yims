@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TouchableOpacity, Touchable, Image} from 'react-native';
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Participants from './Participants';
 import QRCodeModal from '../QRCodeModal';
 import QRCode from 'react-native-qrcode-svg';
@@ -8,6 +8,7 @@ import { Linking } from "react-native";
 
 function MoreInfo(props) {
     const [tab, setTab] = useState("More Info");
+    const [isAdmin, setIsAdmin] = useState(false);
   
     function changeParticipants() {
       setTab("Participants")
@@ -24,6 +25,15 @@ function MoreInfo(props) {
         setQRCodeIsVisible(true);
     }
     const [QRCodeIsVisible, setQRCodeIsVisible] = useState(false);
+
+    function checkUserPerm(){
+      if (props["extraData"]["role"] == "admin"){
+        setIsAdmin(true);
+      }
+      else{
+        setIsAdmin(false);
+      }
+    }
 
     const OpenURLButton = ({ url, buttonStyle, textStyle, text }) => {
       //pasted from expo docs
@@ -46,6 +56,10 @@ function MoreInfo(props) {
       );
     };
 
+    useEffect(() => { // runs once to update data at the first render
+      checkUserPerm();
+    }, []); 
+
     return (
         <View>
             <View style={styles.tabs}>
@@ -64,20 +78,25 @@ function MoreInfo(props) {
                       <Text style={styles.moreinfo2}> {props.location}</Text> 
                       <TouchableOpacity style={styles.addToCalButton}>
                         <View style={styles.calendarContainer}>
-                          <Image source={require("../../assets/images/Calendar.png")} style={styles.image}/>
+                          <Image source={require("../../assets/images/calendar-icon.png")} style={styles.image}/>
                         </View>
                       </TouchableOpacity>
-                      <TouchableOpacity style={styles.addToCalButton}
-                      onPress={startQRCodeHandler}>
-                          <QRCode
-                            value={"exp://172.27.112.229:19000/--/userqrcode?matchId="+props.matchId}
-                            size={40}
-                        />
-                      </TouchableOpacity>
+                      {
+                        isAdmin ? 
+                        <TouchableOpacity style={styles.addToCalButton}
+                        onPress={startQRCodeHandler}>
+                            <QRCode
+                              value={"exp://172.27.112.229:19000/--/userqrcode?matchId="+props.matchId}
+                              size={40}
+                          />
+                        </TouchableOpacity>
+                          : <View></View>
+                      }
                       <QRCodeModal
                           onCancel={endQRCodeHandler}
                           visible={QRCodeIsVisible}
                           matchId={props.matchId}
+                          extraData={props.extraData}
                       />
                     </View>
                 : 
