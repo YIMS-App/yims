@@ -11,9 +11,9 @@
   1. Additionally you can run the app on your laptop via IOS and Android Simulators. To run the IOS simulator, follow these steps: https://docs.expo.dev/workflow/ios-simulator/. To run the Android Simulator, follow these steps: https://docs.expo.dev/workflow/android-studio-emulator/
   
 1. Follow the steps here to install the Expo CLI npm https://docs.expo.dev/get-started/installation/
-1. cd into the app directory in your terminal
+1. cd into the app directory of the project folder in your terminal
 1. run 'npm install --legacy-peer-deps' in your terminal
-1. run 'npm start' in your terminal
+1. run 'npx expo start' in your terminal
 
 ## How to use YIMS 
 Check out the About Page and the How To Play page for more information on our app as well as information on Yale Intramural Sports. For more questions, contact one of us. 
