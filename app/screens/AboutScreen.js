@@ -8,6 +8,10 @@ import {
   } from "react-native";
 
 import NavBar from "../components/main-screen/NavBar";
+import QRCodeModal from "../components/QRCodeModal";
+import QRCode from "react-native-qrcode-svg";
+import { useState } from "react";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const sports = [
     {
@@ -77,7 +81,7 @@ export default function AboutScreen(props) {
     const renderItem = ({ item }) => (
         <Text style={[styles.sport]}>{item.sport} {item.emoji} </Text>
       );
-
+    
     return (
         <View style={styles.container}>
             <NavBar navigation={props.navigation} title={"About"} color={'white'} extraData = {props.extraData}/>

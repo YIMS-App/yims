@@ -8,7 +8,6 @@ import { useState } from "react";
 
 function NavBar(props) {
   const [isModalVisible, setisModalVisible] = useState(false);
-  console.log(props)
   const changeModalVisibility = (bool) => {
     setisModalVisible(bool)
   };

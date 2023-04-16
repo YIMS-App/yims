@@ -8,22 +8,9 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { ModalDropdown } from "../shared/ModalDropdown";
+import { SPORTS } from "../../utils/constants";
 
 function AddMatch(props) {
-  const sports = [
-    "soccer",
-    "flag football",
-    "cornhole",
-    "ping pong",
-    "spikeball",
-    "pickleball",
-    "basketball",
-    "dodgeball",
-    "volleyball",
-    "soccer (indoors)",
-    "broomball",
-    "water polo",
-  ];
   const colleges = [
     "Benjamin Franklin",
     "Berkeley",
@@ -151,6 +138,7 @@ function AddMatch(props) {
     "Room H (PWG Floor 5)",
     "Room K (PWG Floor 5)",
   ];
+
   // in the future, add google maps direct link for locations ?
   const [college1, setCollege1] = useState("Select College");
   const [college2, setCollege2] = useState("Select College");
@@ -470,7 +458,7 @@ function AddMatch(props) {
                 dropdownStyle={styles.collegeDropdown}
                 dropdownTextStyle={styles.collegeDropdownText}
                 dropdownTextHighlightStyle={styles.collegeDropdownTextSelected}
-                options={sports}
+                options={SPORTS}
                 filterText={sport}
                 modalStyle={[
                   styles.modal,

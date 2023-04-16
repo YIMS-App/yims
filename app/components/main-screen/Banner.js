@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import Flags from '../Flags';
+import Flag from '../Flag';
 
 function Banner(props) {
     return (
@@ -7,7 +7,7 @@ function Banner(props) {
         <Text style={styles.date}>{props.date}</Text>
         <View style={styles.info}>
             <View style={styles.college}>
-                <Flags college={props.college1}/> 
+                <Flag college={props.college1}/> 
                 <Text style={styles.collegeText}>{props.college1}</Text>
             </View>
             <View style={styles.middle}>
@@ -15,7 +15,7 @@ function Banner(props) {
                 <Text style={styles.emoji}>{props.sport}</Text>
             </View>
             <View style={styles.college}> 
-                <Flags college={props.college2} />
+                <Flag college={props.college2} />
                 <Text  style={styles.collegeText}>{props.college2}</Text>
             </View>    
         </View>

@@ -1,5 +1,3 @@
-
-
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, TextInput, Image } from 'react-native';
 import React, { useState, useEffect } from "react";
 
@@ -9,11 +7,18 @@ import MoreInfo from '../components/main-screen/MoreInfo';
 
 function IndividualMatch(props) {
 
-  props = props.route.params.data;
+  const matchData = props.route.params.data;
+  
+  const today = new Date();
+  const matchDate = new Date(matchData.startTime)
 
-  const [display, setDisplay] = useState(true);
+  const [bettingOver, setBettingOver] = useState(true);
   const [score1, setScore1] = useState(0);
   const [score2, setScore2] = useState(0);
+
+  useEffect(() => { 
+    setBettingOver(matchDate < today)
+  }, []); 
 
   const onChanged1 = (text) => {
     let newText = '';
@@ -93,24 +98,24 @@ function setHeight(count, win, position) {
   const emoji = {soccer: "⚽"};
 
   const dummy = {
-    score1: 1,
+    score1: 1, //TODO: scores need to be added to the match object
     score2: 0,
-    participants: ["AX", "BX", "CO"],
+    participants: ["AX", "BX", "CO"], //TODO: fetch participants of a certain match
   }
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => props.navigation.goBack()}>
         <Image style={styles.image} source={require('../assets/images/blue-down-arrow.png')}/>
       </TouchableOpacity>
 
       <Banner 
-        date={props.startTime} 
-        college1={props.college1} 
-        college2={props.college2} 
-        score1={dummy.score1}
-        score2={dummy.score2}
-        sport={emoji[props.sport]}
+        date={matchData.startTime} 
+        college1={matchData.college1} 
+        college2={matchData.college2} 
+        score1={today < matchData.startTime ? '' : dummy.score1}
+        score2={today < matchData.startTime ? '-' : dummy.score2}
+        sport={emoji[matchData.sport]}
       />
 
       <View style={styles.whitespace}></View>
@@ -118,28 +123,32 @@ function setHeight(count, win, position) {
       {/* MORE INFO + PARTICIPATION  */}
       <View style={styles.stretch}>
         <MoreInfo 
-        location={props.location}
+        location={matchData.location}
+        matchid={matchData.matchid}
         participants={dummy.participants}
+        extraData={props.route.params.extraData}
         />
       </View>
 
       {/* BETTING */}    
       <View style={styles.betting}>
-        { display ? 
+        
+        { 
+         !bettingOver ? 
           <View> 
             <Text style={styles.bettingTitle}> Place Your Bet Now! </Text> 
             <View style={styles.center}> 
-              <Countdown />
+              <Countdown startTime={matchDate}/>
               <View style={styles.survey}>
                 <Text style={styles.winner}>
                   Select Winner: 
                 </Text>
                 <View style={styles.buttons}>
                   <TouchableOpacity style={styles.surveyButton}>
-                    <Text style={styles.surveyButtonText} >{props.college1}</Text>
+                    <Text style={styles.surveyButtonText} >{matchData.college1}</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.surveyButton}>
-                    <Text style={styles.surveyButtonText}>{props.college2}</Text>
+                    <Text style={styles.surveyButtonText}>{matchData.college2}</Text>
                   </TouchableOpacity>
                 </View>
                 <Text style={styles.winner}>

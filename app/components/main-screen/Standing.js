@@ -89,7 +89,7 @@ function Standing(props) {
             </View>
             
             <View style={styles.calendarContainer}>
-                <Image source={require("../../assets/images/Calendar.png")} style={styles.image}/>
+                <Image source={require("../../assets/images/calendar-icon.png")} style={styles.image}/>
             </View>
         </View>
     )

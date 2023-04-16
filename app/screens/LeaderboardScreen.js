@@ -47,6 +47,7 @@ export default function MainScreen(props) {
           setaddButtonVisible(false);
         }
       }
+      
       function startUpdateMatchHandler() {
         setUpdateMatchIsVisibile(true);
       }
@@ -85,7 +86,7 @@ export default function MainScreen(props) {
             "startTime": startTime,
             "endTime": endTime,
             "location": location,
-            "summary": ""
+            "summary": "",
           })
         });
         }

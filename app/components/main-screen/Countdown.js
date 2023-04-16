@@ -2,9 +2,11 @@ import { StyleSheet, Text, View } from 'react-native';
 import React, { useState, useEffect } from "react";
 
 
-function Countdown(props) {
+function Countdown({startTime}) {
     const calculateTimeLeft = () => {
-        const difference = +new Date("2023-03-29T18:30:00+05:30") - +new Date();
+        const today = new Date()
+        const difference = startTime.getTime() - today.getTime();
+        
         let timeLeft = {};
         if (difference > 0) {
           timeLeft = {

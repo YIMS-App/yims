@@ -8,7 +8,6 @@ import HowToPlay from "./HowToPlay"
 import Calendar from "./Calendar"
 
 export default function HomeScreen(props) {
-  console.log(props)
   const Drawer = createDrawerNavigator();
   return (
       <Drawer.Navigator

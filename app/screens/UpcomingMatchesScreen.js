@@ -225,7 +225,9 @@ export default function UpcomingMatchesScreen(props) {
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      handleSelectedMatch(itemData.item);
+                      //handleSelectedMatch(itemData.item);
+                      const data = itemData.item;
+                      props.navigation.navigate("IndividualMatch", {data, 'extraData': props.extraData,})
                     }}
                   >
                     <View style={styles.futureMatchContainer}>
@@ -239,7 +241,8 @@ export default function UpcomingMatchesScreen(props) {
                       </Text>
                       <Text>{sports[itemData.item.sport][1]}</Text>
                     </View>
-                    {selectedMatch == itemData.item ? (
+                    <View style={{ height: 7 }}></View>
+                    {/*selectedMatch == itemData.item ? (
                       <View style={styles.matchDropdown}>
                         <Text style={styles.locationTitle}>Location: </Text>
                         <Text style={styles.locationText}>
@@ -256,7 +259,7 @@ export default function UpcomingMatchesScreen(props) {
                       </View>
                     ) : (
                       <View style={{ height: 7 }}></View>
-                    )}
+                    )*/}
                   </TouchableOpacity>
                 );
               }}
