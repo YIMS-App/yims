@@ -22,6 +22,7 @@ export default function RecordsScreen(props) {
   const [scores, setScores] = useState([]);
   const [points, setPoints] = useState(0);
   const [sports, setSports] = useState({});
+  const collegeOptions = ['All Colleges'].concat(COLLEGES)
 
   function startIndividualMatch(data) {
     props.navigation.navigate("IndividualMatch", {data, 'extraData': props.extraData});
@@ -109,7 +110,7 @@ export default function RecordsScreen(props) {
               filterButtonStyle={styles.filterButton}
               filterTextStyle={styles.filterText}
               setData={setData}
-              options={COLLEGES}
+              options={collegeOptions}
             />
             {filterText != "All Colleges" ? (
               <View style={styles.summarycontainer}>

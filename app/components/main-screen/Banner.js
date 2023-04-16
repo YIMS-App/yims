@@ -26,7 +26,6 @@ function Banner(props) {
 export default Banner;
 
 const styles = StyleSheet.create({
-    // banner 
     banner: {
         alignSelf: 'stretch',
         alignItems: 'center',

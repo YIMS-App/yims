@@ -8,38 +8,22 @@ import {
 } from "react-native";
 import { useState } from "react";
 import { ModalDropdown } from "../shared/ModalDropdown";
-import { SPORTS } from "../../utils/constants";
+import { SPORTS, COLLEGES } from "../../utils/constants";
 
 function AddMatch(props) {
-  const colleges = [
-    "Benjamin Franklin",
-    "Berkeley",
-    "Branford",
-    "Davenport",
-    "Ezra Stiles",
-    "Grace Hopper",
-    "Jonathan Edwards",
-    "Morse",
-    "Pauli Murray",
-    "Pierson",
-    "Silliman",
-    "Saybrook",
-    "Trumbull",
-    "Timothy Dwight",
-  ];
   const months = [
-    "01",
-    "02",
-    "03",
-    "04",
-    "05",
-    "06",
-    "07",
-    "08",
-    "09",
-    "10",
-    "11",
-    "12",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
   const days = [
     "01",
@@ -138,8 +122,7 @@ function AddMatch(props) {
     "Room H (PWG Floor 5)",
     "Room K (PWG Floor 5)",
   ];
-
-  // in the future, add google maps direct link for locations ?
+  
   const [college1, setCollege1] = useState("Select College");
   const [college2, setCollege2] = useState("Select College");
   const [sport, setSport] = useState("Select Sport");
@@ -273,13 +256,8 @@ function AddMatch(props) {
                     alignSelf: "center",
                   },
                 ]}
-                options={colleges}
+                options={COLLEGES}
                 setData={(college) => college1Handler(college)}
-                /*renderRightComponent={() => {
-                                    return (
-                                        <Image source={require("../../assets/images/down-arrow.png")} style={styles.whiteDropDownArrow}/>
-                                    );
-                                  }}*/
               />
             </View>
             <View style={styles.dropdownContainer}>
@@ -300,13 +278,8 @@ function AddMatch(props) {
                     alignSelf: "center",
                   },
                 ]}
-                options={colleges}
+                options={COLLEGES}
                 setData={(college) => college2Handler(college)}
-                /*renderRightComponent={() => {
-                                    return (
-                                        <Image source={require("../../assets/images/down-arrow.png")} style={styles.whiteDropDownArrow}/>
-                                    );
-                                  }}*/
               />
             </View>
             <View style={styles.dropdownContainer}>
@@ -330,11 +303,6 @@ function AddMatch(props) {
                       },
                     ]}
                     setData={(month) => setMonth(month)}
-                    // renderRightComponent={() => {
-                    //     return (
-                    //         <Image source={require("../../assets/images/blue-down-arrow.png")} style={styles.blueDropDownArrow}/>
-                    //     );
-                    //   }}
                   />
                 </View>
                 <View style={styles.subContainer}>
@@ -355,11 +323,6 @@ function AddMatch(props) {
                       },
                     ]}
                     setData={(day) => setDay(day)}
-                    // renderRightComponent={() => {
-                    //     return (
-                    //         <Image source={require("../../assets/images/blue-down-arrow.png")} style={styles.blueDropDownArrow}/>
-                    //     );
-                    //   }}
                   />
                 </View>
                 <View style={styles.subContainer}>
@@ -383,11 +346,6 @@ function AddMatch(props) {
                       },
                     ]}
                     setData={(year) => setYear(year)}
-                    // renderRightComponent={() => {
-                    //     return (
-                    //         <Image source={require("../../assets/images/blue-down-arrow.png")} style={styles.blueDropDownArrow}/>
-                    //     );
-                    //   }}
                   />
                 </View>
               </View>
@@ -412,11 +370,6 @@ function AddMatch(props) {
                     setData={(startTime) => {
                       setStartTime(startTime);
                     }}
-                    // renderRightComponent={() => {
-                    //     return (
-                    //         <Image source={require("../../assets/images/blue-down-arrow.png")} style={styles.blueDropDownArrow}/>
-                    //     );
-                    //   }}
                   />
                 </View>
                 <View style={styles.line}></View>
@@ -441,11 +394,6 @@ function AddMatch(props) {
                       },
                     ]}
                     setData={(endTime) => setEndTime(endTime)}
-                    // renderRightComponent={() => {
-                    //     return (
-                    //         <Image source={require("../../assets/images/blue-down-arrow.png")} style={styles.blueDropDownArrow}/>
-                    //     );
-                    //   }}
                   />
                 </View>
               </View>
@@ -470,11 +418,6 @@ function AddMatch(props) {
                   },
                 ]}
                 setData={(sport) => sportHandler(sport)}
-                // renderRightComponent={() => {
-                //     return (
-                //         <Image source={require("../../assets/images/down-arrow.png")} style={styles.whiteDropDownArrow}/>
-                //     );
-                //   }}
               />
             </View>
             <View style={styles.dropdownContainer}>
@@ -497,11 +440,6 @@ function AddMatch(props) {
                     alignSelf: "center",
                   },
                 ]}
-                // renderRightComponent={() => {
-                //     return (
-                //         <Image source={require("../../assets/images/down-arrow.png")} style={styles.whiteDropDownArrow}/>
-                //     );
-                //   }}
               />
             </View>
           </View>

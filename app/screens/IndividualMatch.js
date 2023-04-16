@@ -123,16 +123,13 @@ function setHeight(count, win, position) {
       {/* MORE INFO + PARTICIPATION  */}
       <View style={styles.stretch}>
         <MoreInfo 
-        location={matchData.location}
-        matchid={matchData.matchid}
-        participants={dummy.participants}
+        match={matchData}
         extraData={props.route.params.extraData}
         />
       </View>
 
       {/* BETTING */}    
       <View style={styles.betting}>
-        
         { 
          !bettingOver ? 
           <View> 

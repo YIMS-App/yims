@@ -10,7 +10,6 @@ import {
   RefreshControl,
 } from "react-native";
 import React, { useCallback } from "react";
-import { google } from "calendar-link";
 import { Linking } from "react-native";
 
 import { useState, useEffect } from "react";
@@ -23,26 +22,15 @@ export default function UpcomingMatchesScreen(props) {
   const [filterMatches, setfilterMatches] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterText, setFilterText] = useState("All Colleges");
-  const [isModalVisible, setisModalVisible] = useState(false);
-  const shuttleLink =
-    "https://sportsandrecreation.yale.edu/field-shuttle-bus-schedule";
+  const shuttleLink = "https://sportsandrecreation.yale.edu/field-shuttle-bus-schedule";
   const [refreshing, setRefreshing] = useState(false);
-  const [selectedMatch, setSelectedMatch] = useState("");
   const [sports, setSports] = useState({});
+  const collegeOptions = ['All Colleges'].concat(COLLEGES)
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     fetchMatchesScores();
   }, []);
-
-  const handleSelectedMatch = (match) => {
-    if (selectedMatch == match) setSelectedMatch("");
-    else setSelectedMatch(match);
-  };
-
-  const changeModalVisibility = (bool) => {
-    setisModalVisible(bool);
-  };
 
   const fetchMatchesScores = async () => {
     Promise.all([
@@ -61,28 +49,6 @@ export default function UpcomingMatchesScreen(props) {
     setRefreshing(false);
   };
 
-  const OpenURLButton = ({ url, buttonStyle, textStyle, text }) => {
-    //pasted from expo docs
-    const handlePress = useCallback(async () => {
-      // Checking if the link is supported for links with custom URL scheme.
-      const supported = await Linking.canOpenURL(url);
-
-      if (supported) {
-        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-        // by some browser in the mobile
-        await Linking.openURL(url);
-      } else {
-        Alert.alert(`Don't know how to open this URL: ${url}`);
-      }
-    }, [url]);
-
-    return (
-      <TouchableOpacity style={buttonStyle} onPress={handlePress}>
-        <Text style={textStyle}>{text}</Text>
-      </TouchableOpacity>
-    );
-  };
-
   const setData = (college) => {
     setFilterText(college);
     if (college != "All Colleges") {
@@ -97,10 +63,33 @@ export default function UpcomingMatchesScreen(props) {
       setfilterMatches(matches);
     }
   };
+
   useEffect(() => {
     // runs once to update data at the first render
     fetchMatchesScores();
   }, []);
+
+  const OpenURLButton = ({ url, buttonStyle, textStyle, text }) => {
+    //pasted from expo docs
+    const handlePress = useCallback(async () => {
+      // Checking if the link is supported for links with custom URL scheme.
+      const supported = await Linking.canOpenURL(url);
+
+      if (supported) {
+        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+        // by some browser in the mobile
+        await Linking.openURL(url);
+      } else {
+        Alert.alert(`Don't know how to open this URL: ${url}`);
+      }
+    }, [url])
+    return (
+      <TouchableOpacity style={buttonStyle} onPress={handlePress}>
+        <Text style={textStyle}>{text}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={styles.container}>
       {loading ? (
@@ -142,28 +131,8 @@ export default function UpcomingMatchesScreen(props) {
               filterButtonStyle={styles.filterButton}
               filterTextStyle={styles.filterText}
               setData={setData}
-              options={COLLEGES}
+              options={collegeOptions}
             />
-            {/* <SafeAreaView>
-                <TouchableOpacity
-                  onPress={() => changeModalVisibility(true)}
-                  style={styles.filterButton}
-                >
-                  <Text style={styles.filterText}>{filterText}</Text>
-                </TouchableOpacity>
-                <Modal
-                  transparent={true}
-                  animationType='fade'
-                  visible={isModalVisible}
-                  nRequestClose={() => changeModalVisibility(false)}
-                >
-                  <ModalDropdown 
-                    changeModalVisibility={changeModalVisibility}
-                    setData={setData}
-                    options={COLLEGES}
-                  />
-                </Modal>
-            </SafeAreaView> */}
           </View>
           <OpenURLButton
             url={shuttleLink}
@@ -184,48 +153,30 @@ export default function UpcomingMatchesScreen(props) {
               data={filterMatches}
               showsVerticalScrollIndicator={false}
               renderItem={(itemData) => {
-                const event = {
-                  title:
-                    itemData.item.college1 +
-                    " vs. " +
-                    itemData.item.college2 +
-                    ": " +
-                    itemData.item.sport,
-                  description:
-                    itemData.item.college1 +
-                    " and " +
-                    itemData.item.college2 +
-                    " face off in a game of " +
-                    itemData.item.sport,
-                  start: itemData.item.startTime,
-                  end: itemData.item.endTime,
-                  location: itemData.item.location,
-                };
-                const link = google(event);
-                let startDateData = itemData.item.startTime;
-                let startDate = startDateData.replace(/[-]/g, "/");
-                // parse the proper date string from the formatted string.
-                startDate = Date.parse(startDate);
-                // create new date
-                let startDateObj = new Date(startDate);
+              let startDateData = itemData.item.startTime;
+              let startDate = startDateData.replace(/[-]/g, "/");
+              // parse the proper date string from the formatted string.
+              startDate = Date.parse(startDate);
+              // create new date
+              let startDateObj = new Date(startDate);
 
-                let endDateData = itemData.item.endTime;
-                let endDate = endDateData.replace(/[-]/g, "/");
-                endDate = Date.parse(endDate);
-                let endDateObj = new Date(endDate);
+              let endDateData = itemData.item.endTime;
+              let endDate = endDateData.replace(/[-]/g, "/");
+              endDate = Date.parse(endDate);
+              let endDateObj = new Date(endDate);
 
-                const startDateString = startDateObj.toLocaleString("en-US", {
-                  hour: "numeric",
-                  minute: "numeric",
-                });
-                const endDateString = endDateObj.toLocaleString("en-US", {
-                  hour: "numeric",
-                  minute: "numeric",
-                });
+              const startDateString = startDateObj.toLocaleString("en-US", {
+                hour: "numeric",
+                minute: "numeric",
+              });
+              const endDateString = endDateObj.toLocaleString("en-US", {
+                hour: "numeric",
+                minute: "numeric",
+              });
+
                 return (
                   <TouchableOpacity
                     onPress={() => {
-                      //handleSelectedMatch(itemData.item);
                       const data = itemData.item;
                       props.navigation.navigate("IndividualMatch", {data, 'extraData': props.extraData,})
                     }}
@@ -242,24 +193,6 @@ export default function UpcomingMatchesScreen(props) {
                       <Text>{sports[itemData.item.sport][1]}</Text>
                     </View>
                     <View style={{ height: 7 }}></View>
-                    {/*selectedMatch == itemData.item ? (
-                      <View style={styles.matchDropdown}>
-                        <Text style={styles.locationTitle}>Location: </Text>
-                        <Text style={styles.locationText}>
-                          {itemData.item.location
-                            ? itemData.item.location
-                            : "Payne Whitney"}
-                        </Text>
-                        <OpenURLButton
-                          url={link}
-                          text={"Add to Calendar"}
-                          buttonStyle={styles.addToCalButton}
-                          textStyle={styles.addToCalText}
-                        ></OpenURLButton>
-                      </View>
-                    ) : (
-                      <View style={{ height: 7 }}></View>
-                    )*/}
                   </TouchableOpacity>
                 );
               }}

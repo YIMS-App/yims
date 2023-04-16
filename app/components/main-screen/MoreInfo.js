@@ -1,12 +1,12 @@
-import { StyleSheet, Text, View, TouchableOpacity, Touchable, Image} from 'react-native';
-import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native';
+import React, { useState, useEffect, useCallback } from "react";
 import Participants from './Participants';
 import QRCodeModal from '../QRCodeModal';
 import QRCode from 'react-native-qrcode-svg';
 import { google } from "calendar-link";
 import { Linking } from "react-native";
 
-function MoreInfo(props) {
+function MoreInfo({match, extraData}) {
     const [tab, setTab] = useState("More Info");
     const [isAdmin, setIsAdmin] = useState(false);
   
@@ -27,7 +27,7 @@ function MoreInfo(props) {
     const [QRCodeIsVisible, setQRCodeIsVisible] = useState(false);
 
     function checkUserPerm(){
-      if (props["extraData"]["role"] == "admin"){
+      if (extraData["role"] == "admin"){
         setIsAdmin(true);
       }
       else{
@@ -35,7 +35,7 @@ function MoreInfo(props) {
       }
     }
 
-    const OpenURLButton = ({ url, buttonStyle, textStyle, text }) => {
+    const OpenURLButton = ({ url }) => {
       //pasted from expo docs
       const handlePress = useCallback(async () => {
         // Checking if the link is supported for links with custom URL scheme.
@@ -50,11 +50,32 @@ function MoreInfo(props) {
         }
       }, [url])
       return (
-        <TouchableOpacity style={buttonStyle} onPress={handlePress}>
-          <Text style={textStyle}>{text}</Text>
+        <TouchableOpacity style={styles.addToCalButton} onPress={handlePress}>
+          <View style={styles.calendarContainer}>
+            <Image source={require("../../assets/images/calendar-icon.png")} style={styles.image}/>
+          </View>
         </TouchableOpacity>
       );
     };
+
+    const event = {
+      title:
+        match.college1 +
+        " vs. " +
+        match.college2 +
+        ": " +
+        match.sport,
+      description:
+        match.college1 +
+        " and " +
+        match.college2 +
+        " face off in a game of " +
+        match.sport,
+      start: match.startTime,
+      end: match.endTime,
+      location: match.location,
+    };
+    const link = google(event);
 
     useEffect(() => { // runs once to update data at the first render
       checkUserPerm();
@@ -75,18 +96,16 @@ function MoreInfo(props) {
                 { tab == 'More Info' ? 
                     <View style={styles.moreinfo}>
                       <Text style={styles.moreinfo1}>Location: </Text>
-                      <Text style={styles.moreinfo2}> {props.location}</Text> 
-                      <TouchableOpacity style={styles.addToCalButton}>
-                        <View style={styles.calendarContainer}>
-                          <Image source={require("../../assets/images/calendar-icon.png")} style={styles.image}/>
-                        </View>
-                      </TouchableOpacity>
+                      <Text style={styles.moreinfo2}> {match.location}</Text> 
+                      <OpenURLButton
+                      url={link}
+                      />
                       {
                         isAdmin ? 
                         <TouchableOpacity style={styles.addToCalButton}
                         onPress={startQRCodeHandler}>
                             <QRCode
-                              value={"exp://172.27.112.229:19000/--/userqrcode?matchId="+props.matchId}
+                              value={"exp://172.27.112.229:19000/--/userqrcode?matchId="+match.matchId}
                               size={40}
                           />
                         </TouchableOpacity>
@@ -95,12 +114,12 @@ function MoreInfo(props) {
                       <QRCodeModal
                           onCancel={endQRCodeHandler}
                           visible={QRCodeIsVisible}
-                          matchId={props.matchId}
-                          extraData={props.extraData}
+                          matchId={match.matchId}
+                          extraData={extraData}
                       />
                     </View>
                 : 
-                  <Participants participants={props.participants} />
+                  <Participants participants={match.participants} />
                 }
             </View>
         </View>
