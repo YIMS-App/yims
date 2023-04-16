@@ -13,7 +13,7 @@ function FirstPlaceStanding(props) {
     <View style={styles.firstPlaceContainer} testID="first-place-standing-view">
       <ImageBackground
         style={styles.trophy}
-        source={require("../../assets/images/trophy.png")}
+        source={require("../../assets/images/trophy-icon.png")}
       >
         <Text style={styles.firstPlaceName} testID="first-place-standing-college">{props.firstPlace.college}</Text>
         <Image style={styles.firstPlaceFlag} source={assets.collegeFlags[props.firstPlace.college].flag} />
