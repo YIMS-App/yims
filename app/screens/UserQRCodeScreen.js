@@ -1,15 +1,10 @@
 import {
-    FlatList,
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
-    ActivityIndicator,
-    SafeAreaView,
-    Modal,
-    RefreshControl,
   } from "react-native";
-import React, { useCallback, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import LottieView from 'lottie-react-native';
 import assets from "../assets";
 import { IP_ADDRESS } from "../utils/constants.js";
@@ -26,7 +21,7 @@ export default function UserQRCodeScreen(props) {
     const [message, setMessage] = useState('Great Job! You\'ve earned attendance points.');
 
     // const userProp = props.extraData.username;
-	// const username = userProp.replace(/['"]+/g, '');
+	  // const username = userProp.replace(/['"]+/g, '');
 
     useEffect(() => { // runs once to update data at the first render
       // if(!props["route"]) {
@@ -76,7 +71,7 @@ export default function UserQRCodeScreen(props) {
                     addParticipationPointsToUser(netid, 17)
                     updateMatchParticipation(netid, participationStatusData, matchid)
                 } else {
-                    setMessage('you\'ve already earned points for this game!')
+                    setMessage('You\'ve already earned points for this game!')
                 }
 			})
 		}
