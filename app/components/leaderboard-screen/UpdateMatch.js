@@ -8,13 +8,8 @@ import {
   TextInput,
   SafeAreaView
 } from 'react-native'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, React } from 'react'
 import ModalDropdown from '../shared/ModalDropdown'
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel
-} from 'react-native-simple-radio-button'
 import { IP_ADDRESS } from '../../utils/constants'
 
 function UpdateMatch ({ visible, onSubmitData, onCancel }) {
@@ -38,30 +33,14 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
     fetchUnscoredMatches()
   }, [])
 
-  const matchOptions = [
-    {
-      label: 'Won',
-      value: 0
-    },
-    {
-      label: 'Lost',
-      value: 1
-    },
-    {
-      label: 'Tied',
-      value: 2
-    }
-  ]
-
   function matchHandler (selectedMatch) {
     setSelectedMatchString(selectedMatch)
     selectedMatch = selectedMatch.split(' ')
-    // TODO: can we store this style of string on the backend?? would make it much easier.
     setSelectedMatch(
       matches.filter((match) => {
         return (
-          match.college1Abbrev == selectedMatch[0] &&
-          match.college2Abbrev == selectedMatch[2]
+          match.college1Abbrev === selectedMatch[0] &&
+          match.college2Abbrev === selectedMatch[2]
         )
       })[0]
     )
@@ -73,15 +52,15 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
     if (college1State == null || college2State == null) {
       // hasn't selected one of them
       alert('please select a result for each college.')
-    } else if (college1State == college2State && college1State == 'Won') {
+    } else if (college1State === college2State && college1State === 'Won') {
       alert("both colleges can't win, silly!")
-    } else if (college1State == college2State && college2State == 'Lost') {
+    } else if (college1State === college2State && college2State === 'Lost') {
       alert("both colleges surely couldn't have lost!")
     } else {
       // valid responses
-      if (college1State == 'Won') {
+      if (college1State === 'Won') {
         winner = selectedMatch.college1
-      } else if (college2State == 'Won') {
+      } else if (college2State === 'Won') {
         winner = selectedMatch.college2
       } else {
         // tie
@@ -188,7 +167,8 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
               }}
             />} */}
           </View>
-          {selectedMatch ? (
+          {selectedMatch
+            ? (
             <View>
               <View style={styles.dropdownContainer}>
                 <Text style={styles.header}>Enter Final Scores</Text>
@@ -204,37 +184,6 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
                       maxLength={10}
                   />
                 </SafeAreaView>
-
-                {/* <RadioForm animation={true} initial={-1} formHorizontal={true}>
-                  {matchOptions.map((matchOption, i) => (
-                    <RadioButton labelHorizontal={true} key={i}>
-                      <RadioButtonInput
-                        obj={matchOption}
-                        index={i}
-                        isSelected={college1State == matchOption.label}
-                        onPress={() => {
-                          setCollege1State(matchOption.label);
-                        }}
-                        borderWidth={1}
-                        buttonInnerColor={"white"}
-                        buttonOuterColor={"white"}
-                        buttonSize={20}
-                        buttonWrapStyle={{ marginLeft: 10, color: "white" }}
-                        selectedButtonColor={"white"}
-                      />
-                      <RadioButtonLabel
-                        obj={matchOption}
-                        index={i}
-                        labelHorizontal={true}
-                        labelStyle={{ fontSize: 15, color: "white" }}
-                        labelWrapStyle={{}}
-                        onPress={() => {
-                          setCollege1State(matchOption.label);
-                        }}
-                      />
-                    </RadioButton>
-                  ))}
-                </RadioForm> */}
               </View>
               <View style={styles.dropdownContainer}>
                 <SafeAreaView style={styles.enterScore}>
@@ -248,37 +197,6 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
                       maxLength={10}
                   />
                 </SafeAreaView>
-
-                {/* <RadioForm animation={true} initial={-1} formHorizontal={true}>
-                  {matchOptions.map((matchOption, i) => (
-                    <RadioButton labelHorizontal={true} key={i}>
-                      <RadioButtonInput
-                        obj={matchOption}
-                        index={i}
-                        isSelected={college2State == matchOption.label}
-                        onPress={() => {
-                          setCollege2State(matchOption.label);
-                        }}
-                        borderWidth={1}
-                        buttonInnerColor={"white"}
-                        buttonOuterColor={"white"}
-                        buttonSize={20}
-                        buttonWrapStyle={{ marginLeft: 10, color: "white" }}
-                        selectedButtonColor={"white"}
-                      />
-                      <RadioButtonLabel
-                        obj={matchOption}
-                        index={i}
-                        labelHorizontal={true}
-                        labelStyle={{ fontSize: 15, color: "white" }}
-                        labelWrapStyle={{}}
-                        onPress={() => {
-                          setCollege2State(matchOption.label);
-                        }}
-                      />
-                    </RadioButton>
-                  ))}
-                </RadioForm> */}
               </View>
               <TouchableOpacity
                 onPress={submitDataHandler}
@@ -287,7 +205,8 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
                 <Text style={styles.addButtonText}>Add</Text>
               </TouchableOpacity>
             </View>
-          ) : null}
+              )
+            : null}
         </View>
       </View>
     </Modal>
