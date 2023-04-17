@@ -69,7 +69,7 @@ export default function LeaderboardScreen ({ params, navigation }) {
     setaddButtonVisible(!visible)
   }
 
-  const addMatchHandler = async (college1, college2, sport, startTime, endTime, winner, location) => {
+  const addMatchHandler = async (college1, college2, sport, startTime, endTime, winner, location, score1, score2) => {
     try {
       await fetch(IP_ADDRESS + '/updatematch', {
         method: 'post',
@@ -86,7 +86,9 @@ export default function LeaderboardScreen ({ params, navigation }) {
           startTime,
           endTime,
           location,
-          summary: ''
+          summary: '',
+          score1,
+          score2
         })
       })
     } catch (e) {
@@ -145,7 +147,7 @@ export default function LeaderboardScreen ({ params, navigation }) {
             )
           : (
           <View style={styles.participationContainer}>
-            
+
           </View>
             )}
         {addButtonVisible

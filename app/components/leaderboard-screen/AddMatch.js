@@ -156,7 +156,7 @@ function AddMatch (props) {
         .toISOString()
         .slice(0, 19)
         .replace('T', ' ')
-      props.onSubmitData(college1, college2, sport, startDate, endDate, 'NONE', location)
+      props.onSubmitData(college1, college2, sport, startDate, endDate, 'NONE', location, 0, 0)
 
       // reset all data entry points
       setCollege1('Select College')

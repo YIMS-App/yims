@@ -13,8 +13,6 @@ import ModalDropdown from '../shared/ModalDropdown'
 import { IP_ADDRESS } from '../../utils/constants'
 
 function UpdateMatch ({ visible, onSubmitData, onCancel }) {
-  const [college1State, setCollege1State] = useState(null)
-  const [college2State, setCollege2State] = useState(null)
   const [selectedMatch, setSelectedMatch] = useState(null)
   const [selectedMatchString, setSelectedMatchString] =
     useState('Select Match')
@@ -49,18 +47,13 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
   function submitDataHandler () {
     // handle potential errors by the user
     let winner = 'NONE'
-    if (college1State == null || college2State == null) {
-      // hasn't selected one of them
-      alert('please select a result for each college.')
-    } else if (college1State === college2State && college1State === 'Won') {
-      alert("both colleges can't win, silly!")
-    } else if (college1State === college2State && college2State === 'Lost') {
-      alert("both colleges surely couldn't have lost!")
+    if (score1 == null || score2 == null) {
+      alert('please enter a result for each college.')
     } else {
       // valid responses
-      if (college1State === 'Won') {
+      if (score1 > score2) {
         winner = selectedMatch.college1
-      } else if (college2State === 'Won') {
+      } else if (score2 > score1) {
         winner = selectedMatch.college2
       } else {
         // tie
@@ -74,7 +67,9 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
         selectedMatch.startTime,
         selectedMatch.endTime,
         winner,
-        selectedMatch.location
+        selectedMatch.location,
+        score1,
+        score2
       )
     }
   }
@@ -83,8 +78,8 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
     // reset all of the data entry points
     setSelectedMatch(null)
     setSelectedMatchString('Select Match')
-    setCollege1State(null)
-    setCollege2State(null)
+    setScore1(null)
+    setScore2(null)
     onCancel()
   }
 
@@ -152,20 +147,6 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
               filterButtonStyle={styles.inputBox}
               filterTextStyle={styles.inputText}
             ></ModalDropdown>
-
-            {/* {<ModalDropdown
-              showsVerticalScrollIndicator={true}
-              defaultValue={"Select Match"}
-              onSelect={(idx, match) => matchHandler(match)}
-              renderRightComponent={() => {
-                return (
-                  <Image
-                    source={require("../../assets/images/down-arrow2.png")}
-                    style={styles.whiteDropDownArrow}
-                  />
-                );
-              }}
-            />} */}
           </View>
           {selectedMatch
             ? (
