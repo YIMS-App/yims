@@ -1,5 +1,5 @@
 import {render, screen, cleanup} from '@testing-library/react-native';
-import { ModalDropdown } from '../ModalDropdown';
+import ModalDropdown from '../ModalDropdown';
 
 afterEach(() => {
     cleanup();
