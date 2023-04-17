@@ -7,7 +7,7 @@ import {
   Modal
 } from "react-native";
 
-import {WebView} from "react-native-webview";
+import { WebView } from "react-native-webview";
 import { useState } from "react";
 import { IP_ADDRESS } from "../utils/constants";
 
@@ -23,6 +23,7 @@ export default function LoginScreen({ navigation }) {
   }
 
   function CASLoginHandler(data) {
+    console.log(data)
     if (data["username"]){
 
       const username = data["username"]
@@ -47,7 +48,7 @@ export default function LoginScreen({ navigation }) {
       endCASLoginHandler()
     }
     else{
-      console.log("e");
+      console.log("error here");
     }
 
   }

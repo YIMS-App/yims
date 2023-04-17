@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-const fallsports = [
+const fallSports = [
   {
       sport: 'Soccer',
       points: 11, 
@@ -33,12 +33,25 @@ const fallsports = [
   }
 ]
 
-const wintersports = [
+const winterSports = [
   {
       sport: 'Basketball',
       points: 5, 
       emoji: "🏀"
   }, 
+  {
+    sport: 'Broomball',
+    points: 6, 
+    emoji: "🧹"
+  }, 
+  {
+      sport: 'Inner Tube Water Polo',
+      points: 6, 
+      emoji: "🤽"
+  },
+];
+
+const springSports = [
   {
       sport: 'Dodgeball',
       points: 8, 
@@ -53,21 +66,24 @@ const wintersports = [
       sport: 'Volleyball',
       points: 6, 
       emoji: "🏐"
-  }
-]
+  },
+];
 
  function EmojiGuide() {
   return (
     <View testID='emoji-guide-view'>
         <Text style={styles.title} testID='emoji-guide-fall'>Fall</Text>
         {
-          fallsports.map((item) => <Text key={item.sport} style={[styles.sport, {marginTop: 5}]}>{item["sport"]} {item.emoji} : {item.points} players & points</Text>)
+          fallSports.map((item) => <Text key={item.sport} style={[styles.sport, {marginTop: 5}]}>{item["sport"]} {item.emoji} : {item.points} players & points</Text>)
         }
         <Text style={styles.title}>Winter</Text>
         {
-          wintersports.map((item) => <Text key={item.sport} style={[styles.sport, {marginTop: 5}]}>{item["sport"]} {item.emoji} : {item.points} players & points</Text>)
+          winterSports.map((item) => <Text key={item.sport} style={[styles.sport, {marginTop: 5}]}>{item["sport"]} {item.emoji} : {item.points} players & points</Text>)
         }
         <Text style={styles.title}>Spring</Text>
+        {
+          springSports.map((item) => <Text key={item.sport} style={[styles.sport, {marginTop: 5}]}>{item["sport"]} {item.emoji} : {item.points} players & points</Text>)
+        }
     </View>
   );
 }

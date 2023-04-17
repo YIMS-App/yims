@@ -3,9 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
-  Modal,
   TouchableOpacity,
-  SafeAreaView,
   ActivityIndicator,
 } from "react-native";
 import { useState, useEffect } from "react";

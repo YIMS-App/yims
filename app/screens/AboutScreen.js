@@ -4,84 +4,13 @@ import {
     View,
     Image,
     ScrollView,
-    FlatList,
   } from "react-native";
 
 import NavBar from "../components/main-screen/NavBar";
-import QRCodeModal from "../components/QRCodeModal";
-import QRCode from "react-native-qrcode-svg";
-import { useState } from "react";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
-const sports = [
-    {
-        sport: 'Soccer',
-        points: 11, 
-        emoji: "⚽"
-    }, 
-    {
-        sport: 'Flag football',
-        points: 6, 
-        emoji: "🏈"
-    }, 
-    {
-        sport: 'Spikeball',
-        points: 6, 
-        emoji: "🦔"
-    }, 
-    {
-        sport: 'Pickeball',
-        points: 6, 
-        emoji: "🥒"
-    }, 
-    {
-        sport: 'Cornhole',
-        points: 6, 
-        emoji: "🌽"
-    }, 
-    {
-        sport: 'Ping Pong',
-        points: 10, 
-        emoji: "🏓"
-    }, 
-    {
-        sport: 'Basketball',
-        points: 5, 
-        emoji: "🏀"
-    }, 
-    {
-        sport: 'Dodgeball',
-        points: 8, 
-        emoji: "🤾"
-    }, 
-    {
-        sport: 'Indoor Soccer',
-        points: 5, 
-        emoji: "🥅"
-    }, 
-    {
-        sport: 'Volleyball',
-        points: 6, 
-        emoji: "🏐"
-    }, 
-    {
-        sport: 'Broomball',
-        points: 6, 
-        emoji: "🧹"
-    }, 
-    {
-        sport: 'Inner Tube Water Polo',
-        points: 6, 
-        emoji: "🤽"
-    }
-]
 
 export default function AboutScreen(props) {
 
-    const renderItem = ({ item }) => (
-        <Text style={[styles.sport]}>{item.sport} {item.emoji} </Text>
-      );
-    
     return (
         <View style={styles.container}>
             <NavBar navigation={props.navigation} title={"About"} color={'white'} extraData = {props.extraData}/>
@@ -94,15 +23,8 @@ export default function AboutScreen(props) {
                     </Text>
                     <Text style={[styles.title]}>Who created this app?</Text>
                     <Text style={styles.body}>
-                    YIMS was created by Alejandro Gonzales (‘24), Anna Xu (‘24), Bienn Viquiera (‘24), Cierra Ouellette (‘24), and Edward Yang (MS '23) for their Full Stack Web Development class in Fall 2022.
+                    YIMS was created by Alejandro Gonzales (‘24), Anna Xu (‘24), Bienn Viquiera (‘24), Cierra Ouellette (‘24), Edward Yang (MS '23), Mary Jiang (‘24), and Kelly Qiang (‘24) for their Full Stack Web Development and Software Engineering classes in Fall 2022/Spring 2023.
                     </Text>
-                    <Text style={[styles.title, {marginBottom: 5}]}>⭐ Emoji Guide ⭐</Text>
-                    <FlatList
-                        data={sports}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={renderItem}
-                        keyExtractor={item => item.sport}
-                    />
                     <View style={styles.emptyspace}></View>
             </ScrollView>
         </View>
@@ -140,6 +62,7 @@ const styles = StyleSheet.create({
         margin: 15,
         marginLeft: 25,
         marginRight: 25,
+        textAlign: 'center',
     },
     sport: {
         fontSize: 15, 

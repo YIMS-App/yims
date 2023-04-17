@@ -26,37 +26,10 @@ const ProfileScreen = (props) => {
 	const [name, setName] = useState([]);
 	const userProp = props["route"]["params"]["username"];
 	const username = userProp.replace(/['"]+/g, '');
+	const [populate, setPopulate] = useState([])
 	const [userCoins, setUserCoins] = useState([]);
 	const [matches, setMatches] = useState([]);
-	const [populate, setPopulate] = useState([]);
 	const [sports, setSports] = useState({});
-	const dummyMatches = [
-		{
-		  "college1": "Benjamin Franklin",
-		  "college1Abbrev": "BF",
-		  "college2": "Ezra Stiles",
-		  "college2Abbrev": "ES",
-		  "sport": "soccer",
-		  "location": "school",
-		  "startTime": "2007-05-08 12:34:29",
-		  "endTime": "2007-05-08 12:35:29",
-		  "winner": "Benjamin Franklin",
-		  "summary": null
-		},
-		{
-		  "college1": "Jonathan Edwards",
-		  "college1Abbrev": "JE",
-		  "college2": "Branford",
-		  "college2Abbrev": "BR",
-		  "sport": "flag football",
-		  "location": "school",
-		  "startTime": "2007-05-08 12:34:29",
-		  "endTime": "2007-05-08 12:35:29",
-		  "winner": "Jonathan Edwards",
-		  "summary": null
-		}
-	]
-
 
 	useEffect(() => { // runs once to update data at the first render\
 		setMatches([]);
@@ -84,7 +57,7 @@ const ProfileScreen = (props) => {
 		  catch(e) {
 			console.log(e)
 		  }
-	  }
+	  };
 	
 	const fetchUserInfo = async(netid) => {
 		try {
@@ -153,13 +126,14 @@ const ProfileScreen = (props) => {
 		catch(e) {
 			console.log(e)
 		}
-	}
+	};
+	
 	const setUserInfo = (data) => {
 		setCollege(COLLEGE_MAPPING[data['college']])
 		setName(data['firstName'] + ' ' + data['lastName'])
 		setMatches(populate);
 		setLoading(false);
-	}
+	};
 
 	return (loading ? 
         <View style={[styles.container, {justifyContent: 'center', alignItems: 'center'}]}>
@@ -259,7 +233,7 @@ const ProfileScreen = (props) => {
 			</View>
 		</View>
 	))
-}
+};
 
 export default ProfileScreen
 
@@ -377,4 +351,4 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 		alignItems: "center"
 	}
-})
+});
