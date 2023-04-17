@@ -88,7 +88,7 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
     onCancel()
   }
 
-  const onChanged1 = (text) => {
+  const enterScoreCollege1 = (text) => {
     let newText = ''
     const numbers = '0123456789'
 
@@ -102,7 +102,7 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
     setScore1(newText)
   }
 
-  const onChanged2 = (text) => {
+  const enterScoreCollege2 = (text) => {
     let newText = ''
     const numbers = '0123456789'
 
@@ -177,7 +177,7 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
                   <Text style={styles.collegeText}>{selectedMatch.college1}:</Text>
                   <TextInput
                       keyboardType='numeric'
-                      onChangeText={text => onChanged1(text)}
+                      onChangeText={text => enterScoreCollege1(text)}
                       value={score1}
                       style={styles.input}
                       placeholder='0'
@@ -190,7 +190,7 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
                   <Text style={styles.collegeText}>{selectedMatch.college2}:</Text>
                   <TextInput
                       keyboardType='numeric'
-                      onChangeText={text => onChanged2(text)}
+                      onChangeText={text => enterScoreCollege2(text)}
                       value={score2}
                       style={styles.input}
                       placeholder='0'
