@@ -268,3 +268,19 @@ def test_getdatematches_month():
     data['sport'] = "soccer"
     r = requests.post(url = TEST_ADDRESS + '/getdatematches', json = data) 
     print(r.json())
+
+def test_updatematch():
+    data = {} 
+    data['college1'] = "Benjamin Franklin"
+    data['college2'] = "Berkeley"
+    data['sport'] = 'soccer'
+    data['location'] = 'school'
+    data['winner'] = "Benjamin Franklin"
+    data['startTime'] = "2022-03-08 12:34:29"
+    data['endTime'] = "2022-03-08 12:35:29"
+    data['score1'] = 4
+    data['score2'] = 4
+    data['summary'] = ""
+
+    r = requests.post(url = TEST_ADDRESS + '/updatematch', json = data)
+    # print(r.json())

@@ -85,6 +85,9 @@ def match_winner_by_id():
 def update_match_winner():
     return "UPDATE matches SET winner=? WHERE matchid=?"
 
+def update_match_scores():
+    return "UPDATE matches SET score1=?, score2=? WHERE matchid=?"
+
 def count_matches():
     return "SELECT COUNT(*) FROM matches"
 
