@@ -1,10 +1,10 @@
-import { StyleSheet, View, Modal, Text, TouchableOpacity, Image } from 'react-native';
-import { useState } from 'react';
-import { ModalDropdown } from '../shared/ModalDropdown';
-import { SPORTS, COLLEGES } from '../../utils/constants';
+import { StyleSheet, View, Modal, Text, TouchableOpacity, Image } from 'react-native'
+import { useState, React } from 'react'
+import { ModalDropdown } from '../shared/ModalDropdown'
+import { SPORTS, COLLEGES } from '../../utils/constants'
 
-function AddMatch(props) {
-  const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+function AddMatch (props) {
+  const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
   const days = [
     '01',
     '02',
@@ -36,9 +36,9 @@ function AddMatch(props) {
     '28',
     '29',
     '30',
-    '31',
-  ];
-  const years = ['2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015'];
+    '31'
+  ]
+  const years = ['2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015']
   const times = [
     '1:00',
     '1:15',
@@ -83,39 +83,39 @@ function AddMatch(props) {
     '11:00',
     '11:15',
     '11:30',
-    '11:45',
-  ];
+    '11:45'
+  ]
   const locations = [
     'Lanman Center',
     'Fields @ Tsai Stop',
     'PWG Crescent',
     'Room H (PWG Floor 5)',
-    'Room K (PWG Floor 5)',
-  ];
+    'Room K (PWG Floor 5)'
+  ]
 
-  const [college1, setCollege1] = useState('Select College');
-  const [college2, setCollege2] = useState('Select College');
-  const [sport, setSport] = useState('Select Sport');
-  const [month, setMonth] = useState('');
-  const [day, setDay] = useState('');
-  const [year, setYear] = useState('');
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
-  const [location, setLocation] = useState('Select Location');
+  const [college1, setCollege1] = useState('Select College')
+  const [college2, setCollege2] = useState('Select College')
+  const [sport, setSport] = useState('Select Sport')
+  const [month, setMonth] = useState('')
+  const [day, setDay] = useState('')
+  const [year, setYear] = useState('')
+  const [startTime, setStartTime] = useState('')
+  const [endTime, setEndTime] = useState('')
+  const [location, setLocation] = useState('Select Location')
 
-  function college1Handler(college) {
-    setCollege1(college);
+  function college1Handler (college) {
+    setCollege1(college)
   }
 
-  function college2Handler(college) {
-    setCollege2(college);
+  function college2Handler (college) {
+    setCollege2(college)
   }
 
-  function sportHandler(sport) {
-    setSport(sport);
+  function sportHandler (sport) {
+    setSport(sport)
   }
 
-  function submitDataHandler() {
+  function submitDataHandler () {
     // error handling
     if (
       college1 == null ||
@@ -128,62 +128,62 @@ function AddMatch(props) {
       endTime == null ||
       location == null
     ) {
-      alert('please select each of the required fields.');
-    } else if (college1 == college2) {
-      alert("a college can't play itself!");
+      alert('please select each of the required fields.')
+    } else if (college1 === college2) {
+      alert("a college can't play itself!")
     } else {
-      const startarray = startTime.split(':');
-      const endarray = endTime.split(':');
-      times.push(...endTime.split(':'));
+      const startarray = startTime.split(':')
+      const endarray = endTime.split(':')
+      times.push(...endTime.split(':'))
       // -5 is used to offset timezone from UTC and +12 is for P.M. (since there are no IMs in the morning). The -1s are for 0 indexed values
       const startDate = new Date(
         Number(year),
         Number(month) - 1,
         Number(day),
         Number(startarray[0] - 5 + 12),
-        Number(startarray[1]),
+        Number(startarray[1])
       )
         .toISOString()
         .slice(0, 19)
-        .replace('T', ' ');
+        .replace('T', ' ')
       const endDate = new Date(
         Number(year),
         Number(month) - 1,
         Number(day),
         Number(endarray[0] - 5 + 12),
-        Number(endarray[1]),
+        Number(endarray[1])
       )
         .toISOString()
         .slice(0, 19)
-        .replace('T', ' ');
-      props.onSubmitData(college1, college2, sport, startDate, endDate, 'NONE', location);
+        .replace('T', ' ')
+      props.onSubmitData(college1, college2, sport, startDate, endDate, 'NONE', location)
 
       // reset all data entry points
-      setCollege1('Select College');
-      setCollege2('Select College');
-      setSport('Select Sport');
-      setMonth('');
-      setDay('');
-      setYear('');
-      setStartTime('');
-      setEndTime('');
-      setLocation('Location');
+      setCollege1('Select College')
+      setCollege2('Select College')
+      setSport('Select Sport')
+      setMonth('')
+      setDay('')
+      setYear('')
+      setStartTime('')
+      setEndTime('')
+      setLocation('Location')
     }
   }
 
-  function cancelDataHandler() {
+  function cancelDataHandler () {
     // reset all data entry points & dismiss the modal
-    setCollege1('Select College');
-    setCollege2('Select College');
-    setSport('Select Sport');
-    setMonth('');
-    setDay('');
-    setYear('');
-    setStartTime('');
-    setEndTime('');
-    setLocation('Location');
+    setCollege1('Select College')
+    setCollege2('Select College')
+    setSport('Select Sport')
+    setMonth('')
+    setDay('')
+    setYear('')
+    setStartTime('')
+    setEndTime('')
+    setLocation('Location')
 
-    props.onCancel();
+    props.onCancel()
   }
 
   return (
@@ -214,8 +214,8 @@ function AddMatch(props) {
                     width: 300,
                     marginTop: 300,
                     height: '30%',
-                    alignSelf: 'center',
-                  },
+                    alignSelf: 'center'
+                  }
                 ]}
                 options={COLLEGES}
                 setData={(college) => college1Handler(college)}
@@ -236,8 +236,8 @@ function AddMatch(props) {
                     width: 300,
                     marginTop: 400,
                     height: '30%',
-                    alignSelf: 'center',
-                  },
+                    alignSelf: 'center'
+                  }
                 ]}
                 options={COLLEGES}
                 setData={(college) => college2Handler(college)}
@@ -260,8 +260,8 @@ function AddMatch(props) {
                         width: 90,
                         marginTop: 490,
                         height: '15%',
-                        marginLeft: 65,
-                      },
+                        marginLeft: 65
+                      }
                     ]}
                     setData={(month) => setMonth(month)}
                   />
@@ -280,8 +280,8 @@ function AddMatch(props) {
                         width: 90,
                         marginTop: 490,
                         height: '15%',
-                        marginLeft: 165,
-                      },
+                        marginLeft: 165
+                      }
                     ]}
                     setData={(day) => setDay(day)}
                   />
@@ -300,8 +300,8 @@ function AddMatch(props) {
                         width: 90,
                         marginTop: 490,
                         height: '15%',
-                        marginLeft: 265,
-                      },
+                        marginLeft: 265
+                      }
                     ]}
                     setData={(year) => setYear(year)}
                   />
@@ -322,11 +322,11 @@ function AddMatch(props) {
                         width: 127,
                         marginTop: 550,
                         height: '30%',
-                        marginLeft: 65,
-                      },
+                        marginLeft: 65
+                      }
                     ]}
                     setData={(startTime) => {
-                      setStartTime(startTime);
+                      setStartTime(startTime)
                     }}
                   />
                 </View>
@@ -345,8 +345,8 @@ function AddMatch(props) {
                         width: 127,
                         marginTop: 550,
                         height: '30%',
-                        marginLeft: 227,
-                      },
+                        marginLeft: 227
+                      }
                     ]}
                     setData={(endTime) => setEndTime(endTime)}
                   />
@@ -369,8 +369,8 @@ function AddMatch(props) {
                     width: 300,
                     marginTop: 650,
                     height: '20%',
-                    alignSelf: 'center',
-                  },
+                    alignSelf: 'center'
+                  }
                 ]}
                 setData={(sport) => sportHandler(sport)}
               />
@@ -392,8 +392,8 @@ function AddMatch(props) {
                     width: 300,
                     marginTop: 750,
                     height: '15%',
-                    alignSelf: 'center',
-                  },
+                    alignSelf: 'center'
+                  }
                 ]}
               />
             </View>
@@ -404,16 +404,16 @@ function AddMatch(props) {
         </View>
       </View>
     </Modal>
-  );
+  )
 }
 
-export default AddMatch;
+export default AddMatch
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-    flex: 1,
+    flex: 1
   },
   inputContainer: {
     justifyContent: 'center',
@@ -425,11 +425,11 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     paddingBottom: 30,
     paddingRight: 10,
-    paddingLeft: 10,
+    paddingLeft: 10
   },
   headerContainer: {
     padding: 15,
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   title: {
     color: 'white',
@@ -437,7 +437,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     flex: 3,
     padding: 10,
-    marginLeft: 5,
+    marginLeft: 5
   },
   cancelButton: {
     width: 75,
@@ -445,25 +445,25 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     flex: 1,
     marginRight: 5,
-    marginTop: 2,
+    marginTop: 2
   },
   formContainer: {
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   dropdownContainer: {
-    flexDirection: 'column',
+    flexDirection: 'column'
   },
   header: {
     color: 'white',
     fontWeight: '700',
     fontSize: 20,
-    marginBottom: 2,
+    marginBottom: 2
   },
   dateContainer: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   timeContainer: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   inputBox: {
     width: 300,
@@ -473,67 +473,67 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 3,
     borderRadius: 10,
-    borderColor: 'white',
+    borderColor: 'white'
   },
   inputText: {
     color: 'white',
     textAlignVertical: 'center',
     marginLeft: 15,
     fontSize: 25,
-    fontWeight: '300',
+    fontWeight: '300'
   },
   dateText: {
     color: '#3159C4',
     textAlign: 'center',
     textAlignVertical: 'center',
     fontSize: 20,
-    padding: 3,
+    padding: 3
   },
   dateBox: {
     backgroundColor: 'white',
     marginBottom: 10,
     marginRight: 10,
     borderRadius: 5,
-    height: 30,
+    height: 30
   },
   subheader: {
-    color: 'white',
+    color: 'white'
   },
   subContainer: {
-    flex: 1,
+    flex: 1
   },
   addButton: {
     backgroundColor: 'white',
-    borderRadius: 5,
+    borderRadius: 5
   },
   addButtonText: {
     color: '#3159C4',
     padding: 8,
     fontWeight: '700',
-    fontSize: 20,
+    fontSize: 20
   },
   collegeDropdown: {
-    borderRadius: 8,
+    borderRadius: 8
   },
   collegeDropdownText: {
     color: '#3159C4',
     fontSize: 25,
     fontWeight: '300',
     marginLeft: 15,
-    marginTop: 5,
+    marginTop: 5
   },
   collegeDropdownTextSelected: {
     backgroundColor: '#7195F6',
     fontSize: 25,
     fontWeight: '300',
     marginLeft: 5,
-    color: 'white',
+    color: 'white'
   },
   dateTimeText: {
     color: '#3159C4',
     fontSize: 14,
     fontWeight: '300',
-    marginLeft: 5,
+    marginLeft: 5
   },
   line: {
     borderWidth: 2,
@@ -542,7 +542,7 @@ const styles = StyleSheet.create({
     borderColor: '#D9D9D9',
     borderRadius: 4,
     alignSelf: 'center',
-    marginRight: 8,
+    marginRight: 8
   },
   blueDropDownArrow: {
     width: 15,
@@ -550,17 +550,17 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     position: 'absolute',
     top: 8,
-    right: 10,
+    right: 10
   },
   whiteDropDownArrow: {
     position: 'absolute',
     right: 10,
     width: 25,
     height: 25,
-    resizeMode: 'contain',
+    resizeMode: 'contain'
   },
   modal: {
     backgroundColor: 'white',
-    borderRadius: 20,
-  },
-});
+    borderRadius: 20
+  }
+})

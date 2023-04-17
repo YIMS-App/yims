@@ -1,32 +1,39 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Flag from '../shared/Flag'
+import PropTypes from 'prop-types'
+import { SPORTS_MAPPING } from '../../utils/constants'
 
-function Banner (props) {
+export default function Banner ({ match, bettingOver }) {
   return (
     <View style={styles.banner}>
-      <Text style={styles.date}>{props.date}</Text>
+      <Text style={styles.date}>{match.date}</Text>
       <View style={styles.info}>
         <View style={styles.college}>
-          <Flag college={props.college1} />
-          <Text style={styles.collegeText}>{props.college1}</Text>
+          <Flag college={match.college1} />
+          <Text style={styles.collegeText}>{match.college1}</Text>
         </View>
         <View style={styles.middle}>
           <Text style={styles.score}>
-            {props.score1}-{props.score2}
+            {
+              bettingOver ? match.score1 + '-' + match.score2 : '--'
+            }
           </Text>
-          <Text style={styles.emoji}>{props.sport}</Text>
+          <Text style={styles.emoji}>{SPORTS_MAPPING[match.sport].emoji}</Text>
         </View>
         <View style={styles.college}>
-          <Flag college={props.college2} />
-          <Text style={styles.collegeText}>{props.college2}</Text>
+          <Flag college={match.college2} />
+          <Text style={styles.collegeText}>{match.college2}</Text>
         </View>
       </View>
     </View>
   )
 }
 
-export default Banner
+Banner.propTypes = {
+  match: PropTypes.object,
+  bettingOver: PropTypes.bool
+}
 
 const styles = StyleSheet.create({
   banner: {

@@ -1,37 +1,37 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import React, { useState, useEffect } from 'react';
-import Participants from './Participants';
-import QRCodeModal from '../QRCodeModal';
-import QRCode from 'react-native-qrcode-svg';
-import { google } from 'calendar-link';
-import OpenURLButton from '../shared/OpenURLButton';
-import PropTypes from 'prop-types';
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import Participants from './Participants'
+import QRCodeModal from '../QRCodeModal'
+import QRCode from 'react-native-qrcode-svg'
+import { google } from 'calendar-link'
+import OpenURLButton from '../shared/OpenURLButton'
+import PropTypes from 'prop-types'
 
-export default function MoreInfo({ match, params }) {
-  const [tab, setTab] = useState('More Info');
-  const [isAdmin, setIsAdmin] = useState(false);
+export default function MoreInfo ({ match, params }) {
+  const [tab, setTab] = useState('More Info')
+  const [isAdmin, setIsAdmin] = useState(false)
 
-  function changeParticipants() {
-    setTab('Participants');
+  function changeParticipants () {
+    setTab('Participants')
   }
 
-  function changeMoreInfo() {
-    setTab('More Info');
+  function changeMoreInfo () {
+    setTab('More Info')
   }
 
-  function endQRCodeHandler() {
-    setQRCodeIsVisible(false);
+  function endQRCodeHandler () {
+    setQRCodeIsVisible(false)
   }
-  function startQRCodeHandler() {
-    setQRCodeIsVisible(true);
+  function startQRCodeHandler () {
+    setQRCodeIsVisible(true)
   }
-  const [QRCodeIsVisible, setQRCodeIsVisible] = useState(false);
+  const [QRCodeIsVisible, setQRCodeIsVisible] = useState(false)
 
-  function checkUserPerm() {
+  function checkUserPerm () {
     if (params.role === 'admin') {
-      setIsAdmin(true);
+      setIsAdmin(true)
     } else {
-      setIsAdmin(false);
+      setIsAdmin(false)
     }
   }
 
@@ -40,14 +40,14 @@ export default function MoreInfo({ match, params }) {
     description: match.college1 + ' and ' + match.college2 + ' face off in a game of ' + match.sport,
     start: match.startTime,
     end: match.endTime,
-    location: match.location,
-  };
-  const link = google(event);
+    location: match.location
+  }
+  const link = google(event)
 
   useEffect(() => {
     // runs once to update data at the first render
-    checkUserPerm();
-  }, []);
+    checkUserPerm()
+  }, [])
 
   return (
     <View>
@@ -55,7 +55,7 @@ export default function MoreInfo({ match, params }) {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            changeMoreInfo();
+            changeMoreInfo()
           }}
         >
           <Text style={styles.buttonText}>More Info</Text>
@@ -63,14 +63,15 @@ export default function MoreInfo({ match, params }) {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            changeParticipants();
+            changeParticipants()
           }}
         >
           <Text style={styles.buttonText}>Participants</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.tab}>
-        {tab === 'More Info' ? (
+        {tab === 'More Info'
+          ? (
           <View style={styles.moreinfo}>
             <Text style={styles.moreinfo1}>Location: </Text>
             <Text style={styles.moreinfo2}> {match.location}</Text>
@@ -79,13 +80,15 @@ export default function MoreInfo({ match, params }) {
                 <Image source={require('../../assets/images/calendar-icon.png')} style={styles.image} />
               </View>
             </OpenURLButton>
-            {isAdmin ? (
+            {isAdmin
+              ? (
               <TouchableOpacity style={styles.addToCalButton} onPress={startQRCodeHandler}>
                 <QRCode value={'exp://172.27.112.229:19000/--/userqrcode?matchId=' + match.matchId} size={40} />
               </TouchableOpacity>
-            ) : (
+                )
+              : (
               <View></View>
-            )}
+                )}
             <QRCodeModal
               onCancel={endQRCodeHandler}
               visible={QRCodeIsVisible}
@@ -93,22 +96,23 @@ export default function MoreInfo({ match, params }) {
               params={params}
             />
           </View>
-        ) : (
+            )
+          : (
           <Participants participants={match.participants} />
-        )}
+            )}
       </View>
     </View>
-  );
+  )
 }
 
 MoreInfo.propTypes = {
   match: PropTypes.object,
-  params: PropTypes.object,
-};
+  params: PropTypes.object
+}
 
 const styles = StyleSheet.create({
   tabs: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   button: {
     backgroundColor: '#3D6BE5',
@@ -119,17 +123,17 @@ const styles = StyleSheet.create({
     marginRight: 15,
     paddingTop: 5,
     borderRadius: 10,
-    zIndex: 1,
+    zIndex: 1
   },
   buttonText: {
     color: 'white',
     fontSize: 15,
-    fontWeight: '700',
+    fontWeight: '700'
   },
   line: {
     backgroundColor: '#3D6BE5',
     height: 3,
-    alignSelf: 'stretch',
+    alignSelf: 'stretch'
   },
   tab: {
     padding: 10,
@@ -139,39 +143,39 @@ const styles = StyleSheet.create({
     zIndex: 2,
     margin: -25,
     borderColor: '#3D6BE5',
-    borderWidth: 3,
+    borderWidth: 3
   },
   moreinfo1: {
     color: '#1A3B93',
     fontSize: 20,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   moreinfo2: {
     color: '#1A3B93',
     fontSize: 20,
     fontWeight: '700',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   moreinfo: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   addToCalButton: {
     backgroundColor: '#DFE5F2',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 5,
-    margin: 10,
+    margin: 10
   },
   addToCalText: {
     fontSize: 18,
     fontWeight: '700',
     color: '#3159C4',
     textAlign: 'center',
-    textAlignVertical: 'center',
+    textAlignVertical: 'center'
   },
   calendarContainer: {
     backgroundColor: 'rgba(49, 89, 196, 0.08)',
@@ -179,11 +183,11 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   image: {
     width: 30,
     height: 30,
-    resizeMode: 'contain',
-  },
-});
+    resizeMode: 'contain'
+  }
+})

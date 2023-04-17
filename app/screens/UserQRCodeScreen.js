@@ -1,31 +1,31 @@
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import LottieView from 'lottie-react-native';
-import assets from '../assets';
-import { IP_ADDRESS } from '../utils/constants.js';
-import PropTypes from 'prop-types';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import LottieView from 'lottie-react-native'
+import assets from '../assets'
+import { IP_ADDRESS } from '../utils/constants.js'
+import PropTypes from 'prop-types'
 
-export default function UserQRCodeScreen({ route, navigation }) {
+export default function UserQRCodeScreen ({ route, navigation }) {
   /* TODO: MUST ENSURE THAT USER IS LOGGED IN */
-  // if not props["route"]
   // send user to login screen
+  // get navigation and user's netid props
 
   // TODO: fetch user's college id using the abbreviation stored in their userData
-  const collegeId = 2;
-  const [message, setMessage] = useState("Great Job! You've earned attendance points.");
+  const collegeId = 2
+  const [message, setMessage] = useState("Great Job! You've earned attendance points.")
 
   // const userProp = props.params.username;
   // const username = userProp.replace(/['"]+/g, '');
 
   useEffect(() => {
     // runs once to update data at the first render
-    // if(!props["route"]) {
-    //   // send user to login screen and return here after
-    // }
-    const matchId = route.params.matchId;
-    const netid = 'cmo48'; // props["route"]["params"]["netid"];
-    fetchUserInfo(netid, matchId);
-  }, []);
+    if (!route.params.username) { //   // send user to login screen and return here after ?
+      console.log('have to login')
+    }
+    const matchId = route.params.matchId
+    const netid = 'cmo48' // props["route"]["params"]["netid"];
+    fetchUserInfo(netid, matchId)
+  }, [])
 
   const fetchUserInfo = async (netid, matchid) => {
     try {
@@ -35,24 +35,24 @@ export default function UserQRCodeScreen({ route, navigation }) {
           mode: 'no-cors',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            netid,
-          }),
+            netid
+          })
         }),
         fetch(IP_ADDRESS + '/getparticipationmatch', {
           method: 'post',
           mode: 'no-cors',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
             netid,
-            matchid,
-          }),
-        }),
+            matchid
+          })
+        })
       ])
         .then(([userInfo, participationStatus]) => Promise.all([userInfo.json(), participationStatus.json()]))
         .then(([userInfoData, participationStatusData]) => {
@@ -60,18 +60,18 @@ export default function UserQRCodeScreen({ route, navigation }) {
           // setUserInfo(userInfoData);
           // console.log("Status" + participationStatusData)
           if (participationStatusData !== 2) {
-            setMessage("Great Job! You've earned attendance points.");
-            addParticipationPointsToCollege(collegeId, 17); // TODO: change number of points to be variable based on sport?
-            addParticipationPointsToUser(netid, 17);
-            updateMatchParticipation(netid, participationStatusData, matchid);
+            setMessage("Great Job! You've earned attendance points.")
+            addParticipationPointsToCollege(collegeId, 17) // TODO: change number of points to be variable based on sport?
+            addParticipationPointsToUser(netid, 17)
+            updateMatchParticipation(netid, participationStatusData, matchid)
           } else {
-            setMessage("You've already earned points for this game!");
+            setMessage("You've already earned points for this game!")
           }
-        });
+        })
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   const addParticipationPointsToCollege = async (collegeId, participationPoints) => {
     try {
@@ -80,17 +80,17 @@ export default function UserQRCodeScreen({ route, navigation }) {
         mode: 'no-cors',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           id: collegeId,
-          part_score: participationPoints,
-        }),
-      });
+          part_score: participationPoints
+        })
+      })
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   const addParticipationPointsToUser = async (netid, participationPoints) => {
     try {
@@ -99,17 +99,17 @@ export default function UserQRCodeScreen({ route, navigation }) {
         mode: 'no-cors',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           netid,
-          participationPoints,
-        }),
-      });
+          participationPoints
+        })
+      })
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   const updateMatchParticipation = async (netid, status, matchId) => {
     try {
@@ -118,18 +118,18 @@ export default function UserQRCodeScreen({ route, navigation }) {
         mode: 'no-cors',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           netid,
           status,
-          matchid: matchId,
-        }),
-      });
+          matchid: matchId
+        })
+      })
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -139,38 +139,38 @@ export default function UserQRCodeScreen({ route, navigation }) {
         <Text style={styles.blueText}>done</Text>
       </TouchableOpacity>
     </View>
-  );
+  )
 }
 
 UserQRCodeScreen.propTypes = {
   navigation: PropTypes.object,
-  route: PropTypes.object,
-};
+  route: PropTypes.object
+}
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#3D6BE5',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   animationContainer: {
     width: 200,
-    height: 200,
+    height: 200
   },
   textStyle: {
     color: 'white',
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   blueText: {
     color: '#3D6BE5',
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   doneButton: {
     backgroundColor: 'white',
     borderRadius: 20,
-    padding: 12,
-  },
-});
+    padding: 12
+  }
+})

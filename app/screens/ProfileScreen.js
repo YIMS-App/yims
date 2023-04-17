@@ -1,34 +1,34 @@
-import { StyleSheet, FlatList, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import Flag from '../components/shared/Flag';
-import React, { useState, useEffect } from 'react';
-import { IP_ADDRESS, COLLEGE_MAPPING } from '../utils/constants.js';
-import PropTypes from 'prop-types';
+import { StyleSheet, FlatList, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
+import Flag from '../components/shared/Flag'
+import React, { useState, useEffect } from 'react'
+import { IP_ADDRESS, COLLEGE_MAPPING } from '../utils/constants.js'
+import PropTypes from 'prop-types'
 
-export default function ProfileScreen({ navigation, route }) {
+export default function ProfileScreen ({ navigation, route }) {
   const onPressItem = () => {
-    navigation.goBack();
-  };
+    navigation.goBack()
+  }
   const onPressCoins = () => {
-    console.log('coins pressed');
-  };
+    console.log('coins pressed')
+  }
   // TODO: get image from user's respective college
-  const [loading, setLoading] = useState(true);
-  const [college, setCollege] = useState([]);
-  const [name, setName] = useState([]);
-  const userProp = route.params.username;
-  const username = userProp.replace(/['"]+/g, '');
-  const [populate, setPopulate] = useState([]);
-  const [userCoins, setUserCoins] = useState([]);
-  const [matches, setMatches] = useState([]);
-  const [sports, setSports] = useState({});
+  const [loading, setLoading] = useState(true)
+  const [college, setCollege] = useState([])
+  const [name, setName] = useState([])
+  const userProp = route.params.username
+  const username = userProp.replace(/['"]+/g, '')
+  const [populate, setPopulate] = useState([])
+  const [userCoins, setUserCoins] = useState([])
+  const [matches, setMatches] = useState([])
+  const [sports, setSports] = useState({})
 
   useEffect(() => {
     // runs once to update data at the first render\
-    setMatches([]);
-    setCoins(username);
-    fetchUserInfo(username);
-  }, []);
+    setMatches([])
+    setCoins(username)
+    fetchUserInfo(username)
+  }, [])
 
   const setCoins = async (netid) => {
     try {
@@ -37,20 +37,20 @@ export default function ProfileScreen({ navigation, route }) {
         mode: 'no-cors',
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          netid,
-        }),
+          netid
+        })
       })
         .then((response) => response.json())
         .then((responseData) => {
-          setUserCoins(responseData.participationPoints);
-        });
+          setUserCoins(responseData.participationPoints)
+        })
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   const fetchUserInfo = async (netid) => {
     try {
@@ -60,32 +60,32 @@ export default function ProfileScreen({ navigation, route }) {
           mode: 'no-cors',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            netid,
-          }),
+            netid
+          })
         }),
         fetch(IP_ADDRESS + '/getuserevents', {
           method: 'post',
           mode: 'no-cors',
           headers: {
             Accept: 'application/json',
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            netid,
-          }),
+            netid
+          })
         }),
-        fetch(IP_ADDRESS + '/getallsportscores'),
+        fetch(IP_ADDRESS + '/getallsportscores')
       ])
         .then(([userInfo, userGames, sportsScores]) =>
           Promise.all([userInfo.json(), userGames.json(), sportsScores.json()])
         )
         .then(([userInfoData, userGamesData, sportsData]) => {
-          setSports(sportsData);
-          const promises = [];
-          userGamesData = userGamesData.filter((match) => match.status === 2);
+          setSports(sportsData)
+          const promises = []
+          userGamesData = userGamesData.filter((match) => match.status === 2)
           userGamesData.forEach((element) => {
             promises.push(
               fetch(IP_ADDRESS + '/matchinfo', {
@@ -93,43 +93,45 @@ export default function ProfileScreen({ navigation, route }) {
                 mode: 'no-cors',
                 headers: {
                   Accept: 'application/json',
-                  'Content-Type': 'application/json',
+                  'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                  matchid: element.matchid,
-                }),
+                  matchid: element.matchid
+                })
               })
                 .then((response) => response.json())
                 .catch((e) => {})
-            );
-          });
+            )
+          })
           Promise.all(promises)
             .then((x) => {
-              setMatches(x);
+              setMatches(x)
             })
             .catch((e) => {
-              console.log(e);
-            });
+              console.log(e)
+            })
 
-          setUserInfo(userInfoData);
-        });
+          setUserInfo(userInfoData)
+        })
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
-  };
+  }
 
   const setUserInfo = (data) => {
-    setCollege(COLLEGE_MAPPING[data.college]);
-    setName(data.firstName + ' ' + data.lastName);
-    setMatches(populate); // TODO remove?? ask bienn what the purpose of this is
-    setLoading(false);
-  };
+    setCollege(COLLEGE_MAPPING[data.college])
+    setName(data.firstName + ' ' + data.lastName)
+    setMatches(populate) // TODO remove?? ask bienn what the purpose of this is
+    setLoading(false)
+  }
 
-  return loading ? (
+  return loading
+    ? (
     <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
       <ActivityIndicator animating={true} color="#bc2b78" size="large" />
     </View>
-  ) : (
+      )
+    : (
     <View style={styles.container}>
       <LinearGradient colors={['#3159C4', '#002075']} style={[styles.gradient]}></LinearGradient>
       <View style={[{ flex: 2 }]}>
@@ -159,7 +161,7 @@ export default function ProfileScreen({ navigation, route }) {
             borderTopWidth: 1,
             borderBottomColor: 'white',
             borderBottomWidth: 1,
-            marginTop: 10,
+            marginTop: 10
           }}
         >
           <Text style={styles.collegeTableHeader}>Date</Text>
@@ -181,8 +183,8 @@ export default function ProfileScreen({ navigation, route }) {
                   style={[
                     styles.matchPts,
                     {
-                      color: '#1FED27',
-                    },
+                      color: '#1FED27'
+                    }
                   ]}
                 >
                   + {sports[itemData.item.sport][0]}
@@ -196,40 +198,40 @@ export default function ProfileScreen({ navigation, route }) {
                 </Text>
                 <Text style={[styles.collegeMatchSport, styles.userMatchData]}>{sports[itemData.item.sport][1]}</Text>
               </View>
-            );
+            )
           }}
         ></FlatList>
       </View>
     </View>
-  );
+      )
 }
 
 ProfileScreen.propTypes = {
   navigation: PropTypes.object,
   route: PropTypes.object,
-  params: PropTypes.object,
-};
+  params: PropTypes.object
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    zIndex: 1,
+    zIndex: 1
   },
   gradient: {
     position: 'absolute',
     height: '100%',
     width: '100%',
-    zIndex: 0,
+    zIndex: 0
   },
   content: {
     flex: 4,
     flexDirection: 'column',
-    zIndex: 2,
+    zIndex: 2
   },
   text: {
     zIndex: 2,
     color: 'white',
-    paddingRight: 10,
+    paddingRight: 10
   },
   button: {
     flex: 1,
@@ -237,13 +239,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     flexDirection: 'row',
     alignSelf: 'left',
-    zIndex: 2,
+    zIndex: 2
   },
   ximage: {
     flexDirection: 'row',
     alignSelf: 'center',
     width: 20,
-    height: 20,
+    height: 20
   },
   coinsButton: {
     flexDirection: 'row',
@@ -255,28 +257,28 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     height: 30,
     borderRadius: 10,
-    minWidth: 80,
+    minWidth: 80
   },
   coinImage: {
     flexDirection: 'row',
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   title: {
     alignSelf: 'center',
     fontSize: 20,
     fontWeight: '700',
     color: 'white',
-    margin: 5,
+    margin: 5
   },
   name: {
     alignSelf: 'center',
     fontSize: 30,
     fontWeight: '700',
     color: 'white',
-    margin: 5,
+    margin: 5
   },
   list: {
-    flex: 2,
+    flex: 2
   },
   collegeTableHeader: {
     flexDirection: 'row',
@@ -284,44 +286,44 @@ const styles = StyleSheet.create({
     color: 'white',
     paddingVertical: 3,
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'center'
   },
   collegeMatchDate: {
     fontWeight: '700',
     fontSize: 15,
     color: 'white',
-    marginLeft: 13,
+    marginLeft: 13
   },
   matchPts: {
     fontWeight: '700',
     fontSize: 15,
     color: 'white',
-    marginLeft: 13,
+    marginLeft: 13
   },
   matchOpponent: {
     fontWeight: '700',
     fontSize: 15,
     color: 'white',
     width: 30,
-    marginLeft: 55,
+    marginLeft: 55
   },
   matchOutcome: {
     fontWeight: '700',
     fontSize: 15,
     color: 'white',
     width: 20,
-    marginLeft: 60,
+    marginLeft: 60
   },
   collegeMatchSport: {
     marginLeft: 45,
     width: 25,
     fontWeight: '700',
     fontSize: 15,
-    color: 'white',
+    color: 'white'
   },
   userMatchData: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-});
+    alignItems: 'center'
+  }
+})
