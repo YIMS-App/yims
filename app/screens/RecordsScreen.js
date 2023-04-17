@@ -1,19 +1,12 @@
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator
-} from 'react-native'
+import { FlatList, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { useState, useEffect, React } from 'react'
-import NavBar from '../components/main-screen/NavBar'
-import Flag from '../components/Flag'
+import NavBar from '../components/shared/NavBar'
+import Flag from '../components/shared/Flag'
 import { ModalDropdown } from '../components/shared/ModalDropdown'
 import { COLLEGES, IP_ADDRESS } from '../utils/constants'
 import PropTypes from 'prop-types'
 
-export default function RecordsScreen (props) {
+export default function RecordsScreen ({ navigation, params }) {
   const [matches, setMatches] = useState([])
   const [filterMatches, setfilterMatches] = useState([])
   const [loading, setLoading] = useState(true)
@@ -24,7 +17,7 @@ export default function RecordsScreen (props) {
   const collegeOptions = ['All Colleges'].concat(COLLEGES)
 
   function startIndividualMatch (data) {
-    props.navigation.navigate('IndividualMatch', { data, extraData: props.extraData })
+    navigation.navigate('IndividualMatch', { data, params })
   }
 
   const fetchMatchesScores = async () => {
@@ -53,12 +46,8 @@ export default function RecordsScreen (props) {
   const setData = (college) => {
     setFilterText(college)
     if (college !== 'All Colleges') {
-      setfilterMatches(
-        matches.filter(match => match.college1 === college || match.college2 === college)
-      )
-      setPoints(
-        scores.filter((score) => college === score.college)[0].score
-      )
+      setfilterMatches(matches.filter((match) => match.college1 === college || match.college2 === college))
+      setPoints(scores.filter((score) => college === score.college)[0].score)
     } else {
       setfilterMatches(matches)
     }
@@ -68,36 +57,16 @@ export default function RecordsScreen (props) {
     <View style={styles.container}>
       {loading
         ? (
-        <View
-          style={[
-            styles.container,
-            { justifyContent: 'center', alignItems: 'center', flex: 1 }
-          ]}
-        >
-          <NavBar
-            navigation={props.navigation}
-            title={'Records'}
-            color={'#3159C4'}
-            extraData={props.extraData}
-          />
-          <View
-            style={[
-              styles.container,
-              { justifyContent: 'center', alignItems: 'center', flex: 1 }
-            ]}
-          >
+        <View style={[styles.container, { justifyContent: 'center', alignItems: 'center', flex: 1 }]}>
+          <NavBar navigation={navigation} title={'Records'} color={'#3159C4'} params={params} />
+          <View style={[styles.container, { justifyContent: 'center', alignItems: 'center', flex: 1 }]}>
             <ActivityIndicator animating={true} color="#bc2b78" size="large" />
           </View>
         </View>
           )
         : (
         <View>
-          <NavBar
-            navigation={props.navigation}
-            title={'Records'}
-            color={'#3159C4'}
-            extraData={props.extraData}
-          />
+          <NavBar navigation={navigation} title={'Records'} color={'#3159C4'} params={params} />
           <View style={styles.headerContainer}>
             <ModalDropdown
               filterText={filterText}
@@ -170,93 +139,67 @@ export default function RecordsScreen (props) {
               renderItem={(itemData) => {
                 return filterText === 'All Colleges'
                   ? (
-                  <TouchableOpacity
-                  onPress={() => startIndividualMatch(itemData.item)} >
+                  <TouchableOpacity onPress={() => startIndividualMatch(itemData.item)}>
                     <View style={{ flexDirection: 'row', padding: 3 }}>
                       <Text style={styles.matchDate}>
-                        {itemData.item.startTime.slice(5, 7) +
-                          '/' +
-                          itemData.item.startTime.slice(8, 10)}
+                        {itemData.item.startTime.slice(5, 7) + '/' + itemData.item.startTime.slice(8, 10)}
                       </Text>
-                      <Text
-                        style={[
-                          styles.matchWinner,
-                          itemData.item.winner === 'TIE'
-                            ? { color: 'yellow' }
-                            : {}
-                        ]}
-                      >
+                      <Text style={[styles.matchWinner, itemData.item.winner === 'TIE' ? { color: 'yellow' } : {}]}>
                         {itemData.item.college1 === itemData.item.winner
                           ? itemData.item.college1Abbrev
                           : itemData.item.college2 === itemData.item.winner
                             ? itemData.item.college2Abbrev
                             : itemData.item.college1Abbrev + '(T)'}
                       </Text>
-                      <Text
-                        style={[
-                          styles.matchLoser,
-                          itemData.item.winner === 'TIE'
-                            ? { color: 'yellow' }
-                            : {}
-                        ]}
-                      >
+                      <Text style={[styles.matchLoser, itemData.item.winner === 'TIE' ? { color: 'yellow' } : {}]}>
                         {itemData.item.college1 === itemData.item.winner
                           ? itemData.item.college2Abbrev
                           : itemData.item.college2 === itemData.item.winner
                             ? itemData.item.college1Abbrev
                             : itemData.item.college2Abbrev + '(T)'}
                       </Text>
-                      <Text style={styles.matchSport}>
-                        {sports[itemData.item.sport][1]}
-                      </Text>
+                      <Text style={styles.matchSport}>{sports[itemData.item.sport][1]}</Text>
                     </View>
                   </TouchableOpacity>
                     )
                   : (
-                  <View style={{ flexDirection: 'row', padding: 3 }}>
-                    <Text style={styles.collegeMatchDate}>
-                      {itemData.item.startTime.slice(5, 7) +
-                        '/' +
-                        itemData.item.startTime.slice(8, 10)}
-                    </Text>
-                    <Text
-                      style={[
-                        styles.matchPts,
-                        {
-                          color:
-                            itemData.item.winner === filterText
-                              ? '#1FED27'
-                              : itemData.item.winner === 'TIE'
-                                ? '#FFCA28'
-                                : '#FF5353'
-                        }
-                      ]}
-                    >
-                      +{' '}
-                      {itemData.item.winner === filterText
-                        ? sports[itemData.item.sport][0]
-                        : itemData.item.winner === 'TIE'
-                          ? sports[itemData.item.sport][0] / 2
-                          : 0}
-                      pts
-                    </Text>
-                    <Text style={styles.matchOpponent}>
-                      {itemData.item.college1 === filterText
-                        ? itemData.item.college2Abbrev
-                        : itemData.item.college1Abbrev}
-                    </Text>
-                    <Text style={styles.matchOutcome}>
-                      {itemData.item.winner === filterText
-                        ? 'W'
-                        : itemData.item.winner === 'TIE'
-                          ? 'T'
-                          : 'L'}
-                    </Text>
-                    <Text style={styles.collegeMatchSport}>
-                      {sports[itemData.item.sport][1]}
-                    </Text>
-                  </View>
-
+                  <TouchableOpacity onPress={() => startIndividualMatch(itemData.item)}>
+                    <View style={{ flexDirection: 'row', padding: 3 }}>
+                      <Text style={styles.collegeMatchDate}>
+                        {itemData.item.startTime.slice(5, 7) + '/' + itemData.item.startTime.slice(8, 10)}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.matchPts,
+                          {
+                            color:
+                              itemData.item.winner === filterText
+                                ? '#1FED27'
+                                : itemData.item.winner === 'TIE'
+                                  ? '#FFCA28'
+                                  : '#FF5353'
+                          }
+                        ]}
+                      >
+                        +{' '}
+                        {itemData.item.winner === filterText
+                          ? sports[itemData.item.sport][0]
+                          : itemData.item.winner === 'TIE'
+                            ? sports[itemData.item.sport][0] / 2
+                            : 0}
+                        pts
+                      </Text>
+                      <Text style={styles.matchOpponent}>
+                        {itemData.item.college1 === filterText
+                          ? itemData.item.college2Abbrev
+                          : itemData.item.college1Abbrev}
+                      </Text>
+                      <Text style={styles.matchOutcome}>
+                        {itemData.item.winner === filterText ? 'W' : itemData.item.winner === 'TIE' ? 'T' : 'L'}
+                      </Text>
+                      <Text style={styles.collegeMatchSport}>{sports[itemData.item.sport][1]}</Text>
+                    </View>
+                  </TouchableOpacity>
                     )
               }}
             />
@@ -265,6 +208,12 @@ export default function RecordsScreen (props) {
           )}
     </View>
   )
+}
+
+RecordsScreen.propTypes = {
+  navigation: PropTypes.object,
+  route: PropTypes.object,
+  params: PropTypes.object
 }
 
 const styles = StyleSheet.create({

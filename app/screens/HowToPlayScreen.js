@@ -1,14 +1,14 @@
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import React from 'react'
-import EmojiGuide from '../components/main-screen/EmojiGuide'
-import NavBar from '../components/main-screen/NavBar'
-import OpenURLButton from '../components/OpenURLButton'
-import PropTypes from 'prop-types'
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import React from 'react';
+import EmojiGuide from '../components/howtoplay-screen/EmojiGuide';
+import NavBar from '../components/shared/NavBar';
+import OpenURLButton from '../components/shared/OpenURLButton';
+import PropTypes from 'prop-types';
 
-export default function HowToPlayScreen (props) {
+export default function HowToPlayScreen(props) {
   return (
     <View style={styles.container}>
-      <NavBar navigation={props.navigation} title={'How To Play'} color={'white'} extraData={props.extraData} />
+      <NavBar navigation={props.navigation} title={'How To Play'} color={'white'} params={props.params} />
       <ScrollView style={styles.scrollContainer} showsVerticalScrollIndicator={false}>
         <View style={styles.linecontainer}>
           <View style={styles.line} />
@@ -43,29 +43,29 @@ export default function HowToPlayScreen (props) {
         <View style={styles.emptyspace}></View>
       </ScrollView>
     </View>
-  )
+  );
 }
 
 HowToPlayScreen.propTypes = {
   navigation: PropTypes.object,
-  extraData: PropTypes.object
-}
+  params: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#3D6BE5',
-    flex: 1
+    flex: 1,
   },
   scrollContainer: {
     marginLeft: 5,
     marginRight: 3,
     paddingTop: 15,
     paddingBottom: 15,
-    marginTop: 50
+    marginTop: 50,
   },
   linecontainer: {
     flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   line: {
     flex: 1,
@@ -73,20 +73,20 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginRight: 15,
     marginLeft: 15,
-    marginTop: 20
+    marginTop: 20,
   },
   title: {
     alignSelf: 'center',
     fontSize: 20,
     fontWeight: '700',
-    color: 'white'
+    color: 'white',
   },
   sport: {
     fontSize: 18,
     fontWeight: '300',
     color: 'white',
     marginLeft: 25,
-    marginRight: 25
+    marginRight: 25,
   },
   body: {
     fontSize: 15,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     color: 'white',
     margin: 15,
     marginLeft: 25,
-    marginRight: 25
+    marginRight: 25,
   },
   title2: {
     fontSize: 20,
@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
     marginTop: 20,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
   link: {
     borderColor: 'white',
@@ -112,9 +112,9 @@ const styles = StyleSheet.create({
     margin: 15,
     marginLeft: 25,
     marginRight: 25,
-    padding: 10
+    padding: 10,
   },
   emptyspace: {
-    height: 100
-  }
-})
+    height: 100,
+  },
+});

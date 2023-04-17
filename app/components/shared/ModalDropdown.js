@@ -1,33 +1,27 @@
-import React from "react";
+import React, { useState } from 'react'
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Dimensions,
   ScrollView,
   SafeAreaView,
-  Modal,
-} from "react-native";
-import { useState } from "react";
+  Modal
+} from 'react-native'
 
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
-
-const ModalDropdown = (props) => {
-
-  const [isModalVisible, setisModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+export default function ModalDropdown (props) {
+  const [isModalVisible, setisModalVisible] = useState(false)
+  const [selectedItem, setSelectedItem] = useState(null)
 
   const changeModalVisibility = (bool) => {
-    setisModalVisible(bool);
-  };
+    setisModalVisible(bool)
+  }
 
   const onPressItem = (option) => {
-    setSelectedItem(option);
-    changeModalVisibility(false);
-    props.setData(option);
-  };
+    setSelectedItem(option)
+    changeModalVisibility(false)
+    props.setData(option)
+  }
 
   const options = props.options.map((item, index) => {
     return (
@@ -38,14 +32,14 @@ const ModalDropdown = (props) => {
       >
         <Text
           style={
-            props.dropdownTextStyle /*selectedItem == item && props.dropdownTextHighlightStyle ? props.dropdownTextHighlightStyle : props.dropdownTextStyle*/
+            props.dropdownTextStyle /* selectedItem == item && props.dropdownTextHighlightStyle ? props.dropdownTextHighlightStyle : props.dropdownTextStyle */
           }
         >
           {item}
         </Text>
       </TouchableOpacity>
-    );
-  });
+    )
+  })
 
   return (
     <SafeAreaView testID="modal-dropdown-view">
@@ -68,19 +62,17 @@ const ModalDropdown = (props) => {
         </TouchableOpacity>
       </Modal>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-/*dropdownStyle={styles.matchDropdown}
+/* dropdownStyle={styles.matchDropdown}
               dropdownTextStyle={styles.matchDropdownText}
               dropdownTextHighlightStyle={styles.matchDropdownTextSelected}
               */
 
 const styles = StyleSheet.create({
   modal: {
-    backgroundColor: "#DFE5F2",
-    borderRadius: 20,
-  },
-});
-
-export { ModalDropdown };
+    backgroundColor: '#DFE5F2',
+    borderRadius: 20
+  }
+})

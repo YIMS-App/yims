@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native'
 import React from 'react'
-import NavBar from '../components/main-screen/NavBar'
+import NavBar from '../components/shared/NavBar'
 import PropTypes from 'prop-types'
 
-export default function AboutScreen ({ navigation, extraData }) {
+export default function AboutScreen ({ navigation, params }) {
   return (
     <View style={styles.container}>
-      <NavBar navigation={navigation} title={'About'} color={'white'} extraData={extraData} />
+      <NavBar navigation={navigation} title={'About'} color={'white'} params={params} />
       <ScrollView style={styles.aboutContainer} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>YIMS(Yale Intramural Sports)</Text>
         <Image style={styles.logo} source={require('../assets/images/logo.png')} />
@@ -30,7 +30,7 @@ export default function AboutScreen ({ navigation, extraData }) {
 
 AboutScreen.propTypes = {
   navigation: PropTypes.object,
-  extraData: PropTypes.object
+  params: PropTypes.object
 }
 
 const styles = StyleSheet.create({

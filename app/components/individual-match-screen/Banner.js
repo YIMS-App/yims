@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from 'react-native';
-import Flag from '../Flag';
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import Flag from '../shared/Flag'
 
-function Banner(props) {
+function Banner (props) {
   return (
     <View style={styles.banner}>
       <Text style={styles.date}>{props.date}</Text>
@@ -22,54 +23,54 @@ function Banner(props) {
         </View>
       </View>
     </View>
-  );
+  )
 }
 
-export default Banner;
+export default Banner
 
 const styles = StyleSheet.create({
   banner: {
     alignSelf: 'stretch',
     alignItems: 'center',
     backgroundColor: '#3D6BE5',
-    padding: 20,
+    padding: 20
   },
   whitespace: {
-    height: 25,
+    height: 25
   },
   date: {
     color: 'white',
     fontWeight: '700',
-    fontSize: 20,
+    fontSize: 20
   },
   info: {
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   score: {
     color: 'white',
     fontWeight: '700',
     fontSize: 70,
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   college: {
     marginLeft: 7,
     marginRight: 7,
     flexDirection: 'column',
     alignItems: 'center',
-    width: 100,
+    width: 100
   },
   collegeText: {
     color: 'white',
     fontWeight: '700',
     margin: 10,
     textAlign: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   middle: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   emoji: {
-    fontSize: 35,
-  },
-});
+    fontSize: 35
+  }
+})

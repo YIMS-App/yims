@@ -20,24 +20,16 @@ export default function HomeScreen ({ route }) {
       }}
       drawerContent={CustomDrawerContent}
     >
-      <Drawer.Screen name="Leaderboard">
-        {(values) => <MainScreen {...values} extraData={route.params} />}
-      </Drawer.Screen>
-      <Drawer.Screen name="Records">
-        {(values) => <RecordsScreen {...values} extraData={route.params} />}
-      </Drawer.Screen>
+      <Drawer.Screen name="Leaderboard">{(values) => <MainScreen {...values} params={route.params} />}</Drawer.Screen>
+      <Drawer.Screen name="Records">{(values) => <RecordsScreen {...values} params={route.params} />}</Drawer.Screen>
       <Drawer.Screen name="Upcoming Matches">
-        {(values) => <UpcomingMatchesScreen {...values} extraData={route.params} />}
+        {(values) => <UpcomingMatchesScreen {...values} params={route.params} />}
       </Drawer.Screen>
       <Drawer.Screen name="How To Play">
-        {(values) => <HowToPlayScreen {...values} extraData={route.params} />}
+        {(values) => <HowToPlayScreen {...values} params={route.params} />}
       </Drawer.Screen>
-      <Drawer.Screen name="About">
-        {(values) => <AboutScreen {...values} extraData={route.params} />}
-      </Drawer.Screen>
-      <Drawer.Screen name="Calendar">
-        {(values) => <CalendarScreen {...values} extraData={route.params} />}
-      </Drawer.Screen>
+      <Drawer.Screen name="About">{(values) => <AboutScreen {...values} params={route.params} />}</Drawer.Screen>
+      <Drawer.Screen name="Calendar">{(values) => <CalendarScreen {...values} params={route.params} />}</Drawer.Screen>
     </Drawer.Navigator>
   )
 }
