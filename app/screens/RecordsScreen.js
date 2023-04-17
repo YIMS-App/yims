@@ -2,7 +2,7 @@ import { FlatList, StyleSheet, Text, View, TouchableOpacity, ActivityIndicator }
 import { useState, useEffect, React } from 'react'
 import NavBar from '../components/shared/NavBar'
 import Flag from '../components/shared/Flag'
-import { ModalDropdown } from '../components/shared/ModalDropdown'
+import ModalDropdown from '../components/shared/ModalDropdown'
 import { COLLEGES, IP_ADDRESS } from '../utils/constants'
 import PropTypes from 'prop-types'
 
