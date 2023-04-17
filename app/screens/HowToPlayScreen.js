@@ -1,36 +1,11 @@
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Linking, Alert } from 'react-native'
-import React, { useCallback } from 'react'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
+import React from 'react'
 import EmojiGuide from '../components/main-screen/EmojiGuide'
 import NavBar from '../components/main-screen/NavBar'
+import OpenURLButton from '../components/OpenURLButton'
 import PropTypes from 'prop-types'
 
-const OpenURLButton = ({ url, children }) => {
-  // pasted from expo docs
-  const handlePress = useCallback(async () => {
-    // Checking if the link is supported for links with custom URL scheme.
-    const supported = await Linking.canOpenURL(url)
-
-    if (supported) {
-      // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-      // by some browser in the mobile
-      await Linking.openURL(url)
-    } else {
-      Alert.alert(`Don't know how to open this URL: ${url}`)
-    }
-  }, [url])
-
-  return (
-    <TouchableOpacity title={children} onPress={handlePress}>
-      <View>
-        <Text>{children}</Text>
-      </View>
-    </TouchableOpacity>
-  )
-}
-
 export default function HowToPlayScreen (props) {
-  const link = 'https://intramurals.yale.edu/tyng-cup-point-system'
-
   return (
     <View style={styles.container}>
       <NavBar navigation={props.navigation} title={'How To Play'} color={'white'} extraData={props.extraData} />
@@ -50,7 +25,7 @@ export default function HowToPlayScreen (props) {
         </Text>
         <Text style={[styles.title2]}>How are points tallied?</Text>
         <View style={styles.link}>
-          <OpenURLButton url={link}>
+          <OpenURLButton url={'https://intramurals.yale.edu/tyng-cup-point-system'}>
             <Text style={styles.body}>Read about the Tyng Cup Point System here.</Text>
           </OpenURLButton>
         </View>

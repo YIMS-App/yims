@@ -9,7 +9,7 @@ import HowToPlayScreen from './HowToPlayScreen'
 import CalendarScreen from './CalendarScreen'
 import PropTypes from 'prop-types'
 
-export default function HomeScreen (props) {
+export default function HomeScreen ({ route }) {
   const Drawer = createDrawerNavigator()
   return (
     <Drawer.Navigator
@@ -21,22 +21,22 @@ export default function HomeScreen (props) {
       drawerContent={CustomDrawerContent}
     >
       <Drawer.Screen name="Leaderboard">
-        {(values) => <MainScreen {...values} extraData={props.route.params} />}
+        {(values) => <MainScreen {...values} extraData={route.params} />}
       </Drawer.Screen>
       <Drawer.Screen name="Records">
-        {(values) => <RecordsScreen {...values} extraData={props.route.params} />}
+        {(values) => <RecordsScreen {...values} extraData={route.params} />}
       </Drawer.Screen>
       <Drawer.Screen name="Upcoming Matches">
-        {(values) => <UpcomingMatchesScreen {...values} extraData={props.route.params} />}
+        {(values) => <UpcomingMatchesScreen {...values} extraData={route.params} />}
       </Drawer.Screen>
       <Drawer.Screen name="How To Play">
-        {(values) => <HowToPlayScreen {...values} extraData={props.route.params} />}
+        {(values) => <HowToPlayScreen {...values} extraData={route.params} />}
       </Drawer.Screen>
       <Drawer.Screen name="About">
-        {(values) => <AboutScreen {...values} extraData={props.route.params} />}
+        {(values) => <AboutScreen {...values} extraData={route.params} />}
       </Drawer.Screen>
       <Drawer.Screen name="Calendar">
-        {(values) => <CalendarScreen {...values} extraData={props.route.params} />}
+        {(values) => <CalendarScreen {...values} extraData={route.params} />}
       </Drawer.Screen>
     </Drawer.Navigator>
   )

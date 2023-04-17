@@ -15,6 +15,8 @@
 1. run 'npm install --legacy-peer-deps' in your terminal
 1. run 'npx expo start' in your terminal
 
+NOTE: in order to make the QR code work for you locally, replace the url beginning with 'exp://' in QRCodeModal with the url beginning with 'exp://' generated when you run npx expo start.
+
 ## How to use YIMS 
 Check out the About Page and the How To Play page for more information on our app as well as information on Yale Intramural Sports. For more questions, contact one of us. 
 

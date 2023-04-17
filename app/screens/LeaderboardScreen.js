@@ -18,7 +18,7 @@ import { IP_ADDRESS } from '../utils/constants.js'
 import { LinearGradient } from 'expo-linear-gradient'
 import PropTypes from 'prop-types'
 
-export default function LeaderboardScreen (props) {
+export default function LeaderboardScreen ({ extraData, navigation }) {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
   const [addMatchIsVisible, setAddMatchIsVisible] = useState(false)
@@ -41,7 +41,7 @@ export default function LeaderboardScreen (props) {
   }, [])
 
   function checkUserPerm () {
-    if (props.extraData.role === 'admin') {
+    if (extraData.role === 'admin') {
       setaddButtonVisible(true)
     } else {
       setaddButtonVisible(false)
@@ -108,7 +108,7 @@ export default function LeaderboardScreen (props) {
         <StatusBar style="auto" />
         <LinearGradient style={styles.gradient} colors={['#3159C4', '#022277']}></LinearGradient>
         <View style={styles.headerContainer}>
-          <NavBar navigation={props.navigation} title={'Leaderboard'} color={'white'} extraData={props.extraData} />
+          <NavBar navigation={navigation} title={'Leaderboard'} color={'white'} extraData={extraData} />
           <View style={styles.screenNavigator}>
             <TouchableOpacity
               style={[styles.navButton, tab === 'points' ? { backgroundColor: 'white' } : {}]}

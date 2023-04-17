@@ -3,10 +3,10 @@ import React from 'react'
 import NavBar from '../components/main-screen/NavBar'
 import PropTypes from 'prop-types'
 
-export default function AboutScreen (props) {
+export default function AboutScreen ({ navigation, extraData }) {
   return (
     <View style={styles.container}>
-      <NavBar navigation={props.navigation} title={'About'} color={'white'} extraData={props.extraData} />
+      <NavBar navigation={navigation} title={'About'} color={'white'} extraData={extraData} />
       <ScrollView style={styles.aboutContainer} showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>YIMS(Yale Intramural Sports)</Text>
         <Image style={styles.logo} source={require('../assets/images/logo.png')} />

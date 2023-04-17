@@ -5,8 +5,8 @@ import Countdown from '../components/main-screen/Countdown'
 import MoreInfo from '../components/main-screen/MoreInfo'
 import PropTypes from 'prop-types'
 
-function IndividualMatch (props) {
-  const matchData = props.route.params.data
+function IndividualMatch ({ route, navigation }) {
+  const matchData = route.params.data
 
   const today = new Date()
   const matchDate = new Date(matchData.startTime)
@@ -102,7 +102,7 @@ function IndividualMatch (props) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => props.navigation.goBack()}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image style={styles.image} source={require('../assets/images/blue-down-arrow.png')}/>
       </TouchableOpacity>
 
@@ -121,7 +121,7 @@ function IndividualMatch (props) {
       <View style={styles.stretch}>
         <MoreInfo
         match={matchData}
-        extraData={props.route.params.extraData}
+        extraData={route.params.extraData}
         />
       </View>
 

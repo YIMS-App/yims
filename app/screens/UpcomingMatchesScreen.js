@@ -5,15 +5,14 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
-  RefreshControl,
-  Linking,
-  Alert
+  RefreshControl
 } from 'react-native'
-import React, { useCallback, useState, useEffect } from 'react'
-
+import React, { useState, useEffect } from 'react'
 import NavBar from '../components/main-screen/NavBar'
 import { COLLEGES, IP_ADDRESS } from '../utils/constants'
 import { ModalDropdown } from '../components/shared/ModalDropdown'
+import PropTypes from 'prop-types'
+import OpenURLButton from '../components/OpenURLButton'
 
 export default function UpcomingMatchesScreen (props) {
   const [matches, setMatches] = useState([])
@@ -63,27 +62,6 @@ export default function UpcomingMatchesScreen (props) {
     fetchMatchesScores()
   }, [])
 
-  const OpenURLButton = ({ url, buttonStyle, textStyle, text }) => {
-    // pasted from expo docs
-    const handlePress = useCallback(async () => {
-      // Checking if the link is supported for links with custom URL scheme.
-      const supported = await Linking.canOpenURL(url)
-
-      if (supported) {
-        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-        // by some browser in the mobile
-        await Linking.openURL(url)
-      } else {
-        Alert.alert(`Don't know how to open this URL: ${url}`)
-      }
-    }, [url])
-    return (
-      <TouchableOpacity style={buttonStyle} onPress={handlePress}>
-        <Text style={textStyle}>{text}</Text>
-      </TouchableOpacity>
-    )
-  }
-
   return (
     <View style={styles.container}>
       {loading
@@ -132,9 +110,9 @@ export default function UpcomingMatchesScreen (props) {
           <OpenURLButton
             url={shuttleLink}
             buttonStyle={styles.shuttleButton}
-            textStyle={styles.shuttleText}
-            text={'Shuttle Schedule'}
-          ></OpenURLButton>
+          >
+            <Text style={styles.shuttleText}>Shuttle Schedule</Text>
+          </OpenURLButton>
           <View style={styles.matchesContainer}>
             <Text style={styles.year}>2022</Text>
             <FlatList
