@@ -10,7 +10,8 @@ import NavBar from "../components/main-screen/NavBar";
 import {Linking} from "react-native";
 import { ModalDropdown } from "../components/shared/ModalDropdown";
 import { useState } from "react";
-import { MONTHS, SPORTS_NAMES, COLLEGES } from "../utils/constants"
+import { IP_ADDRESS, MONTHS, SPORTS_NAMES, COLLEGES, SPORTS_MAPPING} from "../utils/constants"
+
 
 const screenWidth = Dimensions.get('window').width / 2;
 
@@ -43,23 +44,9 @@ export default function CalendarScreen(props) {
     const [timespanText, setTimespanText] = useState("Today:");
     const [sportFilterText, setSportFilterText] = useState(SPORTS_NAMES[0]);
     const [collegeFilterText, setCollegeFilterText] = useState(COLLEGES[0]);
+    const [monthMatches, setMonthMatches] = useState({});
 
-    const matches = [
-        {
-          id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-          title: 'First Item',
-        },
-        {
-          id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-          title: 'Second Item',
-        },
-        {
-          id: '58694a0f-3da1-471f-bd96-145571e29d72',
-          title: 'Third Item',
-        },
-      ];
-    
-    const getDateMatches = async(netid) => {
+    const getDateMatches = async({day = null, month = null, year = null, college = null, sport = null}) => {
 		try {
 			await fetch(IP_ADDRESS + '/getdatematches', {
 			method: 'post',
@@ -69,7 +56,6 @@ export default function CalendarScreen(props) {
                 'Content-Type': 'application/json'
 			},
 			body: JSON.stringify({
-                'netid': netid,
                 'day': day,
                 'month': month,
                 'year': year,
@@ -78,7 +64,11 @@ export default function CalendarScreen(props) {
 			})
 		  }).then((response =>response.json()))
 		  .then((responseData) => {
-			console.log
+            var allMatches = []
+            for (var i = 0; i < responseData.length; i++) {
+                allMatches.push(responseData[i]);
+            }
+            setMonthMatches(allMatches)
 		  });
 		  }
 		  catch(e) {
@@ -139,9 +129,15 @@ export default function CalendarScreen(props) {
                     markedDates={{
                         [selectedDay]: {selected: true},
                     }}
-                    onDayPress={day => {
-                        const dateString = day['dateString']
-                        setSelectedDay(dateString)
+                    onDayPress={date => {
+                        const dateString = date['dateString'];
+                        setSelectedDay(dateString);
+                        getDateMatches({month: date['month'], year: date['year'], day: date['day']});
+                        setTimespanText(date['month'] + '/' + date['day']);
+                    }}
+                    onVisibleMonthsChange={date => {
+                        getDateMatches({month: date[0]['month'], year: date[0]['year']});
+                        setTimespanText(MONTHS[date[0]['month']])
                     }}
                     />
                 </SafeAreaView>
@@ -156,13 +152,14 @@ export default function CalendarScreen(props) {
             </View>
             <View style={styles.displayedMatches}>
                 <FlatList
-                data = {matches}
+                data = {monthMatches}
                 showsVerticalScrollIndicator = {false}
                 renderItem={(itemData) => {
                     return (
                         <View style={{ flexDirection: "row", padding: 6, justifyContent: "space-between", alignItems: "center"}}>
                         <Text style={[styles.body, styles.userMatchData]}>
-                            {itemData.item.title}
+                            {itemData.item.college1Abbrev} vs. {itemData.item.college2Abbrev} @ {itemData.item.startTime.slice(0,10)}
+                            {SPORTS_MAPPING[itemData.item.sport]['emoji']} {itemData.item.location}
                         </Text>
                     </View>
                     )
@@ -238,7 +235,7 @@ const styles = StyleSheet.create({
     displayedMatches: {
         flexDirection: 'row',
         top: 60,
-        padding: 20,
+        left: -10
     },
     userMatchData: {
 		flexDirection: "row",

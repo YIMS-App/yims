@@ -47,3 +47,55 @@ export const SPORTS_NAMES = [
 	'Volleyball', 
 	'Water Polo'
 ]
+
+export const SPORTS_MAPPING = {
+	soccer: {
+	  points: 11,
+	  emoji: '⚽'
+	},
+	'flag football': {
+	  points: 6,
+	  emoji: '🏈'
+	},
+	spikeball: {
+	  points: 6,
+	  emoji: '🦔'
+	},
+	pickleball: {
+	  points: 6,
+	  emoji: '🥒'
+	},
+	cornhole: {
+	  points: 6,
+	  emoji: '🌽'
+	},
+	'ping pong': {
+	  points: 10,
+	  emoji: '🏓'
+	},
+	basketball: {
+	  points: 5,
+	  emoji: '🏀'
+	},
+	broomball: {
+	  sport: 'broomball',
+	  points: 6,
+	  emoji: '🧹'
+	},
+	'innertube water polo': {
+	  points: 6,
+	  emoji: '🤽'
+	},
+	dodgeball: {
+	  points: 8,
+	  emoji: '🤾'
+	},
+	'indoor soccer': {
+	  points: 5,
+	  emoji: '🥅'
+	},
+	volleyball: {
+	  points: 6,
+	  emoji: '🏐'
+	}
+  }
