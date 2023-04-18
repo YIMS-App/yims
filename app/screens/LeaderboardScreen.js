@@ -36,6 +36,7 @@ export default function LeaderboardScreen({ params, navigation }) {
     const participationResp = await fetch(IP_ADDRESS + '/getcollegeparticipation');
     const participation = await participationResp.json();
     setParticipationData(participation.scores);
+    console.log("Hello")
 
     setLoading(false);
   };
