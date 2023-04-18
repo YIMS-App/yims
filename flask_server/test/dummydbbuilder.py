@@ -4,6 +4,8 @@
 #-----------------------------------------------------------------------
 import requests
 import pickle
+import json
+import random
 import sys
 from sys import argv, stderr, exit
 from sqlite3 import connect as sqlite_connect
@@ -30,44 +32,39 @@ def initialize():
         #---------------------------------------------------------------
 
         # collegeinfo table
-        session.add(Collegeinfo(college='NONE', college_abbreviation='NONE', 
+        session.add(Collegeinfo(college='NONE', collegeAbbreviation='NONE', 
                                 year=0, population=500, id=-1))
-        session.add(Collegeinfo(college='TIE', college_abbreviation='TIE', 
+        session.add(Collegeinfo(college='TIE', collegeAbbreviation='TIE', 
                                 year=0, population=500, id=0))
-        session.add(Collegeinfo(college='Benjamin Franklin', college_abbreviation='BF', 
+        session.add(Collegeinfo(college='Benjamin Franklin', collegeAbbreviation='BF', 
                                 year=2022, population=500, id=1))
-        session.add(Collegeinfo(college='Branford', college_abbreviation='BR', 
+        session.add(Collegeinfo(college='Branford', collegeAbbreviation='BR', 
                                 year=2022, population=500, id=2))
-        session.add(Collegeinfo(college='Ezra Stiles', college_abbreviation='ES', 
+        session.add(Collegeinfo(college='Ezra Stiles', collegeAbbreviation='ES', 
                                 year=2022, population=500, id=3))
-        session.add(Collegeinfo(college='Jonathan Edwards', college_abbreviation='JE', 
+        session.add(Collegeinfo(college='Jonathan Edwards', collegeAbbreviation='JE', 
                                 year=2022, population=500, id=4))
-        session.add(Collegeinfo(college='Pauli Murray', college_abbreviation='MY', 
+        session.add(Collegeinfo(college='Pauli Murray', collegeAbbreviation='MY', 
                                 year=2022, population=500, id=5))
-        session.add(Collegeinfo(college='Saybrook', college_abbreviation='SY', 
+        session.add(Collegeinfo(college='Saybrook', collegeAbbreviation='SY', 
                                 year=2022, population=500, id=6))
-        session.add(Collegeinfo(college='Timothy Dwight', college_abbreviation='TD', 
+        session.add(Collegeinfo(college='Timothy Dwight', collegeAbbreviation='TD', 
                                 year=2022, population=500, id=7))
-        session.add(Collegeinfo(college='Berkeley', college_abbreviation='BK', 
+        session.add(Collegeinfo(college='Berkeley', collegeAbbreviation='BK', 
                                 year=2022, population=500, id=8))
-        session.add(Collegeinfo(college='Davenport', college_abbreviation='DC', 
+        session.add(Collegeinfo(college='Davenport', collegeAbbreviation='DC', 
                                 year=2022, population=500, id=9))
-        session.add(Collegeinfo(college='Grace Hopper', college_abbreviation='GH', 
+        session.add(Collegeinfo(college='Grace Hopper', collegeAbbreviation='GH', 
                                 year=2022, population=500, id=10))
-        session.add(Collegeinfo(college='Morse', college_abbreviation='MC', 
+        session.add(Collegeinfo(college='Morse', collegeAbbreviation='MC', 
                                 year=2022, population=500, id=11))
-        session.add(Collegeinfo(college='Pierson', college_abbreviation='PC', 
+        session.add(Collegeinfo(college='Pierson', collegeAbbreviation='PC', 
                                 year=2022, population=500, id=12))
-        session.add(Collegeinfo(college='Silliman', college_abbreviation='SM', 
+        session.add(Collegeinfo(college='Silliman', collegeAbbreviation='SM', 
                                 year=2022, population=500, id=13))
-        session.add(Collegeinfo(college='Trumbull', college_abbreviation='TC', 
+        session.add(Collegeinfo(college='Trumbull', collegeAbbreviation='TC', 
                                 year=2022, population=500, id=14))
         session.commit()
-
-        # totalscores table
-        # for i in range(1, 7):
-        #     session.add(Totalscores(id=i, score=i*10, part_score=i*15))
-        # session.commit()
 
         # sportscores table
         for sport in sports:
@@ -75,59 +72,95 @@ def initialize():
             session.add(sportscore)
         session.commit()
 
-        # matches table
-        # for i in range(10):
-        #     id1 = 1
-        #     id2 = 2
-        #     sport = "soccer"
-        #     location = "school"
-        #     startTime = "2022-03-08 12:34:29"
-        #     endTime = "2022-03-08 12:35:29"
-        #     score1 = 2
-        #     score2 = 1
-        #     winner = 1
-        #     manager = "ey229"
+        # parsing matches
+        matches = []
+        matchesFile = open("test/dummymatches.json")
+        matchesData = json.load(matchesFile)
+        for doc in matchesData['matches']:
+            match = {}
+            for key, value in doc.items():
+                match[key] = value
+            matches.append(match)
 
-        #     match = Matches(id1=id1, id2=id2, sport=sport, location=location,
-        #         startTime=startTime, endTime=endTime, winner=winner, score1 = score1, score2 = score2, manager=manager)
-        #     session.add(match)
-        # session.commit()
+        # matches table
+        for match in matches:
+            matchEntry = Matches(id1=match['id1'], id2=match['id2'], sport=match['sport'],  location=match['location'],
+                startTime=match['startTime'], endTime=match['endTime'], winner=match['winner'], score1 = match['score1'], score2 = match['score2'], manager=match['manager'])
+            session.add(matchEntry)
+        
+
+        # calculate totalscores from matches
+        calculatedScores = {}
+        for i in range(1, 15):
+            calculatedScores[i] = 0
+
+        for match in matches:
+            value = sports[match['sport']][0]
+            winner = match['winner']
+
+            calculatedScores[winner] = calculatedScores[winner] + value
+
+        # totalscores table
+        for i in range(1, 15):
+            score = calculatedScores[i]
+            partScore = score + random.randint(-10,10)
+            if partScore < 0:
+                partScore = 0
+            session.add(Totalscores(id=i, score=score, partScore=partScore))
+        session.commit()
 
         # users table
-        # with open("all.pickle", "rb") as output:
-        #     all_students = pickle.load(output)
-        #     for student in all_students:
-        #         role = "student"
-        #         if student in admins:
-        #             role = "admin"
-        #         session.add(Users(netid=student, firstName=all_students[student][1], lastName=all_students[student][2],
-        #                           college=all_students[student][0],role=role, participationPoints = 1000))
-        #     session.add(Users(netid="ey229", firstName="Edward", lastName = "Yang", college="grad",
-        #                             role="admin", participationPoints = 1000))
+        users = []
+        with open("all.pickle", "rb") as output:
+            all_students = pickle.load(output)
+            users = all_students
+            for student in all_students:
+                role = "student"
+                if student in admins:
+                    role = "admin"
+                session.add(Users(netid=student, firstName=all_students[student][1], lastName=all_students[student][2],
+                                  college=all_students[student][0],role=role, participationPoints = random.randint(0,100)))
+            session.add(Users(netid="ey229", firstName="Edward", lastName = "Yang", college="grad",
+                                    role="admin", participationPoints = random.randint(0,100)))
         session.commit()
 
         # attendance
-        # for index, i in enumerate(admins):
-        #     matchid = index
-        #     status = index%3
-
-        #     attend = Attendance(netid=i, matchid=matchid, status=status)
-        #     session.add(attend)
-        # session.commit()
+        netids = list(users.keys())
+        for i in range(1, len(matches) + 1):
+            numberAttended = random.randint(4,10)
+            
+            attended = set()
+            for j in range(numberAttended):
+                attended.add(random.choice(netids))
+                if i == 2 or i == 7:
+                    for student in admins:
+                        attended.add(student)
+            
+            for netid in netids:
+                status = 0
+                if netid in attended:
+                    status = random.randint(1,2)
+                if netid in admins and netid in attended:
+                    status = 2
+                attend = Attendance(netid=netid, matchid=i, status=status)
+                session.add(attend)
+        session.commit()
 
         # bets
-        # for index, i in enumerate(admins):
+        for i in range(1, len(matches) + 1):
+            numberBet = random.randint(4,10)
+            usersBet = set()
+            for j in range(numberBet):
+                usersBet.add(random.choice(netids))
 
-        #     matchid = index
-        #     pointsBet = index*10
-        #     winner = 1
-        #     bet = Bets(netid=i, matchid=matchid, pointsBet=pointsBet,
-        #         winner=winner)
-        #     session.add(bet)
-        # session.commit()
+            for user in usersBet:
+                ids = [matches[i - 1]['id1'], matches[i - 1]['id2']]
+                bet = Bets(netid=user, matchid=i, pointsBet=random.randint(1,15), winner=random.choice(ids))
+                session.add(bet)
+        session.commit()
 
-        # session.close()
-        # engine.dispose()
+        session.close()
+        engine.dispose()
     except Exception as ex:
         print(ex, file=stderr)
         exit(1)
