@@ -18,21 +18,27 @@ import { IP_ADDRESS } from '../utils/constants.js'
 import { LinearGradient } from 'expo-linear-gradient'
 import PropTypes from 'prop-types'
 
-export default function LeaderboardScreen ({ params, navigation }) {
-  const [data, setData] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [addMatchIsVisible, setAddMatchIsVisible] = useState(false)
-  const [updateMatchIsVisibile, setUpdateMatchIsVisibile] = useState(false)
-  const [addButtonVisible, setaddButtonVisible] = useState(false)
-  const [tab, setTab] = useState('points')
-  const [updateVisibility, setUpdateVisibility] = useState(false)
+export default function LeaderboardScreen({ params, navigation }) {
+  const [pointsData, setPointsData] = useState([]);
+  const [participationData, setParticipationData] = useState([])
+  const [loading, setLoading] = useState(true);
+  const [addMatchIsVisible, setAddMatchIsVisible] = useState(false);
+  const [updateMatchIsVisibile, setUpdateMatchIsVisibile] = useState(false);
+  const [addButtonVisible, setaddButtonVisible] = useState(false);
+  const [tab, setTab] = useState('points');
+  const [updateVisibility, setUpdateVisibility] = useState(false);
 
   const fetchData = async () => {
-    const resp = await fetch(IP_ADDRESS + '/totalscores')
-    const colleges = await resp.json()
-    setData(colleges.scores)
-    setLoading(false)
-  }
+    const pointsResp = await fetch(IP_ADDRESS + '/totalscores');
+    const points = await pointsResp.json();
+    setPointsData(points.scores);
+
+    const participationResp = await fetch(IP_ADDRESS + '/getcollegeparticipation');
+    const participation = await participationResp.json();
+    setParticipationData(participation.scores);
+
+    setLoading(false);
+  };
 
   useEffect(() => {
     // runs once to update data at the first render
@@ -131,27 +137,31 @@ export default function LeaderboardScreen ({ params, navigation }) {
               </Text>
             </TouchableOpacity>
           </View>
-          {tab === 'points' ? <FirstPlaceStanding firstPlace={data[0]} /> : <View style={{ marginTop: '50%' }}></View>}
+          {tab === 'points' ? <FirstPlaceStanding firstPlace={pointsData[0]} type="points"/> : <FirstPlaceStanding firstPlace={participationData[0]} type="participation" />}
         </View>
         {tab === 'points'
           ? (
           <View style={styles.leaderboardContainer}>
             <FlatList
-              data={data.slice(1)}
+              data={pointsData.slice(1)}
               showsVerticalScrollIndicator={false}
               renderItem={(itemData) => {
-                return <Standing collegeData={itemData} />
+                return <Standing collegeData={itemData} type="points"/>;
               }}
             />
           </View>
-            )
-          : (
+        ) : (
           <View style={styles.participationContainer}>
-
+            <FlatList
+              data={participationData.slice(1)}
+              showsVerticalScrollIndicator={false}
+              renderItem={(itemData) => {
+                return <Standing collegeData={itemData} type="participation" />;
+              }}
+            />            
           </View>
-            )}
-        {addButtonVisible
-          ? (
+        )}
+        {addButtonVisible ? (
           <TouchableOpacity style={styles.updateButton}>
             <Text style={styles.updateButtonText} onPress={() => handleUpdateVisibility(true)}>
               +
@@ -244,7 +254,7 @@ const styles = StyleSheet.create({
     paddingTop: '37%'
   },
   participationContainer: {
-    backgroundColor: 'white',
+    backgroundColor: '#EEF1F6',
     flex: 3,
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,

@@ -17,9 +17,17 @@ function FirstPlaceStanding(props) {
       >
         <Text style={styles.firstPlaceName} testID="first-place-standing-college">{props.firstPlace.college}</Text>
         <Image style={styles.firstPlaceFlag} source={assets.collegeFlags[props.firstPlace.college].flag} />
-        <Text style={styles.firstPlacePoints} testID="first-place-standing-points">
-          {props.firstPlace.score} points
+        {props.type === "points" ? (
+          <Text style={styles.firstPlacePoints} testID="first-place-standing-points">
+            {props.firstPlace.score} points
+          </Text>
+        ) : (
+          <Text style={styles.firstPlacePoints} testID="first-place-standing-points">
+          {props.firstPlace.partScore} points
         </Text>
+        )
+        }
+
         <Image
           source={require("../../assets/images/calendar-icon.png")}
           style={styles.calendarImage}
