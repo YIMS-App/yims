@@ -29,6 +29,11 @@ To run backend tests:
 3. run 'python3 run_server.py --database test/testtable.sqlite' in your terminal (or whatever command you use in your terminal to run python 3)
 4. in another terminal while the server is running, make sure you are again in the 'flask_server' directory and run 'pytest .' in your terminal
 
+## How to add a test
+1. go to 'test_integration.py'. 'test_unit.py' is only for query testing, so we instead test the routes which use the queries in 'test_integration.py'.
+2. Add a new test for the desired route you want to test. Include the data needed for queries, then perform assertions on the outputted JSON to ensure the output is correct. 
+3. run the test by following the instructions in "How to test". 
+
 ## Software Stack
 Frontend: React Native.js
 Backend: Flask, Python, Amazon EC2 instance
