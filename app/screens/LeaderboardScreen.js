@@ -18,27 +18,27 @@ import { IP_ADDRESS } from '../utils/constants.js'
 import { LinearGradient } from 'expo-linear-gradient'
 import PropTypes from 'prop-types'
 
-export default function LeaderboardScreen({ params, navigation }) {
-  const [pointsData, setPointsData] = useState([]);
+export default function LeaderboardScreen ({ params, navigation }) {
+  const [pointsData, setPointsData] = useState([])
   const [participationData, setParticipationData] = useState([])
-  const [loading, setLoading] = useState(true);
-  const [addMatchIsVisible, setAddMatchIsVisible] = useState(false);
-  const [updateMatchIsVisibile, setUpdateMatchIsVisibile] = useState(false);
-  const [addButtonVisible, setaddButtonVisible] = useState(false);
-  const [tab, setTab] = useState('points');
-  const [updateVisibility, setUpdateVisibility] = useState(false);
+  const [loading, setLoading] = useState(true)
+  const [addMatchIsVisible, setAddMatchIsVisible] = useState(false)
+  const [updateMatchIsVisibile, setUpdateMatchIsVisibile] = useState(false)
+  const [addButtonVisible, setaddButtonVisible] = useState(false)
+  const [tab, setTab] = useState('points')
+  const [updateVisibility, setUpdateVisibility] = useState(false)
 
   const fetchData = async () => {
-    const pointsResp = await fetch(IP_ADDRESS + '/totalscores');
-    const points = await pointsResp.json();
-    setPointsData(points.scores);
+    const pointsResp = await fetch(IP_ADDRESS + '/totalscores')
+    const points = await pointsResp.json()
+    setPointsData(points.scores)
 
-    const participationResp = await fetch(IP_ADDRESS + '/getcollegeparticipation');
-    const participation = await participationResp.json();
-    setParticipationData(participation.scores);
+    const participationResp = await fetch(IP_ADDRESS + '/getcollegeparticipation')
+    const participation = await participationResp.json()
+    setParticipationData(participation.scores)
 
-    setLoading(false);
-  };
+    setLoading(false)
+  }
 
   useEffect(() => {
     // runs once to update data at the first render
@@ -146,22 +146,24 @@ export default function LeaderboardScreen({ params, navigation }) {
               data={pointsData.slice(1)}
               showsVerticalScrollIndicator={false}
               renderItem={(itemData) => {
-                return <Standing collegeData={itemData} type="points"/>;
+                return <Standing collegeData={itemData} type="points"/>
               }}
             />
           </View>
-        ) : (
+            )
+          : (
           <View style={styles.participationContainer}>
             <FlatList
               data={participationData.slice(1)}
               showsVerticalScrollIndicator={false}
               renderItem={(itemData) => {
-                return <Standing collegeData={itemData} type="participation" />;
+                return <Standing collegeData={itemData} type="participation" />
               }}
-            />            
+            />
           </View>
-        )}
-        {addButtonVisible ? (
+            )}
+        {addButtonVisible
+          ? (
           <TouchableOpacity style={styles.updateButton}>
             <Text style={styles.updateButtonText} onPress={() => handleUpdateVisibility(true)}>
               +

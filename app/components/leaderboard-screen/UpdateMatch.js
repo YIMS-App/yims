@@ -11,8 +11,9 @@ import {
 import { useState, useEffect, React } from 'react'
 import ModalDropdown from '../shared/ModalDropdown'
 import { IP_ADDRESS } from '../../utils/constants'
+import PropTypes from 'prop-types'
 
-function UpdateMatch ({ visible, onSubmitData, onCancel }) {
+export default function UpdateMatch ({ visible, onSubmitData, onCancel }) {
   const [selectedMatch, setSelectedMatch] = useState(null)
   const [selectedMatchString, setSelectedMatchString] =
     useState('Select Match')
@@ -195,7 +196,11 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
   )
 }
 
-export default UpdateMatch
+UpdateMatch.propTypes = {
+  visible: PropTypes.bool,
+  onSubmitData: PropTypes.func,
+  onCancel: PropTypes.func
+}
 
 const styles = StyleSheet.create({
   container: {

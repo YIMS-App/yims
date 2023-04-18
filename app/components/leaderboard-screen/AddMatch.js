@@ -2,8 +2,9 @@ import { StyleSheet, View, Modal, Text, TouchableOpacity, Image } from 'react-na
 import { useState, React } from 'react'
 import ModalDropdown from '../shared/ModalDropdown'
 import { SPORTS, COLLEGES } from '../../utils/constants'
+import PropTypes from 'prop-types'
 
-function AddMatch (props) {
+export default function AddMatch ({ onSubmitData, onCancel, visible }) {
   const months = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
   const days = [
     '01',
@@ -156,7 +157,7 @@ function AddMatch (props) {
         .toISOString()
         .slice(0, 19)
         .replace('T', ' ')
-      props.onSubmitData(college1, college2, sport, startDate, endDate, 'NONE', location, 0, 0)
+      onSubmitData(college1, college2, sport, startDate, endDate, 'NONE', location, 0, 0)
 
       // reset all data entry points
       setCollege1('Select College')
@@ -183,11 +184,11 @@ function AddMatch (props) {
     setEndTime('')
     setLocation('Location')
 
-    props.onCancel()
+    onCancel()
   }
 
   return (
-    <Modal visible={props.visible} animationType="slide" transparent={true} testID="add-match-modal">
+    <Modal visible={visible} animationType="slide" transparent={true} testID="add-match-modal">
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <View style={styles.headerContainer}>
@@ -407,7 +408,11 @@ function AddMatch (props) {
   )
 }
 
-export default AddMatch
+AddMatch.propTypes = {
+  onSubmitData: PropTypes.func,
+  onCancel: PropTypes.func,
+  visible: PropTypes.bool
+}
 
 const styles = StyleSheet.create({
   container: {

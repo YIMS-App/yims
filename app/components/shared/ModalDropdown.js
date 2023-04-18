@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
@@ -8,8 +7,9 @@ import {
   SafeAreaView,
   Modal
 } from 'react-native'
+import PropTypes from 'prop-types'
 
-export default function ModalDropdown (props) {
+export default function ModalDropdown ({ setData, options, dropdownStyle, dropdownTextStyle, filterButtonStyle, filterTextStyle, filterText, modalStyle }) {
   const [isModalVisible, setisModalVisible] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
 
@@ -20,19 +20,19 @@ export default function ModalDropdown (props) {
   const onPressItem = (option) => {
     setSelectedItem(option)
     changeModalVisibility(false)
-    props.setData(option)
+    setData(option)
   }
 
-  const options = props.options.map((item, index) => {
+  const choices = options.map((item, index) => {
     return (
       <TouchableOpacity
         key={index}
-        style={props.dropdownStyle}
+        style={dropdownStyle}
         onPress={() => onPressItem(item)}
       >
         <Text
           style={
-            props.dropdownTextStyle /* selectedItem == item && props.dropdownTextHighlightStyle ? props.dropdownTextHighlightStyle : props.dropdownTextStyle */
+            dropdownTextStyle /* selectedItem == item && dropdownTextHighlightStyle ? dropdownTextHighlightStyle : dropdownTextStyle */
           }
         >
           {item}
@@ -45,9 +45,9 @@ export default function ModalDropdown (props) {
     <SafeAreaView testID="modal-dropdown-view">
       <TouchableOpacity
         onPress={() => changeModalVisibility(true)}
-        style={props.filterButtonStyle}
+        style={filterButtonStyle}
       >
-        <Text style={props.filterTextStyle}>{props.filterText}</Text>
+        <Text style={filterTextStyle}>{filterText}</Text>
       </TouchableOpacity>
       <Modal
         transparent={true}
@@ -56,8 +56,8 @@ export default function ModalDropdown (props) {
         nRequestClose={() => changeModalVisibility(false)}
       >
         <TouchableOpacity onPress={() => changeModalVisibility(false)}>
-          <View style={props.modalStyle}>
-            <ScrollView>{options}</ScrollView>
+          <View style={modalStyle}>
+            <ScrollView>{choices}</ScrollView>
           </View>
         </TouchableOpacity>
       </Modal>
@@ -65,14 +65,13 @@ export default function ModalDropdown (props) {
   )
 }
 
-/* dropdownStyle={styles.matchDropdown}
-              dropdownTextStyle={styles.matchDropdownText}
-              dropdownTextHighlightStyle={styles.matchDropdownTextSelected}
-              */
-
-const styles = StyleSheet.create({
-  modal: {
-    backgroundColor: '#DFE5F2',
-    borderRadius: 20
-  }
-})
+ModalDropdown.propTypes = {
+  setData: PropTypes.func,
+  options: PropTypes.array,
+  dropdownStyle: PropTypes.object,
+  dropdownTextStyle: PropTypes.object,
+  filterButtonStyle: PropTypes.object,
+  filterTextStyle: PropTypes.object,
+  filterText: PropTypes.string,
+  modalStyle: PropTypes.object
+}
