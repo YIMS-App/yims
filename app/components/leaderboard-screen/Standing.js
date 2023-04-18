@@ -83,7 +83,12 @@ function Standing(props) {
             <View style={styles.rowContainer}>
                 <View style={styles.collegeContainer}>
                     <Text style={styles.collegeName} testID="standing-college-text">{props.collegeData.item.college}</Text>
-                    <Text style={styles.points} testID="standing-score-text">{props.collegeData.item.score} points</Text>
+                    {props.type === "points" ? (
+                      <Text style={styles.points} testID="standing-score-text">{props.collegeData.item.score} points</Text>
+                    ) : (
+                      <Text style={styles.points} testID="standing-score-text">{props.collegeData.item.partScore} points</Text>
+                    )}
+                    
                 </View>
                 <Image style={styles.flag} source={collegesData[props.collegeData.item.college].flag} />
             </View>
