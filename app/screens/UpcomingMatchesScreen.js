@@ -1,4 +1,3 @@
-export{};
 import {
   FlatList,
   StyleSheet,
@@ -6,13 +5,14 @@ import {
   View,
   TouchableOpacity,
   ActivityIndicator,
-  SafeAreaView,
-  Modal,
-  RefreshControl,
-} from "react-native";
-import React, { useCallback } from "react";
-import { google } from "calendar-link";
-import { Linking } from "react-native";
+  RefreshControl
+} from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { COLLEGES, IP_ADDRESS } from '../utils/constants'
+import NavBar from '../components/shared/NavBar'
+import ModalDropdown from '../components/shared/ModalDropdown'
+import OpenURLButton from '../components/shared/OpenURLButton'
+import PropTypes from 'prop-types'
 
 export default function UpcomingMatchesScreen ({ navigation, params }) {
   const [matches, setMatches] = useState([])

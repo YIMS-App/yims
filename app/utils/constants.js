@@ -86,83 +86,31 @@ export const SPORTS_MAPPING = {
   }
 }
 export const MONTHS = {
-	1: 'January',
-	2: 'February',
-	3: 'March',
-	4: 'April',
-	5: 'May',
-	6: 'June',
-	7: 'July',
-	8: 'August',
-	9: 'September',
-	10: 'October',
-	11: 'November',
-	12: 'December'
-	}
+  1: 'January',
+  2: 'February',
+  3: 'March',
+  4: 'April',
+  5: 'May',
+  6: 'June',
+  7: 'July',
+  8: 'August',
+  9: 'September',
+  10: 'October',
+  11: 'November',
+  12: 'December'
+}
 
 export const SPORTS_NAMES = [
-	'Basketball', 
-	'Broomball', 
-	'Cornhole', 
-	'Dodgeball', 
-	'Flag Football', 
-	'Indoor Soccer', 
-	'Pickleball', 
-	'Ping Pong', 
-	'Soccer', 
-	'Spikeball', 
-	'Volleyball', 
-	'Water Polo'
+  'Basketball',
+  'Broomball',
+  'Cornhole',
+  'Dodgeball',
+  'Flag Football',
+  'Indoor Soccer',
+  'Pickleball',
+  'Ping Pong',
+  'Soccer',
+  'Spikeball',
+  'Volleyball',
+  'Water Polo'
 ]
-
-export const SPORTS_MAPPING = {
-	soccer: {
-	  points: 11,
-	  emoji: '⚽'
-	},
-	'flag football': {
-	  points: 6,
-	  emoji: '🏈'
-	},
-	spikeball: {
-	  points: 6,
-	  emoji: '🦔'
-	},
-	pickleball: {
-	  points: 6,
-	  emoji: '🥒'
-	},
-	cornhole: {
-	  points: 6,
-	  emoji: '🌽'
-	},
-	'ping pong': {
-	  points: 10,
-	  emoji: '🏓'
-	},
-	basketball: {
-	  points: 5,
-	  emoji: '🏀'
-	},
-	broomball: {
-	  sport: 'broomball',
-	  points: 6,
-	  emoji: '🧹'
-	},
-	'innertube water polo': {
-	  points: 6,
-	  emoji: '🤽'
-	},
-	dodgeball: {
-	  points: 8,
-	  emoji: '🤾'
-	},
-	'indoor soccer': {
-	  points: 5,
-	  emoji: '🥅'
-	},
-	volleyball: {
-	  points: 6,
-	  emoji: '🏐'
-	}
-  }

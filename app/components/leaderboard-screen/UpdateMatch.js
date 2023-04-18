@@ -188,11 +188,7 @@ export default function UpdateMatch ({ visible, onSubmitData, onCancel }) {
               </TouchableOpacity>
             </View>
               )
-            : <View>
-                <View style={styles.dropdownContainer}>
-                  <Text >No Matches Available</Text>
-                </View>
-            </View>
+            : null
             }
         </View>
       </View>

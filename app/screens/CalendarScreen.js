@@ -1,18 +1,10 @@
-import { StyleSheet, Text, View, ScrollView, SafeAreaView } from 'react-native'
+import { StyleSheet, View, ScrollView, SafeAreaView } from 'react-native'
 import React from 'react'
 import { Calendar } from 'react-native-calendars'
 import NavBar from '../components/shared/NavBar'
 import PropTypes from 'prop-types'
-import OpenURLButton from '../components/shared/OpenURLButton'
 
 export default function CalendarScreen (props) {
-  const link = 'https://intramurals.yale.edu/tyng-cup-point-system'
-
-  const renderItem = ({ item }) => (
-    <Text style={[styles.sport, { marginTop: 5 }]}>
-      {item.sport} {item.emoji} : {item.points} players & points
-    </Text>
-  )
   const [selectedDay, setSelectedDay] = React.useState(new Date().toISOString().slice(0, 10))
 
   return (
