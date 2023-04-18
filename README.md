@@ -34,6 +34,25 @@ To run backend tests:
 2. Add a new test for the desired route you want to test. Include the data needed for queries, then perform assertions on the outputted JSON to ensure the output is correct. 
 3. run the test by following the instructions in "How to test". 
 
+to add frontend tests, create or go to the \_\_tests\_\_ folder for the component that you wish to test
+and name the test Component.test.js where Component is the name of your component.
+start with the template below, and then write the body of the test depending on your component:
+```
+import React from 'react'
+import { render, screen, cleanup } from '@testing-library/react-native'
+import Component from '../Component'
+
+afterEach(() => {
+  cleanup()
+})
+
+test('Should render Component component', () => {
+    // render component here
+    // write test here according to jest docs: https://jestjs.io/docs/tutorial-react
+})
+```
+
+
 ## Software Stack
 Frontend: React Native.js
 Backend: Flask, Python, Amazon EC2 instance
