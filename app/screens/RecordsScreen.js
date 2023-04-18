@@ -71,7 +71,9 @@ export default function RecordsScreen ({ navigation, params }) {
             <ModalDropdown
               filterText={filterText}
               dropdownTextStyle={styles.dropdownTextStyle}
+              dropdownTextHighlightStyle={styles.dropdownTextHighlightStyle}
               dropdownStyle={styles.dropdownStyle}
+              dropdownHighlightStyle={styles.dropdownHighlightStyle}
               modalStyle={styles.modalStyle}
               filterButtonStyle={styles.filterButton}
               filterTextStyle={styles.filterText}
@@ -254,9 +256,21 @@ const styles = StyleSheet.create({
     fontWeight: 'Normal',
     color: '#3159C4'
   },
+  dropdownTextHighlightStyle: {
+    margin: 10,
+    fontSize: 30,
+    fontWeight: 'Normal',
+    color: '#DFE5F2',
+    backgroundColor: '#3159C4'
+  },
   dropdownStyle: {
     alignItems: 'center',
     backgroundColor: '#DFE5F2',
+    borderRadius: 20
+  },
+  dropdownHighlightStyle: {
+    alignItems: 'center',
+    backgroundColor: '#3159C4',
     borderRadius: 20
   },
   modalStyle: {

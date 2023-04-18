@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import PropTypes from 'prop-types'
 
-export default function ModalDropdown ({ setData, options, dropdownStyle, dropdownTextStyle, filterButtonStyle, filterTextStyle, filterText, modalStyle }) {
+export default function ModalDropdown ({ setData, options, dropdownStyle, dropdownHighlightStyle, dropdownTextStyle, dropdownTextHighlightStyle, filterButtonStyle, filterTextStyle, filterText, modalStyle }) {
   const [isModalVisible, setisModalVisible] = useState(false)
   const [selectedItem, setSelectedItem] = useState(null)
 
@@ -27,12 +27,12 @@ export default function ModalDropdown ({ setData, options, dropdownStyle, dropdo
     return (
       <TouchableOpacity
         key={index}
-        style={dropdownStyle}
+        style={selectedItem === item && dropdownHighlightStyle ? dropdownHighlightStyle : dropdownStyle}
         onPress={() => onPressItem(item)}
       >
         <Text
           style={
-            dropdownTextStyle /* selectedItem == item && dropdownTextHighlightStyle ? dropdownTextHighlightStyle : dropdownTextStyle */
+            selectedItem === item && dropdownTextHighlightStyle ? dropdownTextHighlightStyle : dropdownTextStyle
           }
         >
           {item}
@@ -69,7 +69,9 @@ ModalDropdown.propTypes = {
   setData: PropTypes.func,
   options: PropTypes.array,
   dropdownStyle: PropTypes.object,
+  dropdownHighlightStyle: PropTypes.object,
   dropdownTextStyle: PropTypes.object,
+  dropdownTextHighlightStyle: PropTypes.object,
   filterButtonStyle: PropTypes.object,
   filterTextStyle: PropTypes.object,
   filterText: PropTypes.string,

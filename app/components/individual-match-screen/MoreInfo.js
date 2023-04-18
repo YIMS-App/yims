@@ -147,13 +147,13 @@ const styles = StyleSheet.create({
   },
   moreinfo1: {
     color: '#1A3B93',
-    fontSize: 20,
+    fontSize: 15,
     alignItems: 'center',
     justifyContent: 'center'
   },
   moreinfo2: {
     color: '#1A3B93',
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: '700',
     alignItems: 'center',
     justifyContent: 'center'
@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 5,
-    margin: 10
+    margin: 5
   },
   addToCalText: {
     fontSize: 18,
