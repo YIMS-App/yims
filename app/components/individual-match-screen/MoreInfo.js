@@ -98,7 +98,7 @@ export default function MoreInfo ({ match, params }) {
           </View>
             )
           : (
-          <Participants participants={match.participants} />
+          <Participants participants={['AX', 'CO', 'BV']} /> // TODO: match.participants
             )}
       </View>
     </View>

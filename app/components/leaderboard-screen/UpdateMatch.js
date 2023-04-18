@@ -48,7 +48,9 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
     // handle potential errors by the user
     let winner = 'NONE'
     if (score1 == null || score2 == null) {
-      alert('please enter a result for each college.')
+      alert('please enter a score for each college.')
+    } else if (score1 < 0 || score2 < 0) {
+      alert('please enter a valid score')
     } else {
       // valid responses
       if (score1 > score2) {
@@ -59,7 +61,6 @@ function UpdateMatch ({ visible, onSubmitData, onCancel }) {
         // tie
         winner = 'TIE'
       }
-
       onSubmitData(
         selectedMatch.college1,
         selectedMatch.college2,
