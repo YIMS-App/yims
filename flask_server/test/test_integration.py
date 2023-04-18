@@ -272,7 +272,7 @@ def test_getdatematches_month():
 def test_updatematch():
     data = {} 
     data['college1'] = "Benjamin Franklin"
-    data['college2'] = "Berkeley"
+    data['college2'] = "Branford"
     data['sport'] = 'soccer'
     data['location'] = 'school'
     data['winner'] = "Benjamin Franklin"
