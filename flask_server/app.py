@@ -138,7 +138,7 @@ def updatematch():
                 updatescore(prev_winner_id, -points)
 
             query_db(queries.update_match_winner(), [winner_id, matchid], database_url=app.config['DATABASE'])
-            query_db(queries.update_match_scores(), [score1, score2], database_url=app.config['DATABASE'])
+            query_db(queries.update_match_scores(), [score1, score2, matchid], database_url=app.config['DATABASE'])
         else: # if match does not exist, we create a new match
 
             # TODO we don't need to manually create a matchid 
