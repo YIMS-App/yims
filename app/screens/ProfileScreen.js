@@ -23,93 +23,85 @@ export default function ProfileScreen ({ navigation, route }) {
   const [matches, setMatches] = useState([])
   const [sports, setSports] = useState({})
 
-  useEffect(() => {
-    // runs once to update data at the first render\
-    setMatches([])
-    setCoins(username)
-    fetchUserInfo(username)
-  }, [])
 
-  const setCoins = async (netid) => {
-    try {
-      await fetch(IP_ADDRESS + '/getparticipationpoints', {
-        method: 'post',
-        mode: 'no-cors',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          netid
-        })
-      })
-        .then((response) => response.json())
-        .then((responseData) => {
-          setUserCoins(responseData.participationPoints)
-        })
-    } catch (e) {
-      console.log(e)
-    }
-  }
-
-  const fetchUserInfo = async (netid) => {
-    try {
-      await Promise.all([
-        fetch(IP_ADDRESS + '/getuserdata', {
-          method: 'post',
-          mode: 'no-cors',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            netid
-          })
-        }),
-        fetch(IP_ADDRESS + '/getuserevents', {
-          method: 'post',
-          mode: 'no-cors',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            netid
-          })
-        }),
-        fetch(IP_ADDRESS + '/getallsportscores')
-      ])
-        .then(([userInfo, userGames, sportsScores]) =>
-          Promise.all([userInfo.json(), userGames.json(), sportsScores.json()])
-        )
-        .then(([userInfoData, userGamesData, sportsData]) => {
-          setSports(sportsData)
-          const promises = []
-          userGamesData = userGamesData.filter((match) => match.status === 2)
-          userGamesData.forEach((element) => {
-            promises.push(
-              fetch(IP_ADDRESS + '/matchinfo', {
-                method: 'post',
-                mode: 'no-cors',
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                  matchid: element.matchid
-                })
-              })
-                .then((response) => response.json())
-                .catch((e) => {})
-            )
-          })
-          Promise.all(promises)
-            .then((x) => {
-              setMatches(x)
-            })
-            .catch((e) => {
-              console.log(e)
-            })
+	useEffect(() => { // runs once to update data at the first render
+		setMatches([]);
+        setCoins(username);
+		fetchUserInfo(username);
+      }, []); 
+	  
+	const setCoins = async(netid) => {
+		try {
+			await fetch(IP_ADDRESS + '/getparticipationpoints', {
+			method: 'post',
+			mode: 'no-cors',
+			headers: {
+			  'Accept': 'application/json',
+			  'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+			  "netid": netid
+			})
+		  }).then((response =>response.json()))
+		  .then((responseData) => {
+			setUserCoins(responseData["participationPoints"])
+		  });
+		  }
+		  catch(e) {
+			console.log(e)
+		  }
+	  }
+	
+	const fetchUserInfo = async(netid) => {
+		try {
+			await Promise.all([fetch(IP_ADDRESS + '/getuserdata', {
+				method: 'post',
+				mode: 'no-cors',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					"netid": netid
+				})
+			}),
+			fetch(IP_ADDRESS + '/getuserevents', {
+				method: 'post',
+				mode: 'no-cors',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					"netid": netid
+				})
+			}),
+			fetch(IP_ADDRESS + "/getallsportscores")])
+			.then(([userInfo, userGames, sportsScores]) => 
+				Promise.all([userInfo.json(), userGames.json(), sportsScores.json()])
+			)
+			.then(([userInfoData, userGamesData, sportsData]) => {
+				setSports(sportsData);
+				let promises = []
+				userGamesData.forEach(element => {
+					promises.push(
+						fetch(IP_ADDRESS + '/matchinfo', {
+							method: 'post',
+							mode: 'no-cors',
+							headers: {
+								'Accept': 'application/json',
+								'Content-Type': 'application/json'
+							},
+							body: JSON.stringify({
+								"matchid": element["matchid"]
+							})
+						}).then((response) => 
+							response.json()
+						).catch ((e) => {
+						}));
+					}
+				);
+				Promise.all(promises).then(x => { setMatches(x) }).catch((e) => {console.log(e)})
 
           setUserInfo(userInfoData)
         })
@@ -125,85 +117,104 @@ export default function ProfileScreen ({ navigation, route }) {
     setLoading(false)
   }
 
-  return loading
-    ? (
-    <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
-      <ActivityIndicator animating={true} color="#bc2b78" size="large" />
-    </View>
-      )
-    : (
-    <View style={styles.container}>
-      <LinearGradient colors={['#3159C4', '#002075']} style={[styles.gradient]}></LinearGradient>
-      <View style={[{ flex: 2 }]}>
-        {/* Go back button */}
-        <TouchableOpacity style={styles.button} onPress={onPressItem}>
-          <Image resizeMode="contain" style={styles.ximage} source={require('../assets/images/back-button.png')} />
-        </TouchableOpacity>
-        {/* Coins button */}
-        <TouchableOpacity style={styles.coinsButton} onPress={onPressCoins}>
-          <Image resizeMode="contain" style={[styles.coinImage, {}]} source={require('../assets/images/coin.png')} />
-          <Text style={[styles.text, {}]}>{userCoins}</Text>
-        </TouchableOpacity>
-        {/* Names */}
-        <View style={styles.content}>
-          <Flag college={college} />
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.title}>{college}</Text>
-          <Text style={styles.title}>{username}</Text>
-        </View>
-      </View>
-      <View style={styles.container}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            borderTopColor: 'white',
-            borderTopWidth: 1,
-            borderBottomColor: 'white',
-            borderBottomWidth: 1,
-            marginTop: 10
-          }}
-        >
-          <Text style={styles.collegeTableHeader}>Date</Text>
-          <Text style={styles.collegeTableHeader}>Points</Text>
-          <Text style={styles.collegeTableHeader}>Opponent</Text>
-          <Text style={styles.collegeTableHeader}>W/L/T</Text>
-          <Text style={styles.collegeTableHeader}>Sport</Text>
-        </View>
-        <FlatList
-          data={matches}
-          showsVerticalScrollIndicator={false}
-          renderItem={(itemData) => {
-            return (
-              <View style={{ flexDirection: 'row', padding: 6, justifyContent: 'space-between', alignItems: 'center' }}>
-                <Text style={[styles.collegeMatchDate, styles.userMatchData]}>
-                  {itemData.item.startTime.slice(5, 7) + '/' + itemData.item.startTime.slice(8, 10)}
-                </Text>
-                <Text
-                  style={[
-                    styles.matchPts,
-                    {
-                      color: '#1FED27'
-                    }
-                  ]}
-                >
-                  + {sports[itemData.item.sport][0]}
-                  pts
-                </Text>
-                <Text style={[styles.matchOpponent, styles.userMatchData]}>
-                  {itemData.item.college1 === college ? itemData.item.college2Abbrev : itemData.item.college1Abbrev}
-                </Text>
-                <Text style={[styles.matchOutcome, styles.userMatchData]}>
-                  {itemData.item.winner === college ? 'W' : itemData.item.winner === 'TIE' ? 'T' : 'L'}
-                </Text>
-                <Text style={[styles.collegeMatchSport, styles.userMatchData]}>{sports[itemData.item.sport][1]}</Text>
-              </View>
-            )
-          }}
-        ></FlatList>
-      </View>
-    </View>
-      )
+	return (loading ? 
+        <View style={[styles.container, {justifyContent: 'center', alignItems: 'center'}]}>
+          <ActivityIndicator animating={true} color='#bc2b78' size="large"/>
+        </View> 
+		:
+		(
+		<View style={styles.container}>
+			<LinearGradient 
+				colors={['#3159C4', '#002075']}
+				style={[styles.gradient]}>
+			</LinearGradient>
+			<View style={[{flex: 2}]}>
+				{/* Go back button */}
+				<TouchableOpacity style={styles.button} onPress={onPressItem}>
+					<Image resizeMode='contain'
+					style={styles.ximage}
+					source={require('../assets/images/back-button.png')}/>
+				</TouchableOpacity>
+				{/* Coins button */}
+				<TouchableOpacity style={styles.coinsButton} onPress={onPressCoins}>
+					<Image resizeMode='contain'
+					style={[styles.coinImage, {}]}
+					source={require('../assets/images/coin.png')}/>
+					<Text style={[styles.text, {}]}>{userCoins}</Text>
+				</TouchableOpacity>
+				{/* Names */}
+				<View style={styles.content}>
+					<Flags college={college}></Flags>
+					<Text style={styles.name}>{name}</Text>
+					<Text style={styles.title}>{college}</Text>
+					<Text style={styles.title}>{username}</Text>
+				</View>
+			</View>
+			<View style={styles.container}>
+				<View
+				style={{
+					flexDirection: "row",
+					justifyContent: "space-evenly",
+					borderTopColor: "white",
+					borderTopWidth: 1,
+					borderBottomColor: "white",
+					borderBottomWidth: 1,
+					marginTop: 10,
+				}}
+				>
+				<Text style={styles.collegeTableHeader}>Date</Text>
+				<Text style={styles.collegeTableHeader}>Points</Text>
+				<Text style={styles.collegeTableHeader}>Opponent</Text>
+				<Text style={styles.collegeTableHeader}>W/L/T</Text>
+				<Text style={styles.collegeTableHeader}>Sport</Text>
+			</View>
+			<FlatList
+			data = {matches}
+			showsVerticalScrollIndicator = {false}
+			renderItem={(itemData) => {
+				return (
+					<View style={{ flexDirection: "row", padding: 6, justifyContent: "space-between", alignItems: "center"}}>
+                    <Text style={[styles.collegeMatchDate, styles.userMatchData]}>
+                      {itemData.item.startTime.slice(5, 7) +
+                        "/" +
+                        itemData.item.startTime.slice(8, 10)}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.matchPts,
+                        {
+                          color: "#1FED27"
+                        },
+                      ]}
+                    >
+                      +{" "}
+                      {"1"
+                        }
+                      pts
+                    </Text>
+                    <Text style={[styles.matchOpponent, styles.userMatchData]}>
+                      {itemData.item.college1 == college
+                        ? itemData.item.college2Abbrev
+                        : itemData.item.college1Abbrev}
+                    </Text>
+                    <Text style={[styles.matchOutcome, styles.userMatchData]}>
+                      {itemData.item.winner == college
+                        ? "W"
+                        : itemData.item.winner == "TIE"
+                        ? "T"
+                        : "L"}
+                    </Text>
+                    <Text style={[styles.collegeMatchSport, styles.userMatchData]}>
+                      {sports[itemData.item.sport][1]}
+                    </Text>
+                  </View>
+				)
+			}}>
+
+			</FlatList>
+			</View>
+		</View>
+	))
 }
 
 ProfileScreen.propTypes = {
