@@ -1,5 +1,5 @@
 import { StyleSheet, View, Modal, Text, TouchableOpacity, Image } from 'react-native'
-import { useState } from 'react'
+import { useState, React } from 'react'
 import ModalDropdown from '../shared/ModalDropdown'
 import { SPORTS, COLLEGES } from '../../utils/constants'
 
