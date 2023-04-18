@@ -13,7 +13,7 @@ import { useState } from "react";
 import { IP_ADDRESS, MONTHS, SPORTS_NAMES, COLLEGES, SPORTS_MAPPING} from "../utils/constants"
 
 
-const screenWidth = Dimensions.get('window').width / 2;
+const screenWidth = Dimensions.get('window').width;
 
 const OpenURLButton = ({ url, children }) => {
     const handlePress = useCallback(async () => {
@@ -91,7 +91,7 @@ export default function CalendarScreen(props) {
                     modalStyle={[
                     styles.modal,
                     {
-                        width: 300,
+                        width: screenWidth / 2,
                         marginTop: 150,
                         height: "50%",
                     },
@@ -111,9 +111,9 @@ export default function CalendarScreen(props) {
                     modalStyle={[
                     styles.modal,
                     {
-                        width: 200,
+                        width: screenWidth / 2,
                         marginTop: 150,
-                        marginLeft: screenWidth,
+                        marginLeft: screenWidth / 2,
                         height: "50%",
                     },
                     ]}
@@ -150,22 +150,20 @@ export default function CalendarScreen(props) {
                     </OpenURLButton>
                 </View>
             </View>
-            <View style={styles.displayedMatches}>
-                <FlatList
-                data = {monthMatches}
-                showsVerticalScrollIndicator = {false}
-                renderItem={(itemData) => {
-                    return (
-                        <View style={{ flexDirection: "row", padding: 6, justifyContent: "space-between", alignItems: "center"}}>
-                        <Text style={[styles.body, styles.userMatchData]}>
-                            {itemData.item.college1Abbrev} vs. {itemData.item.college2Abbrev} @ {itemData.item.startTime.slice(0,10)}
-                            {SPORTS_MAPPING[itemData.item.sport]['emoji']} {itemData.item.location}
-                        </Text>
-                    </View>
-                    )
-                }}>
-                </FlatList>
-            </View>
+            <FlatList style={{backgroundColor: '#3159C4', height: screenWidth}}
+                    data = {monthMatches}
+                    showsVerticalScrollIndicator = {false}
+                    renderItem={(itemData) => {
+                        return (
+                            <View style={{ flexDirection: "row", padding: 6, justifyContent: "space-between", alignItems: "center"}}>
+                            <Text style={[styles.body, styles.userMatchData]}>
+                                {itemData.item.college1Abbrev} vs. {itemData.item.college2Abbrev} @ {itemData.item.startTime.slice(0,10)}
+                                {SPORTS_MAPPING[itemData.item.sport]['emoji']} {itemData.item.location}
+                            </Text>
+                        </View>
+                        )
+                    }}>
+            </FlatList>
         </View>
   );
 }
@@ -184,6 +182,7 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         marginTop: 50,
+        height: screenWidth
     },
     filterContainer: {
         flexDirection: 'row',
@@ -202,20 +201,17 @@ const styles = StyleSheet.create({
     title: {
     },
     scheduleContainer: {
-        marginTop: 15,
-        flexDirection: 'row',
-        flex: 5,
+        height: 60,
+        width: screenWidth,
         backgroundColor: '#3159C4',
-        justifyContent: 'flex-end'
+        paddingTop: 20
     },
     timespanText: {
-        padding: 20,
-        flexDirection: 'column',
+        padding: 30,
+        bottom: 25,
         fontWeight: '70',
         flex: 2,
         textAlign: 'left',
-        height: 500,
-        backgroundColor: '#3159C4',
         fontSize: 28, 
         fontWeight: '700',
         color: 'white',
@@ -227,13 +223,13 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         margin: 15,
         padding: 10,
-        width: 200,
+        width: 150,
         position: 'absolute',
         backgroundColor: 'white',
         alignItems: 'center'
     },
     displayedMatches: {
-        flexDirection: 'row',
+        height: 200,
         top: 60,
         left: -10
     },
@@ -243,7 +239,7 @@ const styles = StyleSheet.create({
         color: 'white'
 	},
     inputBox: {
-        width: screenWidth,
+        width: screenWidth / 2,
         height: 50,
         backgroundColor: "#3159C4",
         marginBottom: 10,
@@ -264,7 +260,7 @@ const styles = StyleSheet.create({
       },
       collegeDropdownText: {
         color: "#3159C4",
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: "300",
         marginLeft: 15,
         marginTop: 5,
