@@ -68,12 +68,12 @@ export default function ModalDropdown ({ setData, options, dropdownStyle, dropdo
 ModalDropdown.propTypes = {
   setData: PropTypes.func,
   options: PropTypes.array,
-  dropdownStyle: PropTypes.object,
-  dropdownHighlightStyle: PropTypes.object,
-  dropdownTextStyle: PropTypes.object,
-  dropdownTextHighlightStyle: PropTypes.object,
-  filterButtonStyle: PropTypes.object,
-  filterTextStyle: PropTypes.object,
+  dropdownStyle: PropTypes.array,
+  dropdownHighlightStyle: PropTypes.array,
+  dropdownTextStyle: PropTypes.array,
+  dropdownTextHighlightStyle: PropTypes.array,
+  filterButtonStyle: PropTypes.array,
+  filterTextStyle: PropTypes.array,
   filterText: PropTypes.string,
-  modalStyle: PropTypes.object
+  modalStyle: PropTypes.array
 }

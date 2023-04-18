@@ -155,7 +155,6 @@ export default function UpdateMatch ({ visible, onSubmitData, onCancel }) {
             <View>
               <View style={styles.dropdownContainer}>
                 <Text style={styles.header}>Enter Final Scores</Text>
-
                 <SafeAreaView style={styles.enterScore}>
                   <Text style={styles.collegeText}>{selectedMatch.college1}:</Text>
                   <TextInput
@@ -189,7 +188,12 @@ export default function UpdateMatch ({ visible, onSubmitData, onCancel }) {
               </TouchableOpacity>
             </View>
               )
-            : null}
+            : <View>
+                <View style={styles.dropdownContainer}>
+                  <Text >No Matches Available</Text>
+                </View>
+            </View>
+            }
         </View>
       </View>
     </Modal>

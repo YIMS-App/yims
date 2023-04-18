@@ -518,7 +518,8 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   collegeDropdown: {
-    borderRadius: 8
+    borderRadius: 8,
+    color: 'white'
   },
   collegeDropdownText: {
     color: '#3159C4',
