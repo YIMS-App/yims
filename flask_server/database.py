@@ -85,3 +85,10 @@ class Bets (Base):
 
     users = relationship('Users')
     matches = relationship('Matches')
+
+class Metrics (Base):
+    __tablename__ = 'metrics'
+
+    buttonColor = Column(String, primary_key=True)
+    views = Column(Integer)
+    clicks = Column(Integer)

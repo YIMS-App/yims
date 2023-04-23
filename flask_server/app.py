@@ -579,3 +579,45 @@ def getdatematches():
         print(ex)
         return jsonify(error=404, text=str(ex)), 404
     return output, 200
+
+@app.route("/incrementclick", methods=["POST"])
+def incrementclick():
+    """
+    Increment click for a user
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        buttonColor = data['buttonColor']
+        
+        clicks = query_db(queries.get_clicks(), [buttonColor], database_url=app.config['DATABASE'])
+
+        query_db(queries.increment_clicks(), [clicks+1, buttonColor], database_url=app.config['DATABASE'])
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
+    return output, 200
+
+@app.route("/incrementviews", methods=["POST"])
+def incrementclick():
+    """
+    Increment views for a user
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        buttonColor = data['buttonColor']
+        
+        views = query_db(queries.get_views(), [buttonColor], database_url=app.config['DATABASE'])
+
+        query_db(queries.increment_views(), [views+1, buttonColor], database_url=app.config['DATABASE'])
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
+    return output, 200
