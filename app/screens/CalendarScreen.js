@@ -18,7 +18,7 @@ import PropTypes from 'prop-types'
 
 const screenWidth = Dimensions.get('window').width
 
-export default function CalendarScreen ({ navigation, extraData }) {
+export default function CalendarScreen ({ navigation, params }) {
   const link = 'https://yaleshuttle.doublemap.com/map/'
   const monthNames = []
   for (const key in MONTHS) {
@@ -62,7 +62,7 @@ export default function CalendarScreen ({ navigation, extraData }) {
 
   return (
     <View style={styles.container}>
-      <NavBar navigation={navigation} title={'Calendar'} color={'#3D6BE5'} extraData={extraData} />
+      <NavBar navigation={navigation} title={'Calendar'} color={'#3D6BE5'} params={params} />
       <View style={styles.filterContainer}>
         <View style={styles.modalContainer}>
           <ModalDropdown
@@ -160,7 +160,7 @@ export default function CalendarScreen ({ navigation, extraData }) {
 
 CalendarScreen.propTypes = {
   navigation: PropTypes.object,
-  extraData: PropTypes.object
+  params: PropTypes.object
 }
 
 const styles = StyleSheet.create({

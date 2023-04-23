@@ -3,6 +3,25 @@ import { React } from 'react'
 import PropTypes from 'prop-types'
 
 export default function NavBar ({ color, navigation, title, params }) {
+  const navBarVersion = params.version
+  const updateClickMetric = async (version) => {
+    try {
+      await fetch(IP_ADDRESS + '/incrementclick', {
+        method: 'post',
+        mode: 'no-cors',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          version
+        })
+      }).then((responseData) => {console.log(responseData)})
+    } catch (e) {
+      console.log(e)
+    }
+  };
+
   if (color === 'white') {
     return (
       <View style={styles.navigationContainer} testID="navbar-view-white">
@@ -21,6 +40,7 @@ export default function NavBar ({ color, navigation, title, params }) {
           style={styles.profileButton}
           onPress={() => {
             navigation.navigate('Profile', params)
+            updateClickMetric(navBarVersion)
           }}
         >
           <Image source={require('../../assets/images/profile-icon-white.png')} style={styles.image} />
@@ -45,6 +65,7 @@ export default function NavBar ({ color, navigation, title, params }) {
           style={styles.profileButton}
           onPress={() => {
             navigation.navigate('Profile', params)
+            updateClickMetric(navBarVersion)
           }}
         >
           <Image source={require('../../assets/images/profile-icon-blue.png')} style={styles.image} />
