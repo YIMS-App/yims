@@ -591,8 +591,7 @@ def incrementclick():
         data = request.get_json()
         buttonColor = data['buttonColor']
         
-        clicks = query_db(queries.get_clicks(), [buttonColor], database_url=app.config['DATABASE'])
-
+        clicks = query_db(queries.get_clicks(), [buttonColor], database_url=app.config['DATABASE'])[0][0]
         query_db(queries.increment_clicks(), [clicks+1, buttonColor], database_url=app.config['DATABASE'])
         output = jsonify({'success': True})
     
@@ -612,8 +611,7 @@ def incrementviews():
         data = request.get_json()
         buttonColor = data['buttonColor']
         
-        views = query_db(queries.get_views(), [buttonColor], database_url=app.config['DATABASE'])
-
+        views = query_db(queries.get_views(), [buttonColor], database_url=app.config['DATABASE'])[0][0]
         query_db(queries.increment_views(), [views+1, buttonColor], database_url=app.config['DATABASE'])
         output = jsonify({'success': True})
     

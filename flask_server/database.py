@@ -89,6 +89,7 @@ class Bets (Base):
 class Metrics (Base):
     __tablename__ = 'metrics'
 
-    buttonColor = Column(String, primary_key=True)
+    dummyid = Column(Integer, primary_key=True)
+    buttonColor = Column(String)
     views = Column(Integer)
     clicks = Column(Integer)

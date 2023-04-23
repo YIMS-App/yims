@@ -11,7 +11,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 sys.path.append('./')
 sys.path.append('./test/')
-from database import Base, Collegeinfo, Sportscores, Bets, Matches, Users, Totalscores, Attendance
+from database import Base, Collegeinfo, Sportscores, Bets, Matches, Users, Totalscores, Attendance, Metrics
 from test_consts import *
 #-----------------------------------------------------------------------
 def initialize():
@@ -108,6 +108,11 @@ def initialize():
             bet = Bets(netid=i, matchid=matchid, pointsBet=pointsBet,
                 winner=winner)
             session.add(bet)
+        session.commit()
+
+        for i in range(3):
+            met = Metrics(buttonColor=str(i), views=0, clicks=0)
+            session.add(met)
         session.commit()
 
         session.close()
