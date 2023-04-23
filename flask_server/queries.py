@@ -164,3 +164,6 @@ def get_views():
 
 def get_clicks():
     return "SELECT clicks FROM metrics WHERE buttonColor=?"
+
+def get_all_metrics():
+    return "SELECT * FROM metrics"
