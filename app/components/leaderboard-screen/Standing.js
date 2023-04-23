@@ -9,25 +9,38 @@ export default function Standing ({ type, collegeData }) {
             <View style={[styles.medal, (collegeData.index + 2 > 3 ? styles.normal : (collegeData.index + 2 === 3 ? styles.bronze : styles.silver))]}>
                 <Text style={styles.medalText}>{collegeData.index + 2}</Text>
                 <Text style={styles.medalTextSuffix}>{(collegeData.index + 2 > 3 ? 'th' : (collegeData.index + 2 === 3 ? 'rd' : 'nd'))}</Text>
-            </View>
-            <View style={styles.rowContainer}>
-                <View style={styles.collegeContainer}>
+            </View>   
+            {type === 'points'
+              ? (
+                <View style={styles.rowContainer}>
+                  <View style={styles.collegeContainer}>
                     <Text style={styles.collegeName} testID="standing-college-text">{collegeData.item.college}</Text>
-                    {type === 'points'
-                      ? (
-                      <Text style={styles.points} testID="standing-score-text">{collegeData.item.score} points</Text>
-                        )
-                      : (
-                      <Text style={styles.points} testID="standing-score-text">{collegeData.item.partScore} points</Text>
-                        )}
-
+                    <Text style={styles.points} testID="standing-score-text">{collegeData.item.score} points</Text>
+                  </View>
+                  <Image style={styles.flag} source={assets.collegeFlags[collegeData.item.college].flag} />
                 </View>
-                <Image style={styles.flag} source={assets.collegeFlags[collegeData.item.college].flag} />
-            </View>
+                )
+              : (
+                <View style={styles.partRowContainer}>
+                  <View style={styles.collegeContainer}>
+                    <Text style={styles.partCollegeName} testID="standing-college-text">{collegeData.item.college}</Text>
+                    <Text style={styles.partpoints} testID="standing-score-text">{collegeData.item.partScore} points</Text>
+                  </View>
+                  <Image style={styles.flag} source={assets.collegeFlags[collegeData.item.college].flag} />
+                </View>
+              )}
 
-            <View style={styles.calendarContainer}>
-                <Image source={require('../../assets/images/calendar-icon.png')} style={styles.image}/>
-            </View>
+            {type === 'points'
+            ? (
+              <View style={styles.calendarContainer}>
+                <Image source={require('../../assets/images/calendar-blue.png')} style={styles.image}/>
+              </View>
+              )
+            : (
+              <View style={styles.partCalendarContainer}>
+                <Image source={require('../../assets/images/calendar-white.png')} style={styles.image}/>
+              </View>
+              )}
         </View>
   )
 };
@@ -62,6 +75,15 @@ const styles = StyleSheet.create({
     margin: 3,
     alignItems: 'center'
   },
+  partRowContainer: {
+    flexDirection: 'row',
+    width: 230,
+    height: 70,
+    borderRadius: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
+    margin: 3,
+    alignItems: 'center'
+  },
   collegeContainer: {
     justifyContent: 'center',
     width: 200,
@@ -73,12 +95,30 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center'
   },
+  partCollegeName: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 18,
+    textAlign: 'center'
+  },
   points: {
     color: '#3159C4',
     textAlign: 'center'
   },
+  partpoints: {
+    color: 'white',
+    textAlign: 'center'
+  },
   calendarContainer: {
     backgroundColor: 'rgba(49, 89, 196, 0.08)',
+    borderRadius: 20,
+    width: 70,
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  partCalendarContainer: {
+    backgroundColor: 'rgba(255, 255, 255, 0.08)',
     borderRadius: 20,
     width: 70,
     height: 70,
