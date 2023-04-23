@@ -11,6 +11,27 @@ import PropTypes from 'prop-types'
 
 export default function HomeScreen ({ route }) {
   const Drawer = createDrawerNavigator()
+  const navBarVersion = route.params.version
+  
+  const updateViewMetric = async (version) => {
+    try {
+      await fetch(IP_ADDRESS + '/incrementviews', {
+        method: 'post',
+        mode: 'no-cors',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          version
+        })
+      }).then((responseData) => {console.log(responseData)})
+    } catch (e) {
+      console.log(e)
+    }
+  };
+
+  updateViewMetric(navBarVersion)
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -29,7 +50,7 @@ export default function HomeScreen ({ route }) {
         {(values) => <HowToPlayScreen {...values} params={route.params} />}
       </Drawer.Screen>
       <Drawer.Screen name="About">{(values) => <AboutScreen {...values} params={route.params} />}</Drawer.Screen>
-      <Drawer.Screen name="Calendar">{(values) => <CalendarScreen {...values} params={route.params} />}</Drawer.Screen>
+      <Drawer.Screen name="Calendar">{(values) => <CalendarScreen {...values} params={route.params}/>}</Drawer.Screen>
     </Drawer.Navigator>
   )
 }

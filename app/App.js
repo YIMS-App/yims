@@ -24,7 +24,7 @@ const linking = {
           UpcomingMatches: 'upcomingmatches',
           HowToPlay: 'howtoplay',
           About: 'about',
-          Calendar: 'calendar'
+          CalendarScreen: 'calendar'
         }
       },
       UserQRCode: 'userqrcode'
