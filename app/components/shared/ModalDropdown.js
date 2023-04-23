@@ -1,59 +1,53 @@
-import React from "react";
+import React, { useState } from 'react'
 import {
-  StyleSheet,
   Text,
   View,
   TouchableOpacity,
-  Dimensions,
   ScrollView,
   SafeAreaView,
-  Modal,
-} from "react-native";
-import { useState } from "react";
+  Modal
+} from 'react-native'
+import PropTypes from 'prop-types'
 
-const WIDTH = Dimensions.get("window").width;
-const HEIGHT = Dimensions.get("window").height;
-
-const ModalDropdown = (props) => {
-
-  const [isModalVisible, setisModalVisible] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+export default function ModalDropdown ({ setData, options, dropdownStyle, dropdownHighlightStyle, dropdownTextStyle, dropdownTextHighlightStyle, filterButtonStyle, filterTextStyle, filterText, modalStyle }) {
+  const [isModalVisible, setisModalVisible] = useState(false)
+  const [selectedItem, setSelectedItem] = useState(null)
 
   const changeModalVisibility = (bool) => {
-    setisModalVisible(bool);
-  };
+    setisModalVisible(bool)
+  }
 
   const onPressItem = (option) => {
-    setSelectedItem(option);
-    changeModalVisibility(false);
-    props.setData(option);
-  };
+    setSelectedItem(option)
+    changeModalVisibility(false)
+    setData(option)
+  }
 
-  const options = props.options.map((item, index) => {
+  const choices = options.map((item, index) => {
     return (
       <TouchableOpacity
         key={index}
-        style={props.dropdownStyle}
+        style={selectedItem === item && dropdownHighlightStyle ? dropdownHighlightStyle : dropdownStyle}
         onPress={() => onPressItem(item)}
       >
         <Text
           style={
-            props.dropdownTextStyle /*selectedItem == item && props.dropdownTextHighlightStyle ? props.dropdownTextHighlightStyle : props.dropdownTextStyle*/
+            selectedItem === item && dropdownTextHighlightStyle ? dropdownTextHighlightStyle : dropdownTextStyle
           }
         >
           {item}
         </Text>
       </TouchableOpacity>
-    );
-  });
+    )
+  })
 
   return (
     <SafeAreaView testID="modal-dropdown-view">
       <TouchableOpacity
         onPress={() => changeModalVisibility(true)}
-        style={props.filterButtonStyle}
+        style={filterButtonStyle}
       >
-        <Text style={props.filterTextStyle}>{props.filterText}</Text>
+        <Text style={filterTextStyle}>{filterText}</Text>
       </TouchableOpacity>
       <Modal
         transparent={true}
@@ -62,25 +56,24 @@ const ModalDropdown = (props) => {
         nRequestClose={() => changeModalVisibility(false)}
       >
         <TouchableOpacity onPress={() => changeModalVisibility(false)}>
-          <View style={props.modalStyle}>
-            <ScrollView>{options}</ScrollView>
+          <View style={modalStyle}>
+            <ScrollView>{choices}</ScrollView>
           </View>
         </TouchableOpacity>
       </Modal>
     </SafeAreaView>
-  );
-};
+  )
+}
 
-/*dropdownStyle={styles.matchDropdown}
-              dropdownTextStyle={styles.matchDropdownText}
-              dropdownTextHighlightStyle={styles.matchDropdownTextSelected}
-              */
-
-const styles = StyleSheet.create({
-  modal: {
-    backgroundColor: "#DFE5F2",
-    borderRadius: 20,
-  },
-});
-
-export { ModalDropdown };
+ModalDropdown.propTypes = {
+  setData: PropTypes.func,
+  options: PropTypes.array,
+  dropdownStyle: PropTypes.array,
+  dropdownHighlightStyle: PropTypes.array,
+  dropdownTextStyle: PropTypes.array,
+  dropdownTextHighlightStyle: PropTypes.array,
+  filterButtonStyle: PropTypes.array,
+  filterTextStyle: PropTypes.array,
+  filterText: PropTypes.string,
+  modalStyle: PropTypes.array
+}
