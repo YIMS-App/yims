@@ -52,6 +52,9 @@ test('Should render Component component', () => {
 })
 ```
 
+## Metrics Milestone
+
+On the backend we are keeping track of number of times a version of a button has been loaded and number of times a version of a button has been clicked. We are then using epsilon greedy mutli arm bandit to choose the optimal button (highest value, which is times clicked / times seen) with probability 1 - epsilon, and then choosing a random button with probability epsilon. That code is in the route /getbestbutton, while the metrics are stored in the Metrics table in our database. Times viewed and clicked are both post requests with /incrementviews and /incrementclick respectively. 
 
 ## Software Stack
 Frontend: React Native.js
