@@ -228,7 +228,7 @@ export default function LeaderboardScreen ({ params, navigation }) {
             </View>
           {addButtonVisible
             ? (
-            <TouchableOpacity style={styles.updateButton}>
+            <TouchableOpacity style={styles.updatePartButton}>
               <Text style={styles.updateButtonText} onPress={() => handleUpdateVisibility(true)}>
                 +
               </Text>
@@ -236,11 +236,11 @@ export default function LeaderboardScreen ({ params, navigation }) {
               )
             : updateVisibility
               ? (
-            <View style={styles.updateContainer} visible={false}>
-              <TouchableOpacity style={styles.addMatchButton} onPress={startaddMatchHandler}>
+            <View style={styles.updatePartContainer} visible={false}>
+              <TouchableOpacity style={styles.addPartMatchButton} onPress={startaddMatchHandler}>
                 <Text style={styles.updateText}>Add Match</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.updateMatchButton} onPress={startUpdateMatchHandler}>
+              <TouchableOpacity style={styles.updatePartMatchButton} onPress={startUpdateMatchHandler}>
                 <Text style={styles.updateText}>Score A Match</Text>
               </TouchableOpacity>
             </View>
@@ -349,6 +349,14 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 30,
     backgroundColor: '#3159C4'
   },
+  updatePartContainer: {
+    position: 'absolute',
+    right: 0,
+    bottom: 0,
+    zIndex: 10,
+    borderTopLeftRadius: 30,
+    backgroundColor: '#5379E1'
+  },
   updateButton: {
     height: 70,
     width: 70,
@@ -357,6 +365,16 @@ const styles = StyleSheet.create({
     bottom: 20,
     zIndex: 10,
     backgroundColor: '#3159C4',
+    borderRadius: 90
+  },
+  updatePartButton: {
+    height: 70,
+    width: 70,
+    position: 'absolute',
+    right: 20,
+    bottom: 20,
+    zIndex: 10,
+    backgroundColor: '#5379E1',
     borderRadius: 90
   },
   updateButtonText: {
@@ -384,6 +402,31 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 10,
     backgroundColor: '#3159C4',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: 'white'
+  },
+  updatePartMatchButton: {
+    width: 100,
+    marginRight: 20,
+    marginLeft: 20,
+    marginBottom: 15,
+    backgroundColor: '#5379E1',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: 'white'
+  },
+  addPartMatchButton: {
+    width: 100,
+    marginRight: 20,
+    marginLeft: 20,
+    marginTop: 20,
+    marginBottom: 10,
+    backgroundColor: '#5379E1',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
