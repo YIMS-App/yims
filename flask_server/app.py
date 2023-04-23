@@ -602,7 +602,7 @@ def incrementclick():
     return output, 200
 
 @app.route("/incrementviews", methods=["POST"])
-def incrementclick():
+def incrementviews():
     """
     Increment views for a user
     """
