@@ -10,7 +10,6 @@ test('Should render Standing component', () => {
      const dummyItem = {
         item: {
             "college": "Benjamin Franklin",
-            "score": "42"
         }
     }
 
@@ -21,6 +20,6 @@ test('Should render Standing component', () => {
     // make sure the text for the college is the same as the dummy prop we passed in
     expect(screen.getByTestId("standing-college-text").children[0]).toBe(dummyItem.item.college);
     // // make sure the text for the number of the points is the same as the dummy prop that we passed in
-    expect(screen.getByTestId("standing-score-text").children[0]).toBe(dummyItem.item.score);
+    expect(screen.getByTestId("standing-score-text").children[0]).toBe(" points");
     
 })

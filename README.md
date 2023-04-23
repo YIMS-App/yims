@@ -11,9 +11,11 @@
   1. Additionally you can run the app on your laptop via IOS and Android Simulators. To run the IOS simulator, follow these steps: https://docs.expo.dev/workflow/ios-simulator/. To run the Android Simulator, follow these steps: https://docs.expo.dev/workflow/android-studio-emulator/
   
 1. Follow the steps here to install the Expo CLI npm https://docs.expo.dev/get-started/installation/
-1. cd into the app directory in your terminal
+1. cd into the app directory of the project folder in your terminal
 1. run 'npm install --legacy-peer-deps' in your terminal
-1. run 'npm start' in your terminal
+1. run 'npx expo start' in your terminal
+
+NOTE: in order to make the QR code work for you locally, replace the url beginning with 'exp://' in QRCodeModal with the url beginning with 'exp://' generated when you run npx expo start.
 
 ## How to use YIMS 
 Check out the About Page and the How To Play page for more information on our app as well as information on Yale Intramural Sports. For more questions, contact one of us. 
@@ -26,6 +28,30 @@ To run backend tests:
 2. run 'python3 test/testdbbuilder.py' in your terminal (or whatever command you use in your terminal to run python 3)
 3. run 'python3 run_server.py --database test/testtable.sqlite' in your terminal (or whatever command you use in your terminal to run python 3)
 4. in another terminal while the server is running, make sure you are again in the 'flask_server' directory and run 'pytest .' in your terminal
+
+## How to add a test
+1. go to 'test_integration.py'. 'test_unit.py' is only for query testing, so we instead test the routes which use the queries in 'test_integration.py'.
+2. Add a new test for the desired route you want to test. Include the data needed for queries, then perform assertions on the outputted JSON to ensure the output is correct. 
+3. run the test by following the instructions in "How to test". 
+
+to add frontend tests, create or go to the \_\_tests\_\_ folder for the component that you wish to test
+and name the test Component.test.js where Component is the name of your component.
+start with the template below, and then write the body of the test depending on your component:
+```
+import React from 'react'
+import { render, screen, cleanup } from '@testing-library/react-native'
+import Component from '../Component'
+
+afterEach(() => {
+  cleanup()
+})
+
+test('Should render Component component', () => {
+    // render component here
+    // write test here according to jest docs: https://jestjs.io/docs/tutorial-react
+})
+```
+
 
 ## Software Stack
 Frontend: React Native.js

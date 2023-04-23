@@ -1,4 +1,6 @@
 app/node_modules/*
+app/android
+app/ios
 .expo/
 dist/
 npm-debug.*
