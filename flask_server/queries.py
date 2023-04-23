@@ -153,3 +153,17 @@ def match_attendees():
 def college_id():
     return "SELECT id FROM collegeinfo WHERE collegeAbbreviation=?"
     
+def increment_views():
+    return "UPDATE metrics SET views=? WHERE buttonColor=?"
+
+def increment_clicks():
+    return "UPDATE metrics SET clicks=? WHERE buttonColor=?"
+
+def get_views():
+    return "SELECT views FROM metrics WHERE buttonColor=?"
+
+def get_clicks():
+    return "SELECT clicks FROM metrics WHERE buttonColor=?"
+
+def get_all_metrics():
+    return "SELECT * FROM metrics"

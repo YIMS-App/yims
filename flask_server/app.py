@@ -6,6 +6,7 @@ import json
 import queries
 import datetime
 import calendar
+import random
 
 from consts import *
 from utils import *
@@ -578,4 +579,81 @@ def getdatematches():
     except Exception as ex:
         print(ex)
         return jsonify(error=404, text=str(ex)), 404
+    return output, 200
+
+@app.route("/incrementclick", methods=["POST"])
+def incrementclick():
+    """
+    Increment click for a user
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        buttonColor = data['buttonColor']
+        
+        clicks = query_db(queries.get_clicks(), [buttonColor], database_url=app.config['DATABASE'])
+
+        query_db(queries.increment_clicks(), [clicks+1, buttonColor], database_url=app.config['DATABASE'])
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
+    return output, 200
+
+@app.route("/incrementviews", methods=["POST"])
+def incrementviews():
+    """
+    Increment views for a user
+    """
+    output = None 
+    try:
+        data = request.get_json()
+        buttonColor = data['buttonColor']
+        
+        views = query_db(queries.get_views(), [buttonColor], database_url=app.config['DATABASE'])
+
+        query_db(queries.increment_views(), [views+1, buttonColor], database_url=app.config['DATABASE'])
+        output = jsonify({'success': True})
+    
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+
+    return output, 200
+
+@app.route("/getbestbutton", methods=["GET"])
+def bestbutton():
+    """
+    Returns the best button according to epsilon greedy multi armed bandit
+    with probability 1 - epsilon picks the best option (where value is clicks / views, if views = 0 then value = 0)
+    with probability epsilon picks a random option
+    """
+    output = None
+    try:
+        result = query_db(queries.get_all_metrics(), database_url=app.config['DATABASE'])
+        metrics = jsonify_rows(result)
+
+        epsilon = 0.1
+        selected = None
+        if random.random() < epsilon:
+            selected = random.choice(metrics)['buttonColor']
+        else:
+            bestValue = -1
+            for metric in metrics:
+                if metric['views'] == 0:
+                    value = 0
+                else:
+                    value = metric['clicks'] / metric['views']
+                if value > bestValue:
+                    bestValue = value
+                    selected = metric['buttonColor']
+
+        output = jsonify({'buttonColor': selected})
+
+    except Exception as ex:
+        print(ex)
+        return jsonify(error=404, text=str(ex)), 404
+    
     return output, 200
