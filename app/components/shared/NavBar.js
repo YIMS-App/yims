@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import { React } from 'react'
 import PropTypes from 'prop-types'
+import { IP_ADDRESS } from '../../utils/constants'
 
 export default function NavBar ({ color, navigation, title, params }) {
   const navBarVersion = params.version
@@ -14,9 +15,9 @@ export default function NavBar ({ color, navigation, title, params }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          version
+          buttonColor: version
         })
-      }).then((responseData) => {console.log(responseData)})
+      }).then((responseData) => {})
     } catch (e) {
       console.log(e)
     }
@@ -43,9 +44,9 @@ export default function NavBar ({ color, navigation, title, params }) {
             updateClickMetric(navBarVersion)
           }}
         >
-          {navBarVersion === "white" ? (
+          {navBarVersion === "0" ? (
             <Image source={require('../../assets/images/white-profile.png')} style={styles.image} />
-          ) : navBarVersion === "yellow" ? (
+          ) : navBarVersion === "1" ? (
             <Image source={require('../../assets/images/yellow-profile.png')} style={styles.image} />
           ) : (
             <Image source={require('../../assets/images/orange-profile.png')} style={styles.image} />
@@ -75,9 +76,9 @@ export default function NavBar ({ color, navigation, title, params }) {
             updateClickMetric(navBarVersion)
           }}
         >
-          {navBarVersion === "white" ? (
+          {navBarVersion === "0" ? (
             <Image source={require('../../assets/images/blue-profile.png')} style={styles.image} />
-          ) : navBarVersion === "yellow" ? (
+          ) : navBarVersion === "1" ? (
             <Image source={require('../../assets/images/yellow-profile.png')} style={styles.image} />
           ) : (
             <Image source={require('../../assets/images/orange-profile.png')} style={styles.image} />

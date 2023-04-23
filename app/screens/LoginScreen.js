@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View, TouchableOpacity, Modal } from 'react-native'
 import { WebView } from 'react-native-webview'
-import { useState, React } from 'react'
+import { useState, useEffect, React } from 'react'
 import { IP_ADDRESS } from '../utils/constants'
 import PropTypes from 'prop-types'
 
 export default function LoginScreen ({ navigation }) {
   const [modalIsVisible, setModalVisibility] = useState(false)
+  const [versionNum, setVersionNum] = useState('0')
 
   function startCASLoginHandler () {
     setModalVisibility(true)
@@ -15,6 +16,17 @@ export default function LoginScreen ({ navigation }) {
   function endCASLoginHandler () {
     setModalVisibility(false)
   }
+
+  const fetchVersion = async () => {
+    const versResp = await fetch(IP_ADDRESS + '/getbestbutton')
+    const vers = await versResp.json()
+    setVersionNum(vers.buttonColor)
+  }
+
+  useEffect(() => {
+    // runs once to update data at the first render
+    fetchVersion()
+  }, [])
 
   function CASLoginHandler (data) {
     console.log(data)
@@ -35,7 +47,7 @@ export default function LoginScreen ({ navigation }) {
         })
         const data = await response.json()
         data.username = JSON.stringify(username)
-        data.version = 'white'
+        data.version = versionNum
         navigation.navigate('Home', data)
       }
       login(data)

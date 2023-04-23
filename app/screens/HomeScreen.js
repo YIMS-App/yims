@@ -8,6 +8,7 @@ import UpcomingMatchesScreen from './UpcomingMatchesScreen'
 import HowToPlayScreen from './HowToPlayScreen'
 import CalendarScreen from './CalendarScreen'
 import PropTypes from 'prop-types'
+import { IP_ADDRESS } from '../utils/constants'
 
 export default function HomeScreen ({ route }) {
   const Drawer = createDrawerNavigator()
@@ -23,9 +24,9 @@ export default function HomeScreen ({ route }) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          version
+          buttonColor: version
         })
-      }).then((responseData) => {console.log(responseData)})
+      }).then((responseData) => {})
     } catch (e) {
       console.log(e)
     }
