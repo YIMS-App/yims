@@ -284,3 +284,22 @@ def test_updatematch():
 
     r = requests.post(url = TEST_ADDRESS + '/updatematch', json = data)
     # print(r.json())
+
+def test_incrementviews():
+    data = {}
+    data['buttonColor'] = "1"
+
+    r = requests.post(url = TEST_ADDRESS + '/incrementviews', json = data)
+    print(r.json())
+
+def test_incrementclick():
+    data = {}
+    data['buttonColor'] = "1"
+
+    r = requests.post(url = TEST_ADDRESS + '/incrementclick', json = data)
+    print(r.json())
+
+def test_bestbutton():
+
+    r = requests.get(url = TEST_ADDRESS + '/getbestbutton')
+    print(r.json())
