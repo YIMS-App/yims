@@ -43,7 +43,14 @@ export default function NavBar ({ color, navigation, title, params }) {
             updateClickMetric(navBarVersion)
           }}
         >
-          <Image source={require('../../assets/images/profile-icon-white.png')} style={styles.image} />
+          {navBarVersion === "white" ? (
+            <Image source={require('../../assets/images/white-profile.png')} style={styles.image} />
+          ) : navBarVersion === "yellow" ? (
+            <Image source={require('../../assets/images/yellow-profile.png')} style={styles.image} />
+          ) : (
+            <Image source={require('../../assets/images/orange-profile.png')} style={styles.image} />
+          )}
+          
         </TouchableOpacity>
       </View>
     )
@@ -68,7 +75,13 @@ export default function NavBar ({ color, navigation, title, params }) {
             updateClickMetric(navBarVersion)
           }}
         >
-          <Image source={require('../../assets/images/profile-icon-blue.png')} style={styles.image} />
+          {navBarVersion === "white" ? (
+            <Image source={require('../../assets/images/blue-profile.png')} style={styles.image} />
+          ) : navBarVersion === "yellow" ? (
+            <Image source={require('../../assets/images/yellow-profile.png')} style={styles.image} />
+          ) : (
+            <Image source={require('../../assets/images/orange-profile.png')} style={styles.image} />
+          )}
         </TouchableOpacity>
       </View>
     )
